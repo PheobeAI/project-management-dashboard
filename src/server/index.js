@@ -8,6 +8,7 @@ const express = require('express');
 const path = require('path');
 const apiRoutes = require('./routes/api');
 const staticRoutes = require('./routes/static');
+const logger = require('./services/Logger');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,6 +16,18 @@ const PORT = process.env.PORT || 3000;
 // 中间件配置
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// 请求日志中间件
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on('finish', () => {
+    const duration = Date.now() - start;
+    if (req.originalUrl.startsWith('/api')) {
+      logger.logRequest(req, res, duration);
+    }
+  });
+  next();
+});
 
 // 静态文件服务
 app.use('/static', express.static(path.join(__dirname, '../public')));
@@ -28,21 +41,24 @@ app.use('/', staticRoutes);
 
 // 错误处理
 app.use((err, req, res, next) => {
-  console.error('Error:', err.message);
+  logger.error('Unhandled error:', err);
   res.status(500).json({ error: 'Internal server error', message: err.message });
 });
 
-// 启动服务器 - 端口检测
+// 启动服务器
 function startServer(port) {
   const server = app.listen(port, () => {
-    console.log(`🚀 Project Management Dashboard running at http://localhost:${port}`);
+    logger.info(`Project Management Dashboard started on http://localhost:${port}`);
+    console.log(`🚀 Server running at http://localhost:${port}`);
   });
   
   server.on('error', (err) => {
     if (err.code === 'EADDRINUSE') {
+      logger.warn(`Port ${port} busy, trying ${port + 1}...`);
       console.warn(`⚠️ Port ${port} is busy, trying ${port + 1}...`);
       startServer(port + 1);
     } else {
+      logger.error('Server error:', err);
       console.error('Server error:', err);
     }
   });

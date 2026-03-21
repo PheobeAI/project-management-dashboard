@@ -8,16 +8,15 @@
 const fs = require('fs').promises;
 const path = require('path');
 const os = require('os');
+const logger = require('./Logger');
 
 class ConfigManager {
   constructor() {
-    // 配置目录：%APPDATA%/project-management-dashboard/
     this.configDir = path.join(os.homedir(), '.config', 'project-management-dashboard');
     this.pathsFile = path.join(this.configDir, 'paths.json');
     this.settingsFile = path.join(this.configDir, 'settings.json');
-    
-    // 确保配置目录存在
     this.ensureConfigDir();
+    logger.info('ConfigManager initialized', { configDir: this.configDir });
   }
 
   async ensureConfigDir() {
@@ -28,17 +27,14 @@ class ConfigManager {
     }
   }
 
-  /**
-   * 获取路径配置
-   * @returns {Promise<Array>}
-   */
   async getPaths() {
     try {
       const content = await fs.readFile(this.pathsFile, 'utf-8');
       const data = JSON.parse(content);
+      logger.debug('Loaded paths', { count: data.paths?.length || 0 });
       return data.paths || [];
     } catch (error) {
-      // 返回默认路径
+      logger.warn('Failed to load paths, using defaults', error);
       const defaultPaths = [
         {
           id: 'default',
@@ -49,31 +45,20 @@ class ConfigManager {
           order: 0
         }
       ];
-      
-      // 创建默认配置
       await this.savePaths(defaultPaths);
       return defaultPaths;
     }
   }
 
-  /**
-   * 保存路径配置
-   * @param {Array} paths - 路径配置数组
-   */
   async savePaths(paths) {
     await this.ensureConfigDir();
     const data = { paths, version: '1.0', updatedAt: new Date().toISOString() };
     await fs.writeFile(this.pathsFile, JSON.stringify(data, null, 2));
+    logger.info('Paths saved', { count: paths.length });
   }
 
-  /**
-   * 添加新路径
-   * @param {Object} config - 路径配置
-   * @returns {Promise<Array>}
-   */
   async addPath(config) {
     const paths = await this.getPaths();
-    
     const newPath = {
       id: `path-${Date.now()}`,
       path: config.path,
@@ -82,90 +67,64 @@ class ConfigManager {
       enabled: true,
       order: paths.length
     };
-    
     paths.push(newPath);
     await this.savePaths(paths);
-    
+    logger.info('Path added', { id: newPath.id, alias: newPath.alias });
     return paths;
   }
 
-  /**
-   * 更新路径配置
-   * @param {string} id - 路径 ID
-   * @param {Object} updates - 更新内容
-   * @returns {Promise<Array>}
-   */
   async updatePath(id, updates) {
     const paths = await this.getPaths();
     const index = paths.findIndex(p => p.id === id);
-    
     if (index === -1) {
+      logger.error('Path not found for update', { id });
       throw new Error('Path not found');
     }
-    
     paths[index] = { ...paths[index], ...updates };
     await this.savePaths(paths);
-    
+    logger.info('Path updated', { id, updates });
     return paths;
   }
 
-  /**
-   * 删除路径
-   * @param {string} id - 路径 ID
-   * @returns {Promise<Array>}
-   */
   async deletePath(id) {
     const paths = await this.getPaths();
     const filtered = paths.filter(p => p.id !== id);
     await this.savePaths(filtered);
-    
+    logger.info('Path deleted', { id });
     return filtered;
   }
 
-  /**
-   * 获取应用设置
-   * @returns {Promise<Object>}
-   */
   async getSettings() {
     try {
       const content = await fs.readFile(this.settingsFile, 'utf-8');
       return JSON.parse(content);
     } catch (error) {
-      // 返回默认设置
+      logger.warn('Failed to load settings, using defaults', error);
       const defaultSettings = {
         theme: 'light',
         autoRefresh: true,
         refreshInterval: 60000,
         lastUpdated: new Date().toISOString()
       };
-      
       await this.saveSettings(defaultSettings);
       return defaultSettings;
     }
   }
 
-  /**
-   * 保存应用设置
-   * @param {Object} settings - 设置对象
-   */
   async saveSettings(settings) {
     await this.ensureConfigDir();
     const data = { ...settings, lastUpdated: new Date().toISOString() };
     await fs.writeFile(this.settingsFile, JSON.stringify(data, null, 2));
+    logger.info('Settings saved');
   }
 
-  /**
-   * 更新应用设置
-   * @param {Object} updates - 更新内容
-   * @returns {Promise<Object>}
-   */
   async updateSettings(updates) {
     const settings = await this.getSettings();
     const updated = { ...settings, ...updates };
     await this.saveSettings(updated);
-    
+    logger.info('Settings updated', { keys: Object.keys(updates) });
     return updated;
   }
 }
 
-module.exports = ConfigManager;
+module.exports = new ConfigManager();

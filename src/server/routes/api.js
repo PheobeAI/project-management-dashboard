@@ -11,6 +11,7 @@ const FileScanner = require('../services/FileScanner');
 const DataParser = require('../services/DataParser');
 const ConfigManager = require('../services/ConfigManager');
 const GitHubService = require('../services/GitHubService');
+const logger = require('../services/Logger');
 
 const configManager = new ConfigManager();
 const fileScanner = new FileScanner();
@@ -21,6 +22,7 @@ const gitHubService = new GitHubService();
 router.get('/projects', async (req, res) => {
   try {
     const { search, status, pathId } = req.query;
+    logger.debug('Fetching projects', { search, status, pathId });
     const paths = await configManager.getPaths();
     let projects = await fileScanner.scanProjects(paths);
     
@@ -48,8 +50,10 @@ router.get('/projects', async (req, res) => {
       projects = projects.filter(p => p.pathId === pathId);
     }
     
+    logger.info('Projects fetched', { count: projects.length });
     res.json({ success: true, data: projects });
   } catch (error) {
+    logger.error('Failed to fetch projects', error);
     res.status(500).json({ success: false, error: error.message });
   }
 });
@@ -76,8 +80,10 @@ router.get('/projects/:id', async (req, res) => {
 router.get('/paths', async (req, res) => {
   try {
     const paths = await configManager.getPaths();
+    logger.debug('Paths fetched', { count: paths.length });
     res.json({ success: true, data: paths });
   } catch (error) {
+    logger.error('Failed to fetch paths', error);
     res.status(500).json({ success: false, error: error.message });
   }
 });
@@ -86,9 +92,11 @@ router.get('/paths', async (req, res) => {
 router.post('/paths', async (req, res) => {
   try {
     const { path: newPath, alias, color } = req.body;
+    logger.info('Adding path', { path: newPath, alias });
     const paths = await configManager.addPath({ path: newPath, alias, color });
     res.json({ success: true, data: paths });
   } catch (error) {
+    logger.error('Failed to add path', error);
     res.status(400).json({ success: false, error: error.message });
   }
 });
@@ -98,9 +106,11 @@ router.put('/paths/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
+    logger.info('Updating path', { id, updates });
     const paths = await configManager.updatePath(id, updates);
     res.json({ success: true, data: paths });
   } catch (error) {
+    logger.error('Failed to update path', { id, error: error.message });
     res.status(400).json({ success: false, error: error.message });
   }
 });
@@ -109,9 +119,11 @@ router.put('/paths/:id', async (req, res) => {
 router.delete('/paths/:id', async (req, res) => {
   try {
     const { id } = req.params;
+    logger.info('Deleting path', { id });
     const paths = await configManager.deletePath(id);
     res.json({ success: true, data: paths });
   } catch (error) {
+    logger.error('Failed to delete path', { id, error: error.message });
     res.status(400).json({ success: false, error: error.message });
   }
 });
@@ -861,6 +873,24 @@ router.get('/documents/search', async (req, res) => {
     }
     
     res.json({ success: true, data: results });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// 获取应用日志
+router.get('/logs', async (req, res) => {
+  try {
+    const { type, lines } = req.query;
+    const count = parseInt(lines) || 50;
+    
+    if (type === 'error') {
+      const logs = await logger.getErrorLogs(count);
+      res.json({ success: true, data: { type: 'error', logs } });
+    } else {
+      const logs = await logger.getRecentLogs(count);
+      res.json({ success: true, data: { type: 'all', logs } });
+    }
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
