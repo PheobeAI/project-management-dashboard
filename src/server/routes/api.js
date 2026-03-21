@@ -13,7 +13,7 @@ const ConfigManager = require('../services/ConfigManager');
 const GitHubService = require('../services/GitHubService');
 const logger = require('../services/Logger');
 
-const configManager = new ConfigManager();
+const configManager = ConfigManager; // ConfigManager is already a singleton instance
 const fileScanner = new FileScanner();
 const dataParser = new DataParser();
 const gitHubService = new GitHubService();
