@@ -133,28 +133,55 @@
       "type": "bug",
       "description": "Dashboard 项目卡片永远显示加载动画，数字显示'-'（BUG-010）",
       "severity": "critical",
-      "status": "open"
+      "status": "fixed_pending_qa",
+      "fixed_at": "2026-03-21T22:06:00+08:00"
     },
     {
       "id": "BLOCKER-013",
       "type": "bug",
       "description": "Projects 页面白屏：Cannot GET /projects（BUG-011）",
       "severity": "critical",
-      "status": "open"
+      "status": "fixed_pending_qa",
+      "fixed_at": "2026-03-21T22:06:00+08:00"
     },
     {
       "id": "BLOCKER-014",
       "type": "bug",
       "description": "Agents/Tasks/Versions 页面无法切换夜间模式（BUG-012）",
       "severity": "major",
-      "status": "open"
+      "status": "fixed_pending_qa",
+      "fixed_at": "2026-03-21T22:06:00+08:00"
     },
     {
       "id": "BLOCKER-015",
       "type": "bug",
       "description": "Settings 无法编辑项目路径（BUG-013）",
       "severity": "major",
+      "status": "fixed_pending_qa",
+      "fixed_at": "2026-03-21T22:06:00+08:00"
+    },
+    {
+      "id": "BLOCKER-016",
+      "type": "bug",
+      "description": "深色/浅色模式对侧边栏不生效（BUG-014）",
+      "severity": "major",
       "status": "open"
+    },
+    {
+      "id": "BLOCKER-017",
+      "type": "bug",
+      "description": "侧边栏logo在深色模式下不清晰（BUG-015）",
+      "severity": "minor",
+      "status": "open"
+    },
+    {
+      "id": "BLOCKER-016",
+      "type": "bug",
+      "description": "Projects/Agents/Tasks 页面右上角切换主题按钮无效（BUG-014）",
+      "severity": "critical",
+      "status": "open",
+      "reported_by": "Boss",
+      "reported_at": "2026-03-21T22:15:00+08:00"
     }
   ],
   "dev_task_summary": {

@@ -11,11 +11,11 @@
   left: 0;
   width: 240px;
   height: 100vh;
-  background-color: #1E293B;
+  background-color: var(--sidebar-bg);
   display: flex;
   flex-direction: column;
   z-index: 1000;
-  transition: width 0.3s ease;
+  transition: width 0.3s ease, background-color 0.3s ease;
   overflow: hidden;
 }
 
@@ -26,11 +26,12 @@
 /* Sidebar Header */
 .sidebar-header {
   height: 64px;
-  background-color: #0F172A;
+  background-color: var(--sidebar-header-bg);
   display: flex;
   align-items: center;
   padding: 0 var(--space-md);
   flex-shrink: 0;
+  transition: background-color 0.3s ease;
 }
 
 .sidebar-logo {
@@ -43,9 +44,9 @@
 .sidebar-logo-text {
   font-size: 18px;
   font-weight: 700;
-  color: #FFFFFF;
+  color: var(--sidebar-text);
   white-space: nowrap;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, color 0.3s ease;
 }
 
 .sidebar.collapsed .sidebar-logo-text {
@@ -70,20 +71,20 @@
   display: flex;
   align-items: center;
   padding: 12px var(--space-md);
-  color: #94A3B8;
+  color: var(--sidebar-text-muted);
   text-decoration: none;
   transition: all var(--transition-fast);
   white-space: nowrap;
 }
 
 .nav-item:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-  color: #FFFFFF;
+  background-color: var(--sidebar-nav-hover);
+  color: var(--sidebar-text);
 }
 
 .nav-item.active {
-  background-color: #3B82F6;
-  color: #FFFFFF;
+  background-color: var(--color-primary);
+  color: var(--sidebar-text);
 }
 
 .nav-icon {
@@ -114,7 +115,7 @@
 
 .nav-divider {
   height: 1px;
-  background-color: #334155;
+  background-color: var(--sidebar-divider);
   margin: var(--space-md) var(--space-md);
 }
 
@@ -145,9 +146,9 @@
   display: flex;
   align-items: center;
   padding: 12px var(--space-md);
-  background-color: #0F172A;
+  background-color: var(--sidebar-header-bg);
   border: none;
-  color: #64748B;
+  color: var(--sidebar-text-muted);
   cursor: pointer;
   transition: all var(--transition-fast);
   width: 100%;
@@ -155,8 +156,8 @@
 }
 
 .sidebar-toggle:hover {
-  color: #FFFFFF;
-  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--sidebar-text);
+  background-color: var(--sidebar-nav-hover);
 }
 
 .toggle-icon {
