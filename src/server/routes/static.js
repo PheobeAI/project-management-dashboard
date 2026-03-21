@@ -26,7 +26,8 @@ async function loadTemplates() {
     'tasks.hbs',
     'versions.hbs',
     'documents.hbs',
-    'bugs.hbs'
+    'bugs.hbs',
+    'projects.hbs'
   ];
   
   for (const file of templateFiles) {
@@ -58,6 +59,22 @@ router.get('/', async (req, res) => {
       title: 'Project Dashboard',
       content,
       page: 'home'
+    }));
+  } catch (error) {
+    res.status(500).send('Error loading page');
+  }
+});
+
+// Projects 列表页
+router.get('/projects', async (req, res) => {
+  if (!templates.layout) await loadTemplates();
+  
+  try {
+    const content = templates.projects({ title: 'Projects' });
+    res.send(templates.layout({
+      title: 'Projects - 项目列表',
+      content,
+      page: 'projects'
     }));
   } catch (error) {
     res.status(500).send('Error loading page');

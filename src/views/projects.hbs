@@ -1,0 +1,302 @@
+{{! Projects Page }}
+
+<div class="page-header">
+  <h1 class="page-title">📁 项目列表</h1>
+  <div class="page-actions">
+    <button class="btn btn-secondary" onclick="refreshProjects()">
+      <span class="btn-icon">🔄</span> 刷新
+    </button>
+  </div>
+</div>
+
+<!-- 筛选栏 -->
+<div class="filter-bar">
+  <input type="text" id="searchInput" class="search-input" placeholder="搜索项目..." oninput="filterProjects()">
+  <select id="statusFilter" class="filter-select" onchange="filterProjects()">
+    <option value="all">全部状态</option>
+    <option value="normal">正常</option>
+    <option value="warning">进行中</option>
+    <option value="blocked">阻塞</option>
+  </select>
+</div>
+
+<!-- 加载状态 -->
+<div class="loading-state" id="loadingState">
+  <div class="spinner"></div>
+  <p>加载项目数据...</p>
+</div>
+
+<!-- 项目网格 -->
+<div class="projects-grid" id="projectsGrid">
+  <!-- 项目卡片将在这里渲染 -->
+</div>
+
+<!-- 空状态 -->
+<div class="empty-state" id="emptyState" style="display: none;">
+  <div class="empty-state-icon">📁</div>
+  <div class="empty-state-title">暂无项目</div>
+  <div class="empty-state-description">请在设置中添加项目路径</div>
+</div>
+
+<script>
+const API_BASE = '/api';
+
+let allProjects = [];
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadProjects();
+});
+
+async function loadProjects() {
+  showLoading(true);
+  
+  try {
+    const response = await fetch(`${API_BASE}/projects`);
+    const result = await response.json();
+    
+    if (result.success) {
+      allProjects = result.data;
+      renderProjects(allProjects);
+    } else {
+      showEmpty();
+    }
+  } catch (error) {
+    console.error('Failed to load projects:', error);
+    showEmpty();
+  } finally {
+    showLoading(false);
+  }
+}
+
+function renderProjects(projects) {
+  const grid = document.getElementById('projectsGrid');
+  const emptyState = document.getElementById('emptyState');
+  
+  if (!projects || projects.length === 0) {
+    grid.style.display = 'none';
+    emptyState.style.display = 'flex';
+    return;
+  }
+  
+  grid.style.display = 'grid';
+  emptyState.style.display = 'none';
+  
+  grid.innerHTML = projects.map(project => `
+    <div class="project-card" onclick="navigateToProject('${encodeURIComponent(project.id)}')">
+      <div class="project-header">
+        <div class="project-name">${project.name}</div>
+        <span class="status-badge ${project.status}">${getStatusText(project.status)}</span>
+      </div>
+      <div class="project-progress">
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: ${project.progress}%"></div>
+        </div>
+        <span class="progress-label">${project.progress}% 完成</span>
+      </div>
+      <div class="project-meta">
+        <span class="phase-badge">Phase ${project.phase}</span>
+        <span class="tasks-count">${project.tasks?.length || 0} 任务</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterProjects() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const status = document.getElementById('statusFilter').value;
+  
+  let filtered = allProjects;
+  
+  if (search) {
+    filtered = filtered.filter(p => p.name.toLowerCase().includes(search));
+  }
+  
+  if (status !== 'all') {
+    filtered = filtered.filter(p => p.status === status);
+  }
+  
+  renderProjects(filtered);
+}
+
+function navigateToProject(projectId) {
+  window.location.href = `/project/${encodeURIComponent(projectId)}`;
+}
+
+function getStatusText(status) {
+  const statusMap = {
+    normal: '正常',
+    warning: '进行中',
+    blocked: '阻塞',
+    uninitialized: '未初始化'
+  };
+  return statusMap[status] || status;
+}
+
+function showLoading(show) {
+  document.getElementById('loadingState').style.display = show ? 'flex' : 'none';
+}
+
+function showEmpty() {
+  document.getElementById('projectsGrid').style.display = 'none';
+  document.getElementById('emptyState').style.display = 'flex';
+}
+
+function refreshProjects() {
+  loadProjects();
+}
+</script>
+
+<style>
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+}
+
+.page-title {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+}
+
+.filter-bar {
+  display: flex;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+  padding: var(--space-md);
+  background: var(--color-card);
+  border-radius: 8px;
+}
+
+.search-input {
+  flex: 1;
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: var(--font-size-sm);
+}
+
+.filter-select {
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-bg);
+  font-size: var(--font-size-sm);
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-lg);
+}
+
+.project-card {
+  background: var(--color-card);
+  border-radius: 12px;
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.project-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-md);
+}
+
+.project-name {
+  font-weight: 600;
+  font-size: var(--font-size-md);
+}
+
+.project-progress {
+  margin-bottom: var(--space-md);
+}
+
+.progress-bar {
+  height: 8px;
+  background: var(--color-border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: var(--space-xs);
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: 4px;
+  transition: width 0.3s;
+}
+
+.progress-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.project-meta {
+  display: flex;
+  gap: var(--space-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.phase-badge {
+  padding: 2px 8px;
+  background: var(--color-bg);
+  border-radius: 4px;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl) * 2;
+  text-align: center;
+}
+
+.empty-state-icon {
+  font-size: 64px;
+  opacity: 0.5;
+  margin-bottom: var(--space-md);
+}
+
+.empty-state-title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+}
+
+.empty-state-description {
+  color: var(--color-text-muted);
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl) * 2;
+  gap: var(--space-md);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+</style>

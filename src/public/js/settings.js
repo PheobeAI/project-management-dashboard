@@ -150,6 +150,10 @@ function renderPaths(paths) {
       </div>
     </div>
   `).join('');
+  
+  // 存储路径数据供编辑使用
+  window.pathData = {};
+  paths.forEach(p => { window.pathData[p.id] = p; });
 }
 
 // ============ 事件处理 ============
@@ -390,8 +394,31 @@ async function deletePath(id) {
 }
 
 function editPath(id) {
-  // TODO: 实现编辑路径功能
-  showError('编辑路径功能开发中');
+  // 编辑路径
+  const pathData = window.pathData || {};
+  const path = pathData[id];
+  
+  if (!path) {
+    showError('路径不存在');
+    return;
+  }
+  
+  // 填充编辑表单
+  document.getElementById('newPathId').value = id;
+  document.getElementById('newPathInput').value = path.path;
+  document.getElementById('newPathAlias').value = path.alias || '';
+  document.getElementById('newPathColor').value = path.color || '#3B82F6';
+  
+  // 显示编辑模态框
+  const modal = document.getElementById('addPathModal');
+  const title = modal.querySelector('h3');
+  const confirmBtn = document.getElementById('confirmAddPath');
+  
+  title.textContent = '编辑路径';
+  confirmBtn.textContent = '保存';
+  confirmBtn.onclick = updatePath;
+  
+  modal.style.display = 'flex';
 }
 
 // ============ API ============

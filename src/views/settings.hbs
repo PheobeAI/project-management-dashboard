@@ -156,10 +156,11 @@
 <div class="modal-overlay" id="addPathModal" style="display: none;">
   <div class="modal">
     <div class="modal-header">
-      <h3>添加项目路径</h3>
+      <h3 id="pathModalTitle">添加项目路径</h3>
       <button class="modal-close" onclick="hideAddPathModal()">×</button>
     </div>
     <div class="modal-body">
+      <input type="hidden" id="newPathId" value="">
       <div class="form-group">
         <label>路径</label>
         <input type="text" id="newPathInput" class="setting-input" placeholder="C:\Users\Projects">
@@ -263,6 +264,10 @@ function renderPaths(paths) {
       </div>
     </div>
   `).join('');
+  
+  // 存储路径数据供编辑使用
+  window.pathData = {};
+  paths.forEach(p => { window.pathData[p.id] = p; });
 }
 
 // 更新主题
@@ -355,12 +360,18 @@ async function saveSettings(updates) {
 
 // 显示添加路径 Modal
 function showAddPathModal() {
+  document.getElementById('newPathId').value = '';
+  document.getElementById('newPathInput').value = '';
+  document.getElementById('newPathAlias').value = '';
+  document.getElementById('newPathColor').value = '#3B82F6';
+  document.getElementById('pathModalTitle').textContent = '添加项目路径';
   document.getElementById('addPathModal').style.display = 'flex';
 }
 
 // 隐藏添加路径 Modal
 function hideAddPathModal() {
   document.getElementById('addPathModal').style.display = 'none';
+  document.getElementById('newPathId').value = '';
   document.getElementById('newPathInput').value = '';
   document.getElementById('newPathAlias').value = '';
   document.getElementById('newPathColor').value = '#3B82F6';
@@ -400,7 +411,53 @@ async function addPath() {
 
 // 编辑路径
 async function editPath(id) {
-  alert('编辑路径功能开发中...');
+  const pathData = window.pathData || {};
+  const path = pathData[id];
+  
+  if (!path) {
+    alert('路径不存在');
+    return;
+  }
+  
+  document.getElementById('newPathId').value = id;
+  document.getElementById('newPathInput').value = path.path;
+  document.getElementById('newPathAlias').value = path.alias || '';
+  document.getElementById('newPathColor').value = path.color || '#3B82F6';
+  document.getElementById('pathModalTitle').textContent = '编辑项目路径';
+  document.getElementById('addPathModal').style.display = 'flex';
+}
+
+// 更新路径
+async function updatePath() {
+  const id = document.getElementById('newPathId').value;
+  const path = document.getElementById('newPathInput').value.trim();
+  const alias = document.getElementById('newPathAlias').value.trim();
+  const color = document.getElementById('newPathColor').value;
+  
+  if (!id || !path) {
+    alert('请填写完整信息');
+    return;
+  }
+  
+  try {
+    const response = await fetch(`${API_BASE}/paths/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ path, alias, color })
+    });
+    
+    const result = await response.json();
+    
+    if (result.success) {
+      hideAddPathModal();
+      loadPaths();
+    } else {
+      alert('更新路径失败: ' + result.error);
+    }
+  } catch (error) {
+    console.error('Failed to update path:', error);
+    alert('更新路径失败');
+  }
 }
 
 // 删除路径
