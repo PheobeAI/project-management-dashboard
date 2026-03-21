@@ -1,0 +1,108 @@
+{{! Detail Page Template }}
+
+<div class="detail-page">
+  <!-- Back Button -->
+  <a href="/" class="back-link">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+    返回项目列表
+  </a>
+
+  <!-- Project Info Card -->
+  <div class="project-info-card" id="projectInfo">
+    <div class="skeleton-line" style="width: 40%; height: 28px;"></div>
+    <div class="skeleton-line" style="width: 20%; height: 20px; margin-top: 8px;"></div>
+    <div class="skeleton-line" style="width: 60%; height: 40px; margin-top: 16px;"></div>
+  </div>
+
+  <!-- F11: Phase Timeline Section -->
+  <div class="phase-timeline-section" id="phaseTimelineSection" style="display: none;">
+    <h3 class="section-title">📊 项目阶段进展</h3>
+    <div class="phase-timeline-container" id="phaseTimeline">
+      <!-- Phase timeline will be rendered here -->
+    </div>
+  </div>
+
+  <!-- F10: Agent Tasks Section -->
+  <div class="agent-tasks-section" id="agentTasksSection" style="display: none;">
+    <h3 class="section-title">👥 Agent 任务视图</h3>
+    <!-- Filter Bar -->
+    <div class="agent-tasks-filter-bar">
+      <input type="text" id="agentTaskSearch" placeholder="搜索任务..." class="search-input">
+      <select id="agentFilter" class="filter-select">
+        <option value="">全部 Agent</option>
+        <option value="PM">PM</option>
+        <option value="Designer">Designer</option>
+        <option value="Engineer">Engineer</option>
+        <option value="Art">Art</option>
+        <option value="QA">QA</option>
+      </select>
+      <select id="agentTaskStatusFilter" class="filter-select">
+        <option value="">全部状态</option>
+        <option value="waiting">等待处理</option>
+        <option value="in_progress">进行中</option>
+        <option value="done">已完成</option>
+      </select>
+    </div>
+    <!-- Agent Groups -->
+    <div class="agent-groups-container" id="agentGroupsContainer">
+      <!-- Agent cards will be rendered here -->
+    </div>
+  </div>
+
+  <!-- Tasks Section (Original) -->
+  <div class="tasks-section">
+    <h3 class="section-title">📋 任务列表</h3>
+    <div class="task-filters">
+      <button class="filter-btn active" data-filter="all">全部</button>
+      <button class="filter-btn" data-filter="dev">开发</button>
+      <button class="filter-btn" data-filter="art">设计</button>
+      <button class="filter-btn" data-filter="test">测试</button>
+    </div>
+    <div class="task-list" id="taskList">
+      <!-- Tasks will be rendered here -->
+    </div>
+  </div>
+
+  <!-- F12: Test Details Section -->
+  <div class="test-details-section" id="testDetailsSection" style="display: none;">
+    <h3 class="section-title">🧪 测试详情</h3>
+    
+    <!-- Bug Stats -->
+    <div class="bug-stats-container" id="bugStatsContainer">
+      <!-- Bug stats will be rendered here -->
+    </div>
+    
+    <!-- Reviews History -->
+    <div class="reviews-section">
+      <h4 class="subsection-title">📝 评审历史</h4>
+      <div class="reviews-list" id="reviewsList">
+        <!-- Reviews will be rendered here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Test Results (Original) -->
+  <div class="test-results-section" id="testResultsSection">
+    <h3 class="section-title">🧪 测试结果</h3>
+    <div class="test-stats" id="testStats">
+      <div class="test-stat-card">
+        <div class="test-stat-value">-</div>
+        <div class="test-stat-label">通过率</div>
+      </div>
+      <div class="test-stat-card">
+        <div class="test-stat-value">-</div>
+        <div class="test-stat-label">总数</div>
+      </div>
+      <div class="test-stat-card">
+        <div class="test-stat-value">-</div>
+        <div class="test-stat-label">通过</div>
+      </div>
+      <div class="test-stat-card">
+        <div class="test-stat-value">-</div>
+        <div class="test-stat-label">失败</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+{
+  "id": "DEV-016",
+  "title": "UI 修复确认",
+  "type": "fix",
+  "description": "确认 UI/UX 问题已在之前版本修复：UI-001 对话框、UI-002 筛选、UX-001 目录选择。",
+  "assignee": "Engineer",
+  "status": "done",
+  "priority": "P0",
+  "estimated_hours": 0,
+  "completed_at": "2026-03-20T17:00:00+08:00",
+  "deliverables": [
+    "UI-001: alert() 替换为页面内错误提示",
+    "UI-002: Task 筛选逻辑修复",
+    "UX-001: 目录选择对话框"
+  ]
+}

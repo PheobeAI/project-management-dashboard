@@ -1,0 +1,47 @@
+[
+  {
+    "id": "TASK-101",
+    "title": "密码破解核心算法",
+    "type": "dev",
+    "status": "done",
+    "assignee": "Engineer",
+    "created_at": "2026-03-15T10:00:00Z",
+    "due": "2026-03-17T18:00:00Z"
+  },
+  {
+    "id": "TASK-102",
+    "title": "CLI 界面开发",
+    "type": "dev",
+    "status": "done",
+    "assignee": "Engineer",
+    "created_at": "2026-03-16T10:00:00Z",
+    "due": "2026-03-18T18:00:00Z"
+  },
+  {
+    "id": "TASK-103",
+    "title": "性能优化",
+    "type": "dev",
+    "status": "in_progress",
+    "assignee": "Engineer",
+    "created_at": "2026-03-18T10:00:00Z",
+    "due": "2026-03-20T18:00:00Z"
+  },
+  {
+    "id": "TASK-104",
+    "title": "单元测试编写",
+    "type": "test",
+    "status": "done",
+    "assignee": "QA",
+    "created_at": "2026-03-17T10:00:00Z",
+    "due": "2026-03-19T18:00:00Z"
+  },
+  {
+    "id": "TASK-105",
+    "title": "集成测试",
+    "type": "test",
+    "status": "in_progress",
+    "assignee": "QA",
+    "created_at": "2026-03-19T10:00:00Z",
+    "due": "2026-03-21T18:00:00Z"
+  }
+]

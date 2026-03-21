@@ -1,0 +1,415 @@
+{{! Agents Page }}
+
+<div class="page-header">
+  <h1 class="page-title">👥 Agent 工作负载</h1>
+  <div class="page-actions">
+    <button class="btn btn-secondary" onclick="refreshAgents()">
+      <span class="btn-icon">🔄</span> 刷新
+    </button>
+  </div>
+</div>
+
+<!-- 加载状态 -->
+<div class="loading-state" id="loadingState">
+  <div class="spinner"></div>
+  <p>加载 Agent 数据...</p>
+</div>
+
+<!-- 工作负载图表 -->
+<div class="workload-chart-card" id="workloadChartCard" style="display: none;">
+  <h3 class="chart-title">📊 Agent 工作负载对比</h3>
+  <div class="chart-container">
+    <canvas id="workloadChart"></canvas>
+  </div>
+</div>
+
+<!-- Agent 卡片列表 -->
+<div class="agents-grid" id="agentsGrid">
+  <!-- Agent 卡片将在这里渲染 -->
+</div>
+
+<!-- 空状态 -->
+<div class="empty-state" id="emptyState" style="display: none;">
+  <div class="empty-state-icon">👥</div>
+  <div class="empty-state-title">暂无 Agent 数据</div>
+  <div class="empty-state-description">当前没有项目包含任务数据</div>
+</div>
+
+<script>
+const API_BASE = '/api';
+
+// 全局状态
+let agentsData = [];
+let workloadChart = null;
+
+// 初始化
+document.addEventListener('DOMContentLoaded', () => {
+  loadAgents();
+});
+
+async function loadAgents() {
+  showLoading(true);
+  
+  try {
+    const response = await fetch(`${API_BASE}/agents`);
+    const result = await response.json();
+    
+    if (result.success) {
+      agentsData = result.data;
+      renderAgentCards(agentsData);
+      renderWorkloadChart(agentsData);
+    } else {
+      showError('加载 Agent 数据失败');
+    }
+  } catch (error) {
+    console.error('Failed to load agents:', error);
+    showError('加载 Agent 数据失败');
+  } finally {
+    showLoading(false);
+  }
+}
+
+function renderAgentCards(agents) {
+  const grid = document.getElementById('agentsGrid');
+  const emptyState = document.getElementById('emptyState');
+  
+  if (!agents || agents.length === 0) {
+    grid.style.display = 'none';
+    emptyState.style.display = 'flex';
+    return;
+  }
+  
+  grid.style.display = 'grid';
+  emptyState.style.display = 'none';
+  
+  grid.innerHTML = agents.map(agent => `
+    <div class="agent-card" onclick="toggleAgentDetails('${agent.name}')">
+      <div class="agent-header">
+        <div class="agent-icon"><img src="/assets/icons/agent-${agent.name.toLowerCase()}.svg" alt="${agent.name}"></div>
+        <div class="agent-name">${agent.name}</div>
+        <div class="agent-toggle" id="toggle-${agent.name}">▼</div>
+      </div>
+      <div class="agent-stats">
+        <div class="stat-item waiting">
+          <span class="stat-value">${agent.tasks.waiting}</span>
+          <span class="stat-label">等待</span>
+        </div>
+        <div class="stat-item in-progress">
+          <span class="stat-value">${agent.tasks.inProgress}</span>
+          <span class="stat-label">进行中</span>
+        </div>
+        <div class="stat-item done">
+          <span class="stat-value">${agent.tasks.done}</span>
+          <span class="stat-label">完成</span>
+        </div>
+      </div>
+      <div class="agent-progress">
+        <div class="progress-bar">
+          <div class="progress-fill done" style="width: ${agent.tasks.total > 0 ? (agent.tasks.done / agent.tasks.total * 100) : 0}%"></div>
+          <div class="progress-fill in-progress" style="width: ${agent.tasks.total > 0 ? (agent.tasks.inProgress / agent.tasks.total * 100) : 0}%"></div>
+        </div>
+        <div class="progress-label">${agent.tasks.total} 个任务</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderWorkloadChart(agents) {
+  const chartCard = document.getElementById('workloadChartCard');
+  
+  if (!agents || agents.length === 0) {
+    chartCard.style.display = 'none';
+    return;
+  }
+  
+  chartCard.style.display = 'block';
+  
+  const ctx = document.getElementById('workloadChart');
+  if (!ctx) return;
+  
+  // 销毁旧图表
+  if (workloadChart) {
+    workloadChart.destroy();
+  }
+  
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const textColor = isDark ? '#94A3B8' : '#64748B';
+  const gridColor = isDark ? '#334155' : '#E2E8F0';
+  
+  workloadChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: agents.map(a => a.name),
+      datasets: [
+        {
+          label: '等待',
+          data: agents.map(a => a.tasks.waiting),
+          backgroundColor: '#F59E0B'
+        },
+        {
+          label: '进行中',
+          data: agents.map(a => a.tasks.inProgress),
+          backgroundColor: '#3B82F6'
+        },
+        {
+          label: '已完成',
+          data: agents.map(a => a.tasks.done),
+          backgroundColor: '#10B981'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { color: textColor }
+        }
+      },
+      scales: {
+        x: {
+          stacked: true,
+          ticks: { color: textColor },
+          grid: { color: gridColor }
+        },
+        y: {
+          stacked: true,
+          beginAtZero: true,
+          ticks: { color: textColor, stepSize: 1 },
+          grid: { color: gridColor }
+        }
+      }
+    }
+  });
+}
+
+function toggleAgentDetails(agentName) {
+  const toggle = document.getElementById(`toggle-${agentName}`);
+  const cards = document.querySelectorAll('.agent-card');
+  
+  // 简化版：只是动画效果
+  cards.forEach(card => {
+    if (card.querySelector('.agent-name').textContent === agentName) {
+      card.classList.toggle('expanded');
+    }
+  });
+}
+
+function showLoading(show) {
+  document.getElementById('loadingState').style.display = show ? 'flex' : 'none';
+}
+
+function showError(message) {
+  alert(message);
+}
+
+function refreshAgents() {
+  loadAgents();
+}
+
+// 主题切换时更新图表
+document.addEventListener('themeChanged', () => {
+  if (agentsData.length > 0) {
+    renderWorkloadChart(agentsData);
+  }
+});
+</script>
+
+<style>
+/* Agent 页面样式 */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+}
+
+.page-title {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+}
+
+.page-actions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.workload-chart-card {
+  background: var(--color-card);
+  border-radius: 12px;
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.chart-container {
+  height: 300px;
+  margin-top: var(--space-md);
+}
+
+.agents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-lg);
+}
+
+.agent-card {
+  background: var(--color-card);
+  border-radius: 12px;
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.agent-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.agent-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.agent-icon {
+  font-size: 24px;
+}
+
+.agent-name {
+  flex: 1;
+  font-weight: 600;
+  font-size: var(--font-size-md);
+}
+
+.agent-toggle {
+  color: var(--color-text-muted);
+  transition: transform 0.2s;
+}
+
+.agent-card.expanded .agent-toggle {
+  transform: rotate(180deg);
+}
+
+.agent-stats {
+  display: flex;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  padding: var(--space-sm);
+  border-radius: 8px;
+  background: var(--color-bg);
+}
+
+.stat-item .stat-value {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.stat-item .stat-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.stat-item.waiting .stat-value {
+  color: var(--color-warning);
+}
+
+.stat-item.in-progress .stat-value {
+  color: var(--color-primary);
+}
+
+.stat-item.done .stat-value {
+  color: var(--color-success);
+}
+
+.agent-progress {
+  margin-top: var(--space-sm);
+}
+
+.progress-bar {
+  display: flex;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--color-border);
+}
+
+.progress-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.progress-fill.done {
+  background: var(--color-success);
+}
+
+.progress-fill.in-progress {
+  background: var(--color-primary);
+}
+
+.progress-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  text-align: center;
+  margin-top: var(--space-xs);
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl) * 2;
+  text-align: center;
+}
+
+.empty-state-icon {
+  font-size: 64px;
+  opacity: 0.5;
+  margin-bottom: var(--space-md);
+}
+
+.empty-state-title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+}
+
+.empty-state-description {
+  color: var(--color-text-muted);
+}
+
+/* 加载状态 */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl) * 2;
+  gap: var(--space-md);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+</style>

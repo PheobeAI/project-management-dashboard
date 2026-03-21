@@ -1,0 +1,17 @@
+{
+  "id": "DEV-004",
+  "title": "F3 任务状态追踪",
+  "type": "dev",
+  "description": "实现任务列表功能：读取 tasks/ 目录下所有任务文件，展示任务列表、状态、负责人、截止时间，支持按类型筛选。",
+  "assignee": "Engineer",
+  "status": "todo",
+  "priority": "P0",
+  "dependencies": ["DEV-003"],
+  "estimated_hours": 2,
+  "deliverables": [
+    "任务数据解析服务",
+    "任务列表 API",
+    "任务筛选功能",
+    "任务卡片展示"
+  ]
+}

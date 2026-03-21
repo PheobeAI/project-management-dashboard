@@ -1,0 +1,16 @@
+{
+  "project_name": "star-encounter",
+  "phase": 1,
+  "waiting_for": {
+    "agent": "Designer",
+    "action": "revise_requirements"
+  },
+  "since": "2026-03-18T10:00:00+08:00",
+  "tasks_summary": {
+    "total": 5,
+    "done": 1,
+    "waiting": 3,
+    "in_progress": 1
+  },
+  "lastUpdated": "2026-03-20T10:00:00+08:00"
+}

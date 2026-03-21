@@ -1,0 +1,21 @@
+{
+  "id": "DEV-001",
+  "title": "项目基础框架搭建",
+  "type": "dev",
+  "description": "搭建项目基础架构：Express.js 服务端、目录结构、基础路由、静态文件服务、配置文件结构。",
+  "assignee": "Engineer",
+  "status": "done",
+  "priority": "P0",
+  "dependencies": [],
+  "estimated_hours": 2,
+  "actual_hours": 2,
+  "estimated_started": "2026-03-20T12:07:00+08:00",
+  "completed_at": "2026-03-20T12:30:00+08:00",
+  "deliverables": [
+    "Express.js 服务入口",
+    "项目目录结构创建",
+    "基础路由配置",
+    "静态文件服务",
+    "默认配置文件"
+  ]
+}

@@ -1,0 +1,178 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900">
+  <defs>
+    <filter id="shadow-sm" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#000" flood-opacity="0.08"/>
+    </filter>
+    <filter id="shadow-md" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect width="1200" height="900" fill="#F8FAFC"/>
+  
+  <!-- ==================== Header ==================== -->
+  <g id="header">
+    <rect width="1200" height="64" fill="white" filter="url(#shadow-sm)"/>
+    <text x="32" y="40" font-family="Inter, sans-serif" font-size="20" font-weight="600" fill="#0F172A">Documents</text>
+    <g transform="translate(680, 16)">
+      <!-- 搜索框 -->
+      <rect width="280" height="32" rx="8" fill="#F8FAFC" stroke="#E2E8F0"/>
+      <text x="16" y="21" font-family="Inter, sans-serif" font-size="14" fill="#94A3B8">🔍 搜索文档...</text>
+      
+      <!-- 筛选 -->
+      <rect x="300" y="0" width="80" height="32" rx="6" fill="#F1F5F9" stroke="#E2E8F0"/>
+      <text x="315" y="21" font-family="Inter, sans-serif" font-size="12" fill="#64748B">按项目 ▼</text>
+      
+      <rect x="390" y="0" width="80" height="32" rx="6" fill="#F1F5F9" stroke="#E2E8F0"/>
+      <text x="405" y="21" font-family="Inter, sans-serif" font-size="12" fill="#64748B">按类型 ▼</text>
+    </g>
+  </g>
+  
+  <!-- ==================== 主内容区 ==================== -->
+  <g id="main-content" transform="translate(32, 88)">
+    
+    <!-- 左侧：文档树 -->
+    <g id="doc-tree" transform="translate(0, 0)">
+      <rect width="400" height="780" rx="12" fill="white" filter="url(#shadow-md)"/>
+      
+      <text x="20" y="32" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#0F172A">文档树</text>
+      
+      <!-- 项目 1: char-counter -->
+      <g transform="translate(0, 56)">
+        <!-- 展开箭头 + 文件夹 -->
+        <g transform="translate(20, 0)">
+          <rect x="0" y="0" width="20" height="20" rx="4" fill="#FEF3C7"/>
+          <text x="10" y="15" text-anchor="middle" font-size="12">▼</text>
+        </g>
+        <rect x="48" y="0" width="16" height="16" rx="2" fill="#F59E0B"/>
+        <text x="72" y="14" font-family="Inter, sans-serif" font-size="14" font-weight="500" fill="#0F172A">char-counter</text>
+        
+        <!-- 需求文档 -->
+        <g transform="translate(40, 28)">
+          <rect x="28" y="0" width="16" height="16" rx="2" fill="#3B82F6"/>
+          <text x="52" y="14" font-family="Inter, sans-serif" font-size="13" fill="#0F172A">📄 需求文档</text>
+          
+          <!-- 子文件 - 展开 -->
+          <g transform="translate(28, 24)">
+            <rect x="0" y="0" width="16" height="16" rx="2" fill="#DBEAFE"/>
+            <text x="24" y="13" font-family="Inter, sans-serif" font-size="12" fill="#64748B">01-product-overview.md</text>
+          </g>
+          <g transform="translate(28, 48)">
+            <rect x="0" y="0" width="16" height="16" rx="2" fill="#DBEAFE"/>
+            <text x="24" y="13" font-family="Inter, sans-serif" font-size="12" fill="#64748B">02-functional-req.md</text>
+          </g>
+        </g>
+        
+        <!-- 设计文档 -->
+        <g transform="translate(40, 116)">
+          <rect x="28" y="0" width="16" height="16" rx="2" fill="#8B5CF6"/>
+          <text x="52" y="14" font-family="Inter, sans-serif" font-size="13" fill="#0F172A">📄 设计文档</text>
+          
+          <!-- 子文件 - 收起 -->
+          <g transform="translate(28, 24)">
+            <rect x="0" y="0" width="12" height="12" rx="2" fill="#E2E8F0"/>
+            <text x="18" y="10" font-size="8" fill="#94A3B8">▶</text>
+            <text x="36" y="13" font-family="Inter, sans-serif" font-size="12" fill="#64748B">ENGINEER.md (2)</text>
+          </g>
+        </g>
+        
+        <!-- 评审记录 -->
+        <g transform="translate(40, 176)">
+          <rect x="28" y="0" width="16" height="16" rx="2" fill="#10B981"/>
+          <text x="52" y="14" font-family="Inter, sans-serif" font-size="13" fill="#0F172A">📄 评审记录</text>
+          
+          <g transform="translate(28, 24)">
+            <rect x="0" y="0" width="12" height="12" rx="2" fill="#E2E8F0"/>
+            <text x="18" y="10" font-size="8" fill="#94A3B8">▶</text>
+            <text x="36" y="13" font-family="Inter, sans-serif" font-size="12" fill="#64748B">v_1/ (4)</text>
+          </g>
+        </g>
+      </g>
+      
+      <!-- 项目 2: web-server -->
+      <g transform="translate(0, 300)">
+        <g transform="translate(20, 0)">
+          <rect x="0" y="0" width="20" height="20" rx="4" fill="#FEF3C7"/>
+          <text x="10" y="15" text-anchor="middle" font-size="12">▶</text>
+        </g>
+        <rect x="48" y="0" width="16" height="16" rx="2" fill="#F59E0B"/>
+        <text x="72" y="14" font-family="Inter, sans-serif" font-size="14" font-weight="500" fill="#0F172A">web-server</text>
+      </g>
+      
+      <!-- 项目 3: project-management-dashboard -->
+      <g transform="translate(0, 340)">
+        <g transform="translate(20, 0)">
+          <rect x="0" y="0" width="20" height="20" rx="4" fill="#FEF3C7"/>
+          <text x="10" y="15" text-anchor="middle" font-size="12">▶</text>
+        </g>
+        <rect x="48" y="0" width="16" height="16" rx="2" fill="#F59E0B"/>
+        <text x="72" y="14" font-family="Inter, sans-serif" font-size="14" font-weight="500" fill="#0F172A">project-management-dashboard</text>
+      </g>
+    </g>
+    
+    <!-- 右侧：文档预览 -->
+    <g id="doc-preview" transform="translate(440, 0)">
+      <rect width="728" height="780" rx="12" fill="white" filter="url(#shadow-md)"/>
+      
+      <!-- 预览 Header -->
+      <rect width="728" height="56" rx="12" fill="#F8FAFC"/>
+      <rect y="56" width="728" height="1" fill="#E2E8F0"/>
+      <text x="24" y="34" font-family="Inter, sans-serif" font-size="16" font-weight="600" fill="#0F172A">02-functional-req.md</text>
+      <text x="300" y="34" font-family="Inter, sans-serif" font-size="12" fill="#64748B">char-counter / 需求文档</text>
+      
+      <!-- 操作按钮 -->
+      <rect x="520" y="12" width="72" height="32" rx="6" fill="#DBEAFE"/>
+      <text x="556" y="32" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#2563EB">下载</text>
+      
+      <rect x="600" y="12" width="72" height="32" rx="6" fill="#D1FAE5"/>
+      <text x="636" y="32" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#059669">分享</text>
+      
+      <!-- Markdown 内容 -->
+      <g transform="translate(24, 80)">
+        <text font-family="Inter, sans-serif" font-size="14" fill="#0F172A">
+          <tspan x="0" dy="0" font-weight="700"># 02 - 功能需求</tspan>
+          <tspan x="0" dy="32">## 2.1 功能概览</tspan>
+          <tspan x="0" dy="28" font-weight="600">| 编号 | 功能模块 | 优先级 |</tspan>
+          <tspan x="0" dy="20" fill="#64748B">|:-----|:---------|:-------|</tspan>
+          <tspan x="0" dy="20">| F1 | 项目列表与概览 | P0 |</tspan>
+          <tspan x="0" dy="20">| F2 | 项目详情视图 | P0 |</tspan>
+          <tspan x="0" dy="20">| F3 | 任务状态追踪 | P0 |</tspan>
+          <tspan x="0" dy="20">| F4 | 测试结果展示 | P1 |</tspan>
+          <tspan x="0" dy="20">| F5 | Agent 工作状态 | P1 |</tspan>
+          <tspan x="0" dy="20">| F6 | 数据可视化图表 | P0 |</tspan>
+          <tspan x="0" dy="20">| F7 | 自动刷新 | P1 |</tspan>
+          <tspan x="0" dy="28">## 2.2 详细功能说明</tspan>
+          <tspan x="0" dy="24" font-weight="600">### F1 项目列表与概览</tspan>
+          <tspan x="0" dy="24" fill="#475569">描述：</tspan>
+          <tspan x="0" dy="20">在首页展示</tspan>
+        </text>
+      </g>
+      
+      <!-- 版本信息 -->
+      <g transform="translate(24, 720)">
+        <rect width="680" height="40" rx="8" fill="#F8FAFC"/>
+        <text x="16" y="26" font-family="Inter, sans-serif" font-size="12" fill="#64748B">版本: v0.3.0 (2026-03-21)</text>
+      </g>
+    </g>
+  </g>
+  
+  <!-- ==================== 设计标注 ==================== -->
+  <g transform="translate(950, 20)">
+    <rect width="230" height="200" rx="8" fill="#FFF7ED" stroke="#FED7AA"/>
+    <text x="16" y="24" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#9A3412">📐 Documents 设计要点</text>
+    <g transform="translate(16, 40)">
+      <text font-family="Inter, sans-serif" font-size="10" fill="#7C2D12">
+        <tspan x="0" dy="0">1. 左右分栏布局</tspan>
+        <tspan x="0" dy="14">   左侧 400px，右侧 flex:1</tspan>
+        <tspan x="0" dy="14">2. 树形结构支持展开/折叠</tspan>
+        <tspan x="0" dy="14">3. 文件夹颜色区分类型</tspan>
+        <tspan x="0" dy="14">   📁 需求=#3B82F6</tspan>
+        <tspan x="0" dy="12">   📄 设计=#8B5CF6</tspan>
+        <tspan x="0" dy="12">   📄 评审=#10B981</tspan>
+        <tspan x="0" dy="14">4. Markdown 内容渲染</tspan>
+        <tspan x="0" dy="14">5. 选中行高亮效果</tspan>
+      </text>
+    </g>
+  </g>
+</svg>

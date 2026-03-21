@@ -1,0 +1,19 @@
+{
+  "id": "DEV-010",
+  "title": "F9 多路径管理",
+  "type": "dev",
+  "description": "实现路径管理功能：添加/编辑/删除项目路径，路径别名和颜色标签，路径有效性检查，导入/导出配置。",
+  "assignee": "Engineer",
+  "status": "done",
+  "priority": "P0",
+  "dependencies": ["DEV-001"],
+  "estimated_hours": 3,
+  "actual_hours": 2,
+  "estimated_started": "2026-03-20T14:00:00+08:00",
+  "completed_at": "2026-03-20T14:30:00+08:00",
+  "deliverables": [
+    "路径管理 API",
+    "路径管理界面",
+    "路径有效性验证"
+  ]
+}

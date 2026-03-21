@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="40" viewBox="0 0 60 40">
+  <!-- 浅色主题预览缩略图 -->
+  <rect width="60" height="40" rx="4" fill="#F8FAFC"/>
+  <rect x="4" y="4" width="20" height="32" rx="2" fill="#1E293B"/>
+  <rect x="28" y="8" width="28" height="6" rx="2" fill="#E2E8F0"/>
+  <rect x="28" y="18" width="28" height="4" rx="1" fill="#E2E8F0"/>
+  <rect x="28" y="26" width="20" height="4" rx="1" fill="#E2E8F0"/>
+  <rect x="4" y="4" width="4" height="32" rx="0" fill="#3B82F6"/>
+</svg>

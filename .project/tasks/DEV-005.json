@@ -1,0 +1,17 @@
+{
+  "id": "DEV-005",
+  "title": "F4 测试结果展示",
+  "type": "dev",
+  "description": "实现测试结果展示：读取 test-results/ 或 test/ 目录，统计测试总数、通过数、失败数，展示通过率和失败测试列表。",
+  "assignee": "Engineer",
+  "status": "todo",
+  "priority": "P1",
+  "dependencies": ["DEV-003"],
+  "estimated_hours": 2,
+  "deliverables": [
+    "测试结果解析服务",
+    "测试结果 API",
+    "测试统计展示",
+    "失败用例列表"
+  ]
+}

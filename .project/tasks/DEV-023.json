@@ -1,0 +1,19 @@
+{
+  "id": "DEV-023",
+  "title": "Versions 页面开发",
+  "type": "feature",
+  "description": "实现 Versions 页面，展示项目版本历史。",
+  "assignee": "Engineer",
+  "status": "done",
+  "priority": "P1",
+  "art_dependency": "none",
+  "estimated_hours": 3,
+  "completed_at": "2026-03-21T13:30:00+08:00",
+  "api_endpoints": [
+    "GET /api/versions"
+  ],
+  "deliverables": [
+    "versions.hbs 页面 ✅",
+    "版本时间线组件 ✅"
+  ]
+}

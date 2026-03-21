@@ -1,0 +1,461 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900">
+  <defs>
+    <!-- 阴影 -->
+    <filter id="shadow-sm" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="#000" flood-opacity="0.05"/>
+    </filter>
+    <filter id="shadow-md" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.1"/>
+    </filter>
+    <filter id="shadow-lg" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="15" flood-color="#000" flood-opacity="0.15"/>
+    </filter>
+    
+    <!-- 渐变 -->
+    <linearGradient id="sidebar-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <linearGradient id="progress-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+    
+    <!-- 网格图案 -->
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#E2E8F0" stroke-width="0.5" opacity="0.5"/>
+    </pattern>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect width="1400" height="900" fill="#F8FAFC"/>
+  
+  <!-- ==================== 侧边栏 ==================== -->
+  <g id="sidebar">
+    <rect width="260" height="900" fill="url(#sidebar-grad)" filter="url(#shadow-md)"/>
+    
+    <!-- Logo 区域 -->
+    <g transform="translate(20, 20)">
+      <rect width="220" height="50" rx="8" fill="#3B82F6" filter="url(#shadow-sm)"/>
+      <g transform="translate(12, 9)">
+        <!-- Logo 图标 -->
+        <rect x="0" y="0" width="14" height="14" rx="2" fill="white" opacity="0.9"/>
+        <rect x="18" y="18" width="14" height="14" rx="2" fill="white" opacity="0.7"/>
+        <rect x="9" y="9" width="14" height="14" rx="2" fill="white" opacity="0.85"/>
+      </g>
+      <text x="70" y="32" font-family="Inter, sans-serif" font-size="18" font-weight="700" fill="white">Dashboard</text>
+    </g>
+    
+    <!-- 菜单项 -->
+    <!-- Dashboard (active) -->
+    <g transform="translate(0, 90)" cursor="pointer">
+      <rect width="260" height="48" fill="#334155"/>
+      <rect x="0" y="0" width="4" height="48" fill="#60A5FA"/>
+      <circle cx="30" cy="24" r="12" fill="#60A5FA"/>
+      <text x="55" y="29" font-family="Inter, sans-serif" font-size="14" font-weight="500" fill="white">Dashboard</text>
+    </g>
+    
+    <!-- 其他菜单项 -->
+    <g transform="translate(0, 138)" cursor="pointer">
+      <rect width="260" height="48" fill="transparent"/>
+      <rect x="0" y="0" width="4" height="48" fill="transparent"/>
+      <circle cx="30" cy="24" r="12" fill="#94A3B8"/>
+      <text x="55" y="29" font-family="Inter, sans-serif" font-size="14" fill="#CBD5E1">Projects</text>
+    </g>
+    
+    <g transform="translate(0, 186)" cursor="pointer">
+      <rect width="260" height="48" fill="transparent"/>
+      <circle cx="30" cy="24" r="12" fill="#94A3B8"/>
+      <text x="55" y="29" font-family="Inter, sans-serif" font-size="14" fill="#CBD5E1">Agents</text>
+    </g>
+    
+    <g transform="translate(0, 234)" cursor="pointer">
+      <rect width="260" height="48" fill="transparent"/>
+      <circle cx="30" cy="24" r="12" fill="#94A3B8"/>
+      <text x="55" y="29" font-family="Inter, sans-serif" font-size="14" fill="#CBD5E1">Tasks</text>
+    </g>
+    
+    <g transform="translate(0, 282)" cursor="pointer">
+      <rect width="260" height="48" fill="transparent"/>
+      <circle cx="30" cy="24" r="12" fill="#94A3B8"/>
+      <text x="55" y="29" font-family="Inter, sans-serif" font-size="14" fill="#CBD5E1">Versions</text>
+    </g>
+    
+    <g transform="translate(0, 330)" cursor="pointer">
+      <rect width="260" height="48" fill="transparent"/>
+      <circle cx="30" cy="24" r="12" fill="#94A3B8"/>
+      <text x="55" y="29" font-family="Inter, sans-serif" font-size="14" fill="#CBD5E1">Documents</text>
+    </g>
+    
+    <g transform="translate(0, 378)" cursor="pointer">
+      <rect width="260" height="48" fill="transparent"/>
+      <circle cx="30" cy="24" r="12" fill="#94A3B8"/>
+      <text x="55" y="29" font-family="Inter, sans-serif" font-size="14" fill="#CBD5E1">Bugs</text>
+    </g>
+    
+    <!-- 分隔线 -->
+    <line x1="20" y1="450" x2="240" y2="450" stroke="#334155" stroke-width="1"/>
+    
+    <!-- Settings -->
+    <g transform="translate(0, 470)" cursor="pointer">
+      <rect width="260" height="48" fill="transparent"/>
+      <circle cx="30" cy="24" r="12" fill="#94A3B8"/>
+      <text x="55" y="29" font-family="Inter, sans-serif" font-size="14" fill="#CBD5E1">Settings</text>
+    </g>
+    
+    <!-- Collapse 按钮 -->
+    <g transform="translate(20, 820)" cursor="pointer">
+      <rect width="220" height="40" rx="8" fill="#334155"/>
+      <text x="110" y="26" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#94A3B8">← Collapse Sidebar</text>
+    </g>
+    
+    <!-- 收缩状态预览（小图） -->
+    <g transform="translate(950, 700)">
+      <text x="0" y="0" font-family="Inter, sans-serif" font-size="11" fill="#64748B">收缩状态</text>
+      <g transform="translate(0, 15)">
+        <rect width="60" height="280" rx="8" fill="#1E293B" filter="url(#shadow-sm)"/>
+        <rect x="10" y="10" width="40" height="30" rx="6" fill="#3B82F6"/>
+        <circle cx="30" cy="70" r="10" fill="#60A5FA"/>
+        <circle cx="30" cy="110" r="10" fill="#94A3B8"/>
+        <circle cx="30" cy="150" r="10" fill="#94A3B8"/>
+        <circle cx="30" cy="190" r="10" fill="#94A3B8"/>
+        <circle cx="30" cy="230" r="10" fill="#94A3B8"/>
+      </g>
+    </g>
+  </g>
+  
+  <!-- ==================== 主内容区 ==================== -->
+  <g id="main-content" transform="translate(260, 0)">
+    
+    <!-- Header -->
+    <g id="header">
+      <rect width="1140" height="64" fill="white" filter="url(#shadow-sm)"/>
+      <text x="32" y="40" font-family="Inter, sans-serif" font-size="20" font-weight="600" fill="#0F172A">Dashboard</text>
+      
+      <!-- Header 按钮组 -->
+      <g transform="translate(980, 16)">
+        <rect width="36" height="32" rx="6" fill="#F1F5F9" stroke="#E2E8F0" cursor="pointer"/>
+        <text x="18" y="21" text-anchor="middle" font-size="14" fill="#64748B">🔄</text>
+        
+        <rect x="44" y="0" width="36" height="32" rx="6" fill="#F1F5F9" stroke="#E2E8F0" cursor="pointer"/>
+        <text x="62" y="21" text-anchor="middle" font-size="14" fill="#64748B">☀</text>
+        
+        <rect x="88" y="0" width="36" height="32" rx="6" fill="#F1F5F9" stroke="#E2E8F0" cursor="pointer"/>
+        <text x="106" y="21" text-anchor="middle" font-size="14" fill="#64748B">⚙</text>
+      </g>
+    </g>
+    
+    <!-- Stats Bar -->
+    <g id="stats-bar" transform="translate(32, 88)">
+      <!-- Stat Card 1 -->
+      <g filter="url(#shadow-sm)">
+        <rect width="255" height="88" rx="12" fill="white"/>
+        <text x="20" y="32" font-family="Inter, sans-serif" font-size="12" fill="#64748B">项目总数</text>
+        <text x="20" y="62" font-family="Inter, sans-serif" font-size="28" font-weight="700" fill="#0F172A">12</text>
+        <!-- Mini chart line -->
+        <path d="M160 50 Q180 45 200 52 T240 48" stroke="#3B82F6" stroke-width="2" fill="none" opacity="0.6"/>
+      </g>
+      
+      <!-- Stat Card 2 -->
+      <g transform="translate(275, 0)" filter="url(#shadow-sm)">
+        <rect width="255" height="88" rx="12" fill="white"/>
+        <text x="20" y="32" font-family="Inter, sans-serif" font-size="12" fill="#64748B">进行中</text>
+        <text x="20" y="62" font-family="Inter, sans-serif" font-size="28" font-weight="700" fill="#3B82F6">5</text>
+        <circle cx="200" cy="50" r="12" fill="#DBEAFE"/>
+        <text x="200" y="55" text-anchor="middle" font-size="12" fill="#3B82F6">+2</text>
+      </g>
+      
+      <!-- Stat Card 3 -->
+      <g transform="translate(550, 0)" filter="url(#shadow-sm)">
+        <rect width="255" height="88" rx="12" fill="white"/>
+        <text x="20" y="32" font-family="Inter, sans-serif" font-size="12" fill="#64748B">已完成</text>
+        <text x="20" y="62" font-family="Inter, sans-serif" font-size="28" font-weight="700" fill="#10B981">4</text>
+        <circle cx="200" cy="50" r="12" fill="#D1FAE5"/>
+        <text x="200" y="55" text-anchor="middle" font-size="12" fill="#10B981">✓</text>
+      </g>
+      
+      <!-- Stat Card 4 -->
+      <g transform="translate(825, 0)" filter="url(#shadow-sm)">
+        <rect width="255" height="88" rx="12" fill="white"/>
+        <text x="20" y="32" font-family="Inter, sans-serif" font-size="12" fill="#64748B">阻塞</text>
+        <text x="20" y="62" font-family="Inter, sans-serif" font-size="28" font-weight="700" fill="#EF4444">3</text>
+        <circle cx="200" cy="50" r="12" fill="#FEE2E2"/>
+        <text x="200" y="55" text-anchor="middle" font-size="12" fill="#EF4444">⚠</text>
+      </g>
+    </g>
+    
+    <!-- Filter Bar -->
+    <g id="filter-bar" transform="translate(32, 196)">
+      <rect width="300" height="40" rx="8" fill="white" stroke="#E2E8F0" filter="url(#shadow-sm)"/>
+      <text x="16" y="26" font-family="Inter, sans-serif" font-size="14" fill="#94A3B8">🔍 搜索项目...</text>
+      
+      <!-- Filter Chips -->
+      <g transform="translate(320, 0)">
+        <rect width="60" height="40" rx="8" fill="#3B82F6"/>
+        <text x="30" y="26" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="500" fill="white">全部</text>
+      </g>
+      <g transform="translate(390, 0)">
+        <rect width="72" height="40" rx="8" fill="white" stroke="#E2E8F0"/>
+        <text x="36" y="26" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#64748B">进行中</text>
+      </g>
+      <g transform="translate(472, 0)">
+        <rect width="60" height="40" rx="8" fill="white" stroke="#E2E8F0"/>
+        <text x="30" y="26" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#64748B">已完成</text>
+      </g>
+      <g transform="translate(542, 0)">
+        <rect width="60" height="40" rx="8" fill="white" stroke="#E2E8F0"/>
+        <text x="30" y="26" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#64748B">阻塞</text>
+      </g>
+      
+      <!-- Path Filter Dropdown -->
+      <g transform="translate(900, 0)" cursor="pointer">
+        <rect width="120" height="40" rx="8" fill="white" stroke="#E2E8F0"/>
+        <text x="16" y="26" font-family="Inter, sans-serif" font-size="12" fill="#64748B">路径 ▼</text>
+      </g>
+    </g>
+    
+    <!-- Project Cards Grid -->
+    <g id="project-cards" transform="translate(32, 256)">
+      <!-- Card 1 -->
+      <g transform="translate(0, 0)" filter="url(#shadow-md)" cursor="pointer">
+        <rect width="340" height="180" rx="12" fill="white"/>
+        
+        <!-- Path Tag -->
+        <rect x="16" y="16" width="56" height="22" rx="4" fill="#3B82F6"/>
+        <text x="44" y="31" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="500" fill="white">主项目</text>
+        
+        <!-- Project Name -->
+        <text x="16" y="62" font-family="Inter, sans-serif" font-size="18" font-weight="600" fill="#0F172A">char-counter</text>
+        
+        <!-- Phase -->
+        <text x="16" y="82" font-family="Inter, sans-serif" font-size="12" fill="#64748B">Phase 3 - 开发</text>
+        
+        <!-- Progress Bar -->
+        <rect x="16" y="96" width="308" height="8" rx="4" fill="#E2E8F0"/>
+        <rect x="16" y="96" width="246" height="8" rx="4" fill="url(#progress-grad)"/>
+        
+        <!-- Stats Row -->
+        <g transform="translate(16, 116)">
+          <text x="0" y="16" font-family="Inter, sans-serif" font-size="14" fill="#64748B">80%</text>
+          
+          <circle cx="80" cy="10" r="8" fill="#10B981"/>
+          <text x="94" y="16" font-family="Inter, sans-serif" font-size="12" fill="#64748B">正常</text>
+          
+          <text x="160" y="16" font-family="Inter, sans-serif" font-size="12" fill="#94A3B8">8/12 tasks</text>
+        </g>
+      </g>
+      
+      <!-- Card 2 -->
+      <g transform="translate(360, 0)" filter="url(#shadow-md)" cursor="pointer">
+        <rect width="340" height="180" rx="12" fill="white"/>
+        
+        <rect x="16" y="16" width="56" height="22" rx="4" fill="#10B981"/>
+        <text x="44" y="31" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="500" fill="white">副项目</text>
+        
+        <text x="16" y="62" font-family="Inter, sans-serif" font-size="18" font-weight="600" fill="#0F172A">web-server</text>
+        <text x="16" y="82" font-family="Inter, sans-serif" font-size="12" fill="#64748B">Phase 5 - 测试</text>
+        
+        <rect x="16" y="96" width="308" height="8" rx="4" fill="#E2E8F0"/>
+        <rect x="16" y="96" width="308" height="8" rx="4" fill="#10B981"/>
+        
+        <g transform="translate(16, 116)">
+          <text x="0" y="16" font-family="Inter, sans-serif" font-size="14" fill="#64748B">100%</text>
+          
+          <circle cx="80" cy="10" r="8" fill="#64748B"/>
+          <text x="94" y="16" font-family="Inter, sans-serif" font-size="12" fill="#64748B">完成</text>
+          
+          <text x="160" y="16" font-family="Inter, sans-serif" font-size="12" fill="#94A3B8">12/12 tasks</text>
+        </g>
+      </g>
+      
+      <!-- Card 3 -->
+      <g transform="translate(720, 0)" filter="url(#shadow-md)" cursor="pointer">
+        <rect width="340" height="180" rx="12" fill="white"/>
+        
+        <rect x="16" y="16" width="56" height="22" rx="4" fill="#F59E0B"/>
+        <text x="44" y="31" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="500" fill="white">实验</text>
+        
+        <text x="16" y="62" font-family="Inter, sans-serif" font-size="18" font-weight="600" fill="#0F172A">ai-agent</text>
+        <text x="16" y="82" font-family="Inter, sans-serif" font-size="12" fill="#64748B">Phase 1 - 需求</text>
+        
+        <rect x="16" y="96" width="308" height="8" rx="4" fill="#E2E8F0"/>
+        <rect x="16" y="96" width="92" height="8" rx="4" fill="#F59E0B"/>
+        
+        <g transform="translate(16, 116)">
+          <text x="0" y="16" font-family="Inter, sans-serif" font-size="14" fill="#64748B">30%</text>
+          
+          <circle cx="80" cy="10" r="8" fill="#F59E0B"/>
+          <text x="94" y="16" font-family="Inter, sans-serif" font-size="12" fill="#64748B">警告</text>
+          
+          <text x="160" y="16" font-family="Inter, sans-serif" font-size="12" fill="#94A3B8">3/10 tasks</text>
+        </g>
+      </g>
+      
+      <!-- Card 4 (Blocked) -->
+      <g transform="translate(0, 200)" filter="url(#shadow-md)" cursor="pointer">
+        <rect width="340" height="180" rx="12" fill="white"/>
+        
+        <rect x="16" y="16" width="56" height="22" rx="4" fill="#8B5CF6"/>
+        <text x="44" y="31" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="500" fill="white">其他</text>
+        
+        <text x="16" y="62" font-family="Inter, sans-serif" font-size="18" font-weight="600" fill="#0F172A">data-processor</text>
+        <text x="16" y="82" font-family="Inter, sans-serif" font-size="12" fill="#64748B">Phase 2 - 设计</text>
+        
+        <rect x="16" y="96" width="308" height="8" rx="4" fill="#E2E8F0"/>
+        <rect x="16" y="96" width="120" height="8" rx="4" fill="#EF4444"/>
+        
+        <g transform="translate(16, 116)">
+          <text x="0" y="16" font-family="Inter, sans-serif" font-size="14" fill="#64748B">45%</text>
+          
+          <circle cx="80" cy="10" r="8" fill="#EF4444"/>
+          <text x="94" y="16" font-family="Inter, sans-serif" font-size="12" fill="#64748B">阻塞</text>
+          
+          <text x="160" y="16" font-family="Inter, sans-serif" font-size="12" fill="#94A3B8">5/11 tasks</text>
+        </g>
+      </g>
+      
+      <!-- Card 5 -->
+      <g transform="translate(360, 200)" filter="url(#shadow-md)" cursor="pointer">
+        <rect width="340" height="180" rx="12" fill="white"/>
+        
+        <rect x="16" y="16" width="56" height="22" rx="4" fill="#3B82F6"/>
+        <text x="44" y="31" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="500" fill="white">主项目</text>
+        
+        <text x="16" y="62" font-family="Inter, sans-serif" font-size="18" font-weight="600" fill="#0F172A">cli-tool</text>
+        <text x="16" y="82" font-family="Inter, sans-serif" font-size="12" fill="#64748B">Phase 4 - 部署</text>
+        
+        <rect x="16" y="96" width="308" height="8" rx="4" fill="#E2E8F0"/>
+        <rect x="16" y="96" width="277" height="8" rx="4" fill="url(#progress-grad)"/>
+        
+        <g transform="translate(16, 116)">
+          <text x="0" y="16" font-family="Inter, sans-serif" font-size="14" fill="#64748B">90%</text>
+          
+          <circle cx="80" cy="10" r="8" fill="#3B82F6"/>
+          <text x="94" y="16" font-family="Inter, sans-serif" font-size="12" fill="#64748B">进行中</text>
+          
+          <text x="160" y="16" font-family="Inter, sans-serif" font-size="12" fill="#94A3B8">9/10 tasks</text>
+        </g>
+      </g>
+      
+      <!-- Card 6 -->
+      <g transform="translate(720, 200)" filter="url(#shadow-md)" cursor="pointer">
+        <rect width="340" height="180" rx="12" fill="white"/>
+        
+        <rect x="16" y="16" width="56" height="22" rx="4" fill="#10B981"/>
+        <text x="44" y="31" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="500" fill="white">副项目</text>
+        
+        <text x="16" y="62" font-family="Inter, sans-serif" font-size="18" font-weight="600" fill="#0F172A">api-gateway</text>
+        <text x="16" y="82" font-family="Inter, sans-serif" font-size="12" fill="#64748B">Phase 3 - 开发</text>
+        
+        <rect x="16" y="96" width="308" height="8" rx="4" fill="#E2E8F0"/>
+        <rect x="16" y="96" width="185" height="8" rx="4" fill="url(#progress-grad)"/>
+        
+        <g transform="translate(16, 116)">
+          <text x="0" y="16" font-family="Inter, sans-serif" font-size="14" fill="#64748B">60%</text>
+          
+          <circle cx="80" cy="10" r="8" fill="#3B82F6"/>
+          <text x="94" y="16" font-family="Inter, sans-serif" font-size="12" fill="#64748B">进行中</text>
+          
+          <text x="160" y="16" font-family="Inter, sans-serif" font-size="12" fill="#94A3B8">6/10 tasks</text>
+        </g>
+      </g>
+    </g>
+    
+    <!-- Charts Section -->
+    <g id="charts-section" transform="translate(32, 660)">
+      <!-- Phase Distribution Chart -->
+      <g filter="url(#shadow-sm)">
+        <rect width="540" height="220" rx="12" fill="white"/>
+        <text x="20" y="32" font-family="Inter, sans-serif" font-size="16" font-weight="600" fill="#0F172A">Phase 分布</text>
+        
+        <!-- Bar Chart -->
+        <g transform="translate(20, 50)">
+          <!-- Y axis labels -->
+          <text x="-8" y="10" text-anchor="end" font-size="10" fill="#94A3B8">8</text>
+          <text x="-8" y="60" text-anchor="end" font-size="10" fill="#94A3B8">4</text>
+          <text x="-8" y="110" text-anchor="end" font-size="10" fill="#94A3B8">0</text>
+          
+          <!-- Grid lines -->
+          <line x1="0" y1="8" x2="500" y2="8" stroke="#E2E8F0" stroke-width="1"/>
+          <line x1="0" y1="58" x2="500" y2="58" stroke="#E2E8F0" stroke-width="1"/>
+          <line x1="0" y1="108" x2="500" y2="108" stroke="#E2E8F0" stroke-width="1"/>
+          
+          <!-- Bars -->
+          <rect x="20" y="83" width="40" height="25" rx="4" fill="#3B82F6"/>
+          <rect x="80" y="58" width="40" height="50" rx="4" fill="#3B82F6"/>
+          <rect x="140" y="33" width="40" height="75" rx="4" fill="#3B82F6"/>
+          <rect x="200" y="8" width="40" height="100" rx="4" fill="#10B981"/>
+          <rect x="260" y="58" width="40" height="50" rx="4" fill="#F59E0B"/>
+          <rect x="320" y="83" width="40" height="25" rx="4" fill="#8B5CF6"/>
+          <rect x="380" y="108" width="40" height="0" rx="4" fill="#64748B"/>
+          <rect x="440" y="108" width="40" height="0" rx="4" fill="#64748B"/>
+          
+          <!-- X axis labels -->
+          <text x="40" y="125" text-anchor="middle" font-size="10" fill="#64748B">P0</text>
+          <text x="100" y="125" text-anchor="middle" font-size="10" fill="#64748B">P1</text>
+          <text x="160" y="125" text-anchor="middle" font-size="10" fill="#64748B">P2</text>
+          <text x="220" y="125" text-anchor="middle" font-size="10" fill="#64748B">P3</text>
+          <text x="280" y="125" text-anchor="middle" font-size="10" fill="#64748B">P4</text>
+          <text x="340" y="125" text-anchor="middle" font-size="10" fill="#64748B">P5</text>
+          <text x="400" y="125" text-anchor="middle" font-size="10" fill="#64748B">P6</text>
+          <text x="460" y="125" text-anchor="middle" font-size="10" fill="#64748B">P7</text>
+        </g>
+      </g>
+      
+      <!-- Bug Stats Chart -->
+      <g transform="translate(580, 0)" filter="url(#shadow-sm)">
+        <rect width="540" height="220" rx="12" fill="white"/>
+        <text x="20" y="32" font-family="Inter, sans-serif" font-size="16" font-weight="600" fill="#0F172A">Bug 统计</text>
+        
+        <!-- Donut Chart -->
+        <g transform="translate(120, 110)">
+          <circle cx="0" cy="0" r="60" fill="none" stroke="#E2E8F0" stroke-width="20"/>
+          <circle cx="0" cy="0" r="60" fill="none" stroke="#10B981" stroke-width="20" stroke-dasharray="226 377" transform="rotate(-90)"/>
+          <circle cx="0" cy="0" r="60" fill="none" stroke="#F59E0B" stroke-width="20" stroke-dasharray="75 502" stroke-dashoffset="-226" transform="rotate(-90)"/>
+          <circle cx="0" cy="0" r="60" fill="none" stroke="#EF4444" stroke-width="20" stroke-dasharray="75 502" stroke-dashoffset="-301" transform="rotate(-90)"/>
+          
+          <!-- Center text -->
+          <text x="0" y="-5" text-anchor="middle" font-family="Inter, sans-serif" font-size="24" font-weight="700" fill="#0F172A">67%</text>
+          <text x="0" y="15" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#64748B">修复率</text>
+        </g>
+        
+        <!-- Legend -->
+        <g transform="translate(260, 60)">
+          <rect width="12" height="12" rx="2" fill="#10B981"/>
+          <text x="20" y="10" font-family="Inter, sans-serif" font-size="12" fill="#0F172A">已修复 8</text>
+          
+          <rect y="30" width="12" height="12" rx="2" fill="#F59E0B"/>
+          <text x="20" y="40" font-family="Inter, sans-serif" font-size="12" fill="#0F172A">进行中 2</text>
+          
+          <rect y="60" width="12" height="12" rx="2" fill="#EF4444"/>
+          <text x="20" y="70" font-family="Inter, sans-serif" font-size="12" fill="#0F172A">未修复 2</text>
+          
+          <rect y="90" width="12" height="12" rx="2" fill="#E2E8F0"/>
+          <text x="20" y="100" font-family="Inter, sans-serif" font-size="12" fill="#64748B">总数 12</text>
+        </g>
+      </g>
+    </g>
+  </g>
+  
+  <!-- ==================== 设计标注 ==================== -->
+  <g transform="translate(1160, 0)">
+    <rect width="240" height="900" fill="#FFF7ED" stroke="#FED7AA"/>
+    
+    <text x="16" y="32" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#9A3412">📐 设计标注</text>
+    
+    <g transform="translate(16, 50)">
+      <text font-family="Inter, sans-serif" font-size="11" fill="#7C2D12">
+        <tspan x="0" dy="0">侧边栏宽度: 260px</tspan>
+        <tspan x="0" dy="16">收缩后: 60px</tspan>
+        <tspan x="0" dy="16">Header 高度: 64px</tspan>
+        <tspan x="0" dy="16">卡片圆角: 12px</tspan>
+        <tspan x="0" dy="16">间距系统: 8px 网格</tspan>
+        <tspan x="0" dy="16">阴影: 0 4px 6px</tspan>
+      </text>
+    </g>
+    
+    <line x1="0" y1="180" x2="240" y2="180" stroke="#FED7AA" stroke-width="1"/>
+    
+    <text x="16" y="204" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#9A3412">颜色规范</text>
+    <g transform="translate(16, 220)">
+      <rect width="

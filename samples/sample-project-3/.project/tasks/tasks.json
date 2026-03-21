@@ -1,0 +1,47 @@
+[
+  {
+    "id": "TASK-201",
+    "title": "需求分析",
+    "type": "other",
+    "status": "done",
+    "assignee": "PM",
+    "created_at": "2026-03-17T10:00:00Z",
+    "due": "2026-03-18T18:00:00Z"
+  },
+  {
+    "id": "TASK-202",
+    "title": "技术方案设计",
+    "type": "dev",
+    "status": "in_progress",
+    "assignee": "Engineer",
+    "created_at": "2026-03-18T10:00:00Z",
+    "due": "2026-03-20T18:00:00Z"
+  },
+  {
+    "id": "TASK-203",
+    "title": "UI 设计",
+    "type": "art",
+    "status": "waiting",
+    "assignee": "Art",
+    "created_at": "2026-03-18T10:00:00Z",
+    "due": "2026-03-22T18:00:00Z"
+  },
+  {
+    "id": "TASK-204",
+    "title": "数据库设计",
+    "type": "dev",
+    "status": "waiting",
+    "assignee": "Engineer",
+    "created_at": "2026-03-18T10:00:00Z",
+    "due": "2026-03-21T18:00:00Z"
+  },
+  {
+    "id": "TASK-205",
+    "title": "测试计划",
+    "type": "test",
+    "status": "waiting",
+    "assignee": "QA",
+    "created_at": "2026-03-18T10:00:00Z",
+    "due": "2026-03-22T18:00:00Z"
+  }
+]

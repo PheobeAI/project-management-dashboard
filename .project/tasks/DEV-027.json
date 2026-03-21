@@ -1,0 +1,45 @@
+{
+  "id": "DEV-027",
+  "title": "接入正式美术资产",
+  "type": "feature",
+  "description": "将所有占位资产替换为正式美术资产。",
+  "assignee": "Engineer",
+  "status": "done",
+  "priority": "P0",
+  "art_dependency": "none",
+  "estimated_hours": 3,
+  "completed_at": "2026-03-21T14:55:00+08:00",
+  "art_assets": {
+    "css": [
+      "assets/css/variables.css",
+      "assets/css/components.css",
+      "assets/css/animations.css"
+    ],
+    "icons": "assets/icons/*.svg",
+    "charts": [
+      "assets/js/charts-phase-config.js",
+      "assets/js/charts-bug-config.js"
+    ]
+  },
+  "integration_status": {
+    "css_variables": "done",
+    "svg_icons_nav": "done",
+    "svg_icons_agent": "done",
+    "svg_icons_status": "done",
+    "chart_configs": "done",
+    "animations": "done"
+  },
+  "deliverables": [
+    "CSS 变量完全集成 ✅",
+    "SVG 图标替换占位符 ✅",
+    "动画规范应用到组件 ✅",
+    "图表配置应用到所有页面 ✅"
+  ],
+  "files_modified": [
+    "layout.hbs - 导航 SVG 图标",
+    "sidebar.css - 图标样式",
+    "agents.hbs - Agent SVG 图标",
+    "tasks.hbs - 状态和类型 SVG 图标",
+    "bugs.hbs - Bug 图表配置"
+  ]
+}

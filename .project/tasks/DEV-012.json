@@ -1,0 +1,21 @@
+{
+  "id": "DEV-012",
+  "title": "GitHub 版本管理",
+  "type": "dev",
+  "description": "实现 GitHub 版本管理功能：使用 simple-git 实现自动提交 .project 目录，包括 status.json、tasks/、reviews/ 等文件。",
+  "assignee": "Engineer",
+  "status": "done",
+  "priority": "P0",
+  "dependencies": ["DEV-001"],
+  "estimated_hours": 4,
+  "actual_hours": 3,
+  "estimated_started": "2026-03-20T12:52:00+08:00",
+  "completed_at": "2026-03-20T13:30:00+08:00",
+  "deliverables": [
+    "GitHub 服务 (GitHubService.js)",
+    "GitHub API 路由",
+    "GitHub 设置面板",
+    "提交历史查看",
+    "推送/拉取功能"
+  ]
+}

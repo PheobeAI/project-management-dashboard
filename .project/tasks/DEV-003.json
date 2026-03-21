@@ -1,0 +1,23 @@
+{
+  "id": "DEV-003",
+  "title": "F2 项目详情视图",
+  "type": "dev",
+  "description": "实现项目详情页：点击项目卡片进入详情页，显示完整项目信息、所属路径、阶段等。",
+  "assignee": "Engineer",
+  "status": "done",
+  "priority": "P0",
+  "dependencies": ["DEV-002"],
+  "estimated_hours": 2,
+  "actual_hours": 1.5,
+  "estimated_started": "2026-03-20T13:00:00+08:00",
+  "completed_at": "2026-03-20T13:30:00+08:00",
+  "deliverables": [
+    "详情页路由",
+    "详情页模板",
+    "项目基本信息展示",
+    "返回导航",
+    "Agent 状态展示",
+    "任务列表展示",
+    "测试结果展示"
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "id": "DEV-019",
+  "title": "Phase 6 任务拆分",
+  "type": "phase",
+  "description": "Phase 6 任务拆分完成。包含 7 个页面开发任务。",
+  "assignee": "Engineer",
+  "status": "done",
+  "priority": "P0",
+  "completed_at": "2026-03-21T12:40:00+08:00",
+  "tasks": [
+    {
+      "id": "DEV-020",
+      "title": "Dashboard 页面调整",
+      "priority": "P0",
+      "hours": 2,
+      "status": "todo"
+    },
+    {
+      "id": "DEV-021",
+      "title": "Agents 页面开发",
+      "priority": "P0",
+      "hours": 2.5,
+      "status": "todo"
+    },
+    {
+      "id": "DEV-022",
+      "title": "Tasks 页面开发",
+      "priority": "P1",
+      "hours": 2.5,
+      "status": "todo"
+    },
+    {
+      "id": "DEV-023",
+      "title": "Versions 页面开发",
+      "priority": "P1",
+      "hours": 3,
+      "status": "todo"
+    },
+    {
+      "id": "DEV-024",
+      "title": "Documents 页面开发",
+      "priority": "P2",
+      "hours": 5,
+      "status": "todo"
+    },
+    {
+      "id": "DEV-025",
+      "title": "Bugs 页面开发",
+      "priority": "P0",
+      "hours": 2.5,
+      "status": "todo"
+    },
+    {
+      "id": "DEV-026",
+      "title": "Settings 页面完善",
+      "priority": "P2",
+      "hours": 1.5,
+      "status": "todo"
+    }
+  ],
+  "summary": {
+    "total_tasks": 7,
+    "total_hours": 19,
+    "p0_count": 3,
+    "p1_count": 2,
+    "p2_count": 2
+  }
+}

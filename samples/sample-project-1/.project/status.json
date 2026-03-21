@@ -1,0 +1,16 @@
+{
+  "project_name": "char-counter",
+  "phase": 3,
+  "waiting_for": {
+    "agent": "Engineer",
+    "action": "implement_feature"
+  },
+  "since": "2026-03-20T08:00:00+08:00",
+  "tasks_summary": {
+    "total": 10,
+    "done": 8,
+    "waiting": 1,
+    "in_progress": 1
+  },
+  "lastUpdated": "2026-03-20T12:00:00+08:00"
+}

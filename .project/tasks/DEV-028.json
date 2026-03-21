@@ -1,0 +1,17 @@
+{
+  "id": "DEV-028",
+  "title": "Log 页面开发",
+  "type": "feature",
+  "description": "实现 Log 页面，显示系统异常日志、健康状态统计、日志列表按严重程度分组。",
+  "assignee": "Engineer",
+  "status": "done",
+  "priority": "P0",
+  "art_dependency": "none",
+  "estimated_hours": 3,
+  "completed_at": "2026-03-21T16:30:00+08:00",
+  "deliverables": [
+    "log.hbs 页面 ✅",
+    "健康状态统计栏 ✅",
+    "日志列表按严重程度分组 ✅"
+  ]
+}

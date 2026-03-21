@@ -1,0 +1,216 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900">
+  <defs>
+    <filter id="shadow-sm" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#000" flood-opacity="0.08"/>
+    </filter>
+    <filter id="shadow-md" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.1"/>
+    </filter>
+    <filter id="shadow-lg" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="15" flood-color="#000" flood-opacity="0.15"/>
+    </filter>
+    <linearGradient id="progress-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect width="1200" height="900" fill="#F8FAFC"/>
+  
+  <!-- ==================== Header ==================== -->
+  <g id="header">
+    <rect width="1200" height="64" fill="white" filter="url(#shadow-sm)"/>
+    <text x="32" y="40" font-family="Inter, sans-serif" font-size="20" font-weight="600" fill="#0F172A">Bugs</text>
+    <g transform="translate(900, 16)">
+      <rect width="80" height="32" rx="6" fill="#F1F5F9" stroke="#E2E8F0"/>
+      <text x="15" y="21" font-family="Inter, sans-serif" font-size="12" fill="#64748B">状态 ▼</text>
+      <rect x="90" y="0" width="80" height="32" rx="6" fill="#F1F5F9" stroke="#E2E8F0"/>
+      <text x="105" y="21" font-family="Inter, sans-serif" font-size="12" fill="#64748B">严重 ▼</text>
+    </g>
+  </g>
+  
+  <!-- ==================== Bug 统计卡片 ==================== -->
+  <g id="bug-stats" transform="translate(32, 88)">
+    <!-- 总数 -->
+    <g filter="url(#shadow-sm)">
+      <rect width="260" height="100" rx="12" fill="white"/>
+      <text x="20" y="30" font-family="Inter, sans-serif" font-size="12" fill="#64748B">总 Bug</text>
+      <text x="20" y="65" font-family="Inter, sans-serif" font-size="32" font-weight="700" fill="#0F172A">12</text>
+      <rect x="20" y="78" width="220" height="6" rx="3" fill="#E2E8F0"/>
+      <rect x="20" y="78" width="220" height="6" rx="3" fill="#3B82F6"/>
+    </g>
+    
+    <!-- 已修复 -->
+    <g transform="translate(280, 0)" filter="url(#shadow-sm)">
+      <rect width="260" height="100" rx="12" fill="white"/>
+      <text x="20" y="30" font-family="Inter, sans-serif" font-size="12" fill="#64748B">已修复</text>
+      <text x="20" y="65" font-family="Inter, sans-serif" font-size="32" font-weight="700" fill="#10B981">8</text>
+      <rect x="20" y="78" width="220" height="6" rx="3" fill="#E2E8F0"/>
+      <rect x="20" y="78" width="147" height="6" rx="3" fill="#10B981"/>
+    </g>
+    
+    <!-- 未修复 -->
+    <g transform="translate(560, 0)" filter="url(#shadow-sm)">
+      <rect width="260" height="100" rx="12" fill="white"/>
+      <text x="20" y="30" font-family="Inter, sans-serif" font-size="12" fill="#64748B">未修复</text>
+      <text x="20" y="65" font-family="Inter, sans-serif" font-size="32" font-weight="700" fill="#EF4444">4</text>
+      <rect x="20" y="78" width="220" height="6" rx="3" fill="#E2E8F0"/>
+      <rect x="20" y="78" width="73" height="6" rx="3" fill="#EF4444"/>
+    </g>
+    
+    <!-- 修复率 -->
+    <g transform="translate(840, 0)" filter="url(#shadow-sm)">
+      <rect width="260" height="100" rx="12" fill="white"/>
+      <text x="20" y="30" font-family="Inter, sans-serif" font-size="12" fill="#64748B">修复率</text>
+      <text x="20" y="65" font-family="Inter, sans-serif" font-size="32" font-weight="700" fill="#0F172A">67%</text>
+      <rect x="20" y="78" width="220" height="6" rx="3" fill="#E2E8F0"/>
+      <rect x="20" y="78" width="147" height="6" rx="3" fill="url(#progress-grad)"/>
+    </g>
+  </g>
+  
+  <!-- ==================== Bug 趋势图 ==================== -->
+  <g id="bug-trend" transform="translate(32, 210)">
+    <rect width="1136" height="200" rx="12" fill="white" filter="url(#shadow-sm)"/>
+    <text x="20" y="32" font-family="Inter, sans-serif" font-size="16" font-weight="600" fill="#0F172A">Bug 趋势</text>
+    
+    <!-- 趋势图表 -->
+    <g transform="translate(40, 60)">
+      <!-- Y 轴 -->
+      <line x1="0" y1="0" x2="0" y2="100" stroke="#E2E8F0" stroke-width="1"/>
+      <!-- X 轴 -->
+      <line x1="0" y1="100" x2="1056" y2="100" stroke="#E2E8F0" stroke-width="1"/>
+      
+      <!-- Y 轴标签 -->
+      <text x="-10" y="5" text-anchor="end" font-size="10" fill="#94A3B8">15</text>
+      <text x="-10" y="55" text-anchor="end" font-size="10" fill="#94A3B8">7</text>
+      <text x="-10" y="105" text-anchor="end" font-size="10" fill="#94A3B8">0</text>
+      
+      <!-- 网格线 -->
+      <line x1="0" y1="0" x2="1056" y2="0" stroke="#F1F5F9" stroke-width="1"/>
+      <line x1="0" y1="55" x2="1056" y2="55" stroke="#F1F5F9" stroke-width="1"/>
+      
+      <!-- 趋势线 -->
+      <path d="M0 90 
+               Q176 85 352 70 
+               T704 35 
+               T1056 15" 
+            stroke="#3B82F6" stroke-width="3" fill="none" stroke-linecap="round"/>
+            
+      <!-- 数据点 -->
+      <circle cx="0" cy="90" r="5" fill="#3B82F6"/>
+      <circle cx="176" cy="78" r="5" fill="#3B82F6"/>
+      <circle cx="352" cy="70" r="5" fill="#3B82F6"/>
+      <circle cx="528" cy="55" r="5" fill="#3B82F6"/>
+      <circle cx="704" cy="35" r="5" fill="#3B82F6"/>
+      <circle cx="880" cy="25" r="5" fill="#3B82F6"/>
+      <circle cx="1056" cy="15" r="5" fill="#10B981"/>
+      
+      <!-- X 轴标签 -->
+      <text x="0" y="120" text-anchor="middle" font-size="10" fill="#64748B">3/15</text>
+      <text x="352" y="120" text-anchor="middle" font-size="10" fill="#64748B">3/17</text>
+      <text x="704" y="120" text-anchor="middle" font-size="10" fill="#64748B">3/19</text>
+      <text x="1056" y="120" text-anchor="middle" font-size="10" fill="#64748B">3/21</text>
+    </g>
+  </g>
+  
+  <!-- ==================== Bug 列表 ==================== -->
+  <g id="bug-list" transform="translate(32, 430)">
+    <!-- High Priority Section -->
+    <text x="0" y="0" font-family="Inter, sans-serif" font-size="16" font-weight="600" fill="#0F172A">🔴 High Priority (2)</text>
+    
+    <g transform="translate(0, 20)" filter="url(#shadow-sm)">
+      <rect width="1136" height="160" rx="12" fill="white"/>
+      
+      <!-- 表头 -->
+      <rect width="1136" height="40" rx="12" fill="#F8FAFC"/>
+      <rect y="40" width="1136" height="1" fill="#E2E8F0"/>
+      <text x="24" y="26" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#64748B">状态</text>
+      <text x="100" y="26" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#64748B">Bug 标题</text>
+      <text x="500" y="26" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#64748B">严重程度</text>
+      <text x="650" y="26" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#64748B">负责人</text>
+      <text x="800" y="26" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#64748B">创建日期</text>
+      
+      <!-- Bug 1 -->
+      <g transform="translate(0, 48)">
+        <rect y="39" width="1136" height="1" fill="#F1F5F9"/>
+        
+        <circle cx="20" cy="20" r="8" fill="#EF4444"/>
+        <text x="100" y="26" font-family="Inter, sans-serif" font-size="14" fill="#0F172A">字符计数不准确</text>
+        
+        <rect x="500" y="8" width="60" height="24" rx="4" fill="#FEE2E2"/>
+        <text x="530" y="25" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="500" fill="#DC2626">High</text>
+        
+        <text x="650" y="26" font-family="Inter, sans-serif" font-size="14" fill="#64748B">Engineer</text>
+        <text x="800" y="26" font-family="Inter, sans-serif" font-size="14" fill="#64748B">2026-03-20</text>
+        
+        <rect x="950" y="8" width="72" height="24" rx="4" fill="#FEE2E2"/>
+        <text x="986" y="25" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="500" fill="#DC2626">未修复</text>
+      </g>
+      
+      <!-- Bug 2 -->
+      <g transform="translate(0, 88)">
+        <rect y="39" width="1136" height="1" fill="#F1F5F9"/>
+        
+        <circle cx="20" cy="20" r="8" fill="#F59E0B"/>
+        <text x="100" y="26" font-family="Inter, sans-serif" font-size="14" fill="#0F172A">进度条显示异常</text>
+        
+        <rect x="500" y="8" width="60" height="24" rx="4" fill="#FEF3C7"/>
+        <text x="530" y="25" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="500" fill="#D97706">Medium</text>
+        
+        <text x="650" y="26" font-family="Inter, sans-serif" font-size="14" fill="#64748B">Engineer</text>
+        <text x="800" y="26" font-family="Inter, sans-serif" font-size="14" fill="#64748B">2026-03-19</text>
+        
+        <rect x="950" y="8" width="72" height="24" rx="4" fill="#DBEAFE"/>
+        <text x="986" y="25" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="500" fill="#2563EB">进行中</text>
+      </g>
+    </g>
+    
+    <!-- Medium Priority Section -->
+    <text x="0" y="210" font-family="Inter, sans-serif" font-size="16" font-weight="600" fill="#0F172A">🟡 Medium Priority (1)</text>
+    
+    <g transform="translate(0, 230)" filter="url(#shadow-sm)">
+      <rect width="1136" height="80" rx="12" fill="white"/>
+      
+      <!-- 表头 -->
+      <rect width="1136" height="40" rx="12" fill="#F8FAFC"/>
+      <rect y="40" width="1136" height="1" fill="#E2E8F0"/>
+      <text x="24" y="26" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#64748B">状态</text>
+      <text x="100" y="26" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#64748B">Bug 标题</text>
+      <text x="500" y="26" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#64748B">严重程度</text>
+      <text x="650" y="26" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#64748B">负责人</text>
+      <text x="800" y="26" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#64748B">创建日期</text>
+      
+      <!-- Bug -->
+      <g transform="translate(0, 48)">
+        <circle cx="20" cy="16" r="8" fill="#10B981"/>
+        <text x="100" y="22" font-family="Inter, sans-serif" font-size="14" fill="#0F172A">界面闪烁问题</text>
+        
+        <rect x="500" y="4" width="60" height="24" rx="4" fill="#F1F5F9"/>
+        <text x="530" y="21" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="500" fill="#64748B">Low</text>
+        
+        <text x="650" y="22" font-family="Inter, sans-serif" font-size="14" fill="#64748B">Art</text>
+        <text x="800" y="22" font-family="Inter, sans-serif" font-size="14" fill="#64748B">2026-03-18</text>
+        
+        <rect x="950" y="4" width="72" height="24" rx="4" fill="#D1FAE5"/>
+        <text x="986" y="21" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="500" fill="#059669">已修复</text>
+      </g>
+    </g>
+  </g>
+  
+  <!-- ==================== 设计标注 ==================== -->
+  <g transform="translate(950, 20)">
+    <rect width="230" height="280" rx="8" fill="#FFF7ED" stroke="#FED7AA"/>
+    <text x="16" y="24" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#9A3412">📐 Bugs 页面设计要点</text>
+    <g transform="translate(16, 40)">
+      <text font-family="Inter, sans-serif" font-size="10" fill="#7C2D12">
+        <tspan x="0" dy="0">1. Bug 统计卡片：4列布局</tspan>
+        <tspan x="0" dy="14">2. 修复率进度条渐变</tspan>
+        <tspan x="0" dy="14">3. 趋势图数据点交互</tspan>
+        <tspan x="0" dy="14">4. 按严重程度分组显示</tspan>
+        <tspan x="0" dy="14">5. 状态标签颜色区分</tspan>
+        <tspan x="0" dy="14">6. 行悬停高亮效果</tspan>
+      </text>
+    </g>
+  </g>
+</svg>

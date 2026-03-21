@@ -1,0 +1,39 @@
+{
+  "reviews": [
+    {
+      "round": "v_1",
+      "role": "Designer",
+      "conclusion": "APPROVE",
+      "date": "2026-03-18",
+      "comments": "设计规范完整，可以开始开发"
+    },
+    {
+      "round": "v_1",
+      "role": "Engineer",
+      "conclusion": "APPROVE",
+      "date": "2026-03-18",
+      "comments": "技术方案可行"
+    },
+    {
+      "round": "v_1",
+      "role": "QA",
+      "conclusion": "APPROVE",
+      "date": "2026-03-18",
+      "comments": "功能需求清晰"
+    },
+    {
+      "round": "v_2",
+      "role": "Boss",
+      "conclusion": "NEEDS_REVISION",
+      "date": "2026-03-19",
+      "comments": "需要增加 F10/F11/F12 功能"
+    },
+    {
+      "round": "v_2",
+      "role": "Designer",
+      "conclusion": "APPROVE",
+      "date": "2026-03-20",
+      "comments": "新增功能设计完成"
+    }
+  ]
+}

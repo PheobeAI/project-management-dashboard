@@ -1,0 +1,16 @@
+{
+  "id": "DEV-006",
+  "title": "F5 Agent 工作状态",
+  "type": "dev",
+  "description": "实现 Agent 状态展示：从 status.json 读取 waiting_for 字段，显示当前等待哪个 Agent 处理，计算等待时长。",
+  "assignee": "Engineer",
+  "status": "todo",
+  "priority": "P1",
+  "dependencies": ["DEV-003"],
+  "estimated_hours": 1.5,
+  "deliverables": [
+    "Agent 状态解析",
+    "等待时长计算",
+    "Agent 状态展示组件"
+  ]
+}

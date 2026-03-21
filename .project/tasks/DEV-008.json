@@ -1,0 +1,21 @@
+{
+  "id": "DEV-008",
+  "title": "F7 自动刷新",
+  "type": "dev",
+  "description": "实现数据自动刷新：手动刷新按钮、自动刷新间隔设置（30秒/1分钟/5分钟/关闭）、刷新时加载动画。",
+  "assignee": "Engineer",
+  "status": "done",
+  "priority": "P1",
+  "dependencies": ["DEV-002"],
+  "estimated_hours": 1.5,
+  "actual_hours": 1.5,
+  "estimated_started": "2026-03-20T14:00:00+08:00",
+  "completed_at": "2026-03-20T14:30:00+08:00",
+  "deliverables": [
+    "手动刷新功能",
+    "自动刷新定时器",
+    "刷新间隔设置",
+    "加载动画",
+    "设置页设置管理"
+  ]
+}

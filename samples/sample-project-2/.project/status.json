@@ -1,0 +1,16 @@
+{
+  "project_name": "pdf-password-cracker",
+  "phase": 5,
+  "waiting_for": {
+    "agent": "QA",
+    "action": "test_review"
+  },
+  "since": "2026-03-19T10:00:00+08:00",
+  "tasks_summary": {
+    "total": 8,
+    "done": 5,
+    "waiting": 0,
+    "in_progress": 3
+  },
+  "lastUpdated": "2026-03-20T11:00:00+08:00"
+}

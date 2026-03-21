@@ -1,0 +1,11 @@
+{
+  "bugs": [
+    {
+      "id": "BUG-003",
+      "title": "进度条显示不正确",
+      "severity": "major",
+      "status": "open",
+      "created_at": "2026-03-18T14:00:00Z"
+    }
+  ]
+}

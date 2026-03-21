@@ -1,0 +1,18 @@
+{
+  "id": "DEV-029",
+  "title": "Documents 增强版",
+  "type": "feature",
+  "description": "实现 Documents 增强版，左右分栏布局，左侧文档树，右侧 Markdown 预览。",
+  "assignee": "Engineer",
+  "status": "done",
+  "priority": "P0",
+  "art_dependency": "none",
+  "estimated_hours": 4,
+  "completed_at": "2026-03-21T16:35:00+08:00",
+  "deliverables": [
+    "documents.hbs 增强版 ✅",
+    "左侧文档树组件 ✅",
+    "右侧文档预览 ✅",
+    "树形展开/折叠功能 ✅"
+  ]
+}

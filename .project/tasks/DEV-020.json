@@ -1,0 +1,30 @@
+{
+  "id": "DEV-020",
+  "title": "Dashboard 页面调整",
+  "type": "feature",
+  "description": "Dashboard 页面调整和统计 API 开发。",
+  "assignee": "Engineer",
+  "status": "done",
+  "priority": "P0",
+  "art_dependency": "none",
+  "estimated_hours": 2,
+  "completed_at": "2026-03-21T12:50:00+08:00",
+  "api_endpoints": [
+    "GET /api/stats",
+    "GET /api/stats/by-phase",
+    "GET /api/stats/bugs",
+    "GET /api/bugs",
+    "GET /api/bugs/stats",
+    "GET /api/bugs/trend",
+    "GET /api/tasks",
+    "GET /api/tasks/stats",
+    "GET /api/agents",
+    "GET /api/agents/stats",
+    "GET /api/versions",
+    "GET /api/documents"
+  ],
+  "deliverables": [
+    "Dashboard 统计 API ✅",
+    "API 端点已添加到 api.js"
+  ]
+}

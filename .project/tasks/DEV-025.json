@@ -1,0 +1,23 @@
+{
+  "id": "DEV-025",
+  "title": "Bugs 页面开发",
+  "type": "feature",
+  "description": "实现 Bugs 页面，追踪所有 Bug 状态。",
+  "assignee": "Engineer",
+  "status": "done",
+  "priority": "P0",
+  "art_dependency": "none",
+  "estimated_hours": 2.5,
+  "completed_at": "2026-03-21T13:05:00+08:00",
+  "api_endpoints": [
+    "GET /api/bugs",
+    "GET /api/bugs/stats",
+    "GET /api/bugs/trend"
+  ],
+  "deliverables": [
+    "bugs.hbs 页面 ✅",
+    "Bug 统计卡片 ✅",
+    "Bug 趋势图 ✅",
+    "筛选功能 ✅"
+  ]
+}

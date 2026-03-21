@@ -1,0 +1,20 @@
+{
+  "id": "DEV-009",
+  "title": "F8 深色/浅色模式切换",
+  "type": "dev",
+  "description": "实现主题切换：CSS Variables 定义浅色和深色主题，localStorage 持久化主题偏好，系统偏好自动检测（可选）。",
+  "assignee": "Engineer",
+  "status": "done",
+  "priority": "P0",
+  "dependencies": ["DEV-001"],
+  "estimated_hours": 2,
+  "actual_hours": 1,
+  "estimated_started": "2026-03-20T12:30:00+08:00",
+  "completed_at": "2026-03-20T14:00:00+08:00",
+  "deliverables": [
+    "CSS Variables 主题定义",
+    "主题切换按钮",
+    "localStorage 持久化",
+    "平滑过渡动画"
+  ]
+}

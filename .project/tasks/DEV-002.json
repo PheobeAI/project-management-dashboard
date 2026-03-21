@@ -1,0 +1,21 @@
+{
+  "id": "DEV-002",
+  "title": "F1 项目列表与概览",
+  "type": "dev",
+  "description": "实现项目列表功能：扫描已配置路径下的所有项目，显示项目卡片（名称、阶段、进度、状态指示器），支持搜索和筛选。",
+  "assignee": "Engineer",
+  "status": "done",
+  "priority": "P0",
+  "dependencies": ["DEV-001"],
+  "estimated_hours": 3,
+  "actual_hours": 2.5,
+  "estimated_started": "2026-03-20T12:44:00+08:00",
+  "completed_at": "2026-03-20T13:00:00+08:00",
+  "deliverables": [
+    "FileScanner 服务",
+    "项目列表 API（含搜索、筛选）",
+    "首页模板与样式",
+    "搜索功能",
+    "状态筛选功能"
+  ]
+}

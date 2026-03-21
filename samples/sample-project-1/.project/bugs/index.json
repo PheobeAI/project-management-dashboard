@@ -1,0 +1,20 @@
+{
+  "bugs": [
+    {
+      "id": "BUG-001",
+      "title": "状态筛选 UI 不生效",
+      "severity": "minor",
+      "status": "fixed",
+      "created_at": "2026-03-19T10:00:00Z",
+      "fixed_at": "2026-03-20T13:14:00Z"
+    },
+    {
+      "id": "BUG-002",
+      "title": "Task 过滤后列表为空",
+      "severity": "minor",
+      "status": "fixed",
+      "created_at": "2026-03-19T11:00:00Z",
+      "fixed_at": "2026-03-20T13:14:00Z"
+    }
+  ]
+}

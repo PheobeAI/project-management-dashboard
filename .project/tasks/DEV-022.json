@@ -1,0 +1,21 @@
+{
+  "id": "DEV-022",
+  "title": "Tasks 页面开发",
+  "type": "feature",
+  "description": "实现 Tasks 页面，展示所有任务的流转状态。",
+  "assignee": "Engineer",
+  "status": "done",
+  "priority": "P1",
+  "art_dependency": "none",
+  "estimated_hours": 2.5,
+  "completed_at": "2026-03-21T13:15:00+08:00",
+  "api_endpoints": [
+    "GET /api/tasks",
+    "GET /api/tasks/stats"
+  ],
+  "deliverables": [
+    "tasks.hbs 页面 ✅",
+    "任务统计 ✅",
+    "筛选功能 ✅"
+  ]
+}

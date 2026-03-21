@@ -1,0 +1,290 @@
+/**
+ * 动效规范
+ * 项目：project-management-dashboard
+ * 版本：v1.0
+ * 更新：2026-03-21
+ */
+
+/* ==================== 入场动画 ==================== */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ==================== 加载动画 ==================== */
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+/* ==================== 进度条动画 ==================== */
+
+@keyframes progressFill {
+  from {
+    width: 0;
+  }
+}
+
+@keyframes progressGrow {
+  from {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  to {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+/* ==================== 脉冲动画（当前阶段高亮） ==================== */
+
+@keyframes currentPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(59, 130, 246, 0.1);
+  }
+}
+
+/* ==================== 悬停效果 ==================== */
+
+/* 卡片悬停 */
+.card-hover {
+  transition: transform var(--transition-slow), 
+              box-shadow var(--transition-slow);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* 按钮悬停 */
+.btn-hover {
+  transition: background-color var(--transition-fast),
+              transform var(--transition-fast);
+}
+
+.btn-hover:hover {
+  transform: scale(1.02);
+}
+
+.btn-hover:active {
+  transform: scale(0.98);
+}
+
+/* 菜单项悬停 */
+.menu-item-hover {
+  transition: background-color var(--transition-fast);
+}
+
+.menu-item-hover:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* 表格行悬停 */
+.row-hover {
+  transition: background-color var(--transition-fast);
+}
+
+.row-hover:hover {
+  background-color: var(--status-info-bg);
+}
+
+/* ==================== 折叠动画 ==================== */
+
+.collapse {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.3s ease-out, opacity 0.2s ease;
+}
+
+.collapse.expanded {
+  max-height: 1000px;
+  opacity: 1;
+}
+
+/* ==================== Tab 切换 ==================== */
+
+.tab-content {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.tab-content.slide {
+  animation: slideInLeft 0.2s ease-out;
+}
+
+/* ==================== 侧边栏收缩 ==================== */
+
+.sidebar-transition {
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-transition .menu-text,
+.sidebar-transition .logo-text {
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+/* ==================== 主题切换 ==================== */
+
+.theme-transition,
+.theme-transition * {
+  transition: background-color var(--transition-slow),
+              color var(--transition-slow),
+              border-color var(--transition-slow),
+              box-shadow var(--transition-slow) !important;
+}
+
+/* ==================== 动画类 ==================== */
+
+/* 入场动画 */
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.3s ease-out forwards;
+}
+
+/* 加载状态 */
+.animate-shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+[data-theme="dark"] .animate-shimmer {
+  background: linear-gradient(90deg, #334155 25%, #475569 50%, #334155 75%);
+  background-size: 200% 100%;
+}
+
+.animate-spin {
+  animation: spin 0.6s linear infinite;
+}
+
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* 进度动画 */
+.animate-progress {
+  animation: progressFill 0.8s ease-out forwards;
+}
+
+.animate-progress-grow {
+  animation: progressGrow 0.6s ease-out forwards;
+}
+
+/* 当前状态脉冲 */
+.animate-current-pulse {
+  animation: currentPulse 2s ease-in-out infinite;
+}
+
+/* 延迟类 */
+.delay-50 { animation-delay: 50ms; }
+.delay-100 { animation-delay: 100ms; }
+.delay-150 { animation-delay: 150ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-250 { animation-delay: 250ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-350 { animation-delay: 350ms; }
+.delay-400 { animation-delay: 400ms; }
+
+/* ==================== 动画性能优化 ==================== */
+
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}

@@ -1,0 +1,21 @@
+{
+  "id": "DEV-024",
+  "title": "Documents 页面开发",
+  "type": "feature",
+  "description": "实现 Documents 页面，统一管理项目文档。",
+  "assignee": "Engineer",
+  "status": "done",
+  "priority": "P2",
+  "art_dependency": "none",
+  "estimated_hours": 5,
+  "completed_at": "2026-03-21T13:35:00+08:00",
+  "api_endpoints": [
+    "GET /api/documents",
+    "GET /api/documents/search"
+  ],
+  "deliverables": [
+    "documents.hbs 页面 ✅",
+    "文档树形结构 ✅",
+    "搜索功能 ✅"
+  ]
+}

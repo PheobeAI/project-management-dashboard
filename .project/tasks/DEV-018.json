@@ -1,0 +1,15 @@
+{
+  "id": "DEV-018",
+  "title": "Bug 修复：端口占用和布局",
+  "type": "fix",
+  "description": "修复端口占用问题（自动尝试下一个端口）和 Dashboard 右侧空白布局问题。",
+  "assignee": "Engineer",
+  "status": "done",
+  "priority": "critical",
+  "estimated_hours": 0.5,
+  "completed_at": "2026-03-21T00:05:00+08:00",
+  "fixes": [
+    "端口占用：自动检测并尝试下一个端口",
+    "布局：移除 max-width 约束，让内容占满宽度"
+  ]
+}

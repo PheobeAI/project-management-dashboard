@@ -1,0 +1,22 @@
+{
+  "id": "DEV-026",
+  "title": "Settings 页面完善",
+  "type": "feature",
+  "description": "完善 Settings 页面，补充 GitHub 配置、通知设置等功能。",
+  "assignee": "Engineer",
+  "status": "done",
+  "priority": "P2",
+  "art_dependency": "none",
+  "estimated_hours": 1.5,
+  "completed_at": "2026-03-21T15:05:00+08:00",
+  "api_endpoints": [
+    "GET /api/settings",
+    "PUT /api/settings"
+  ],
+  "deliverables": [
+    "Settings API 完善",
+    "GitHub 配置表单",
+    "通知设置表单",
+    "主题切换优化"
+  ]
+}

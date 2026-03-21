@@ -1,0 +1,21 @@
+{
+  "id": "DEV-007",
+  "title": "F6 数据可视化图表",
+  "type": "dev",
+  "description": "实现图表展示：项目进展柱状图、任务状态分布饼图、阶段分布饼图、路径分布柱状图。",
+  "assignee": "Engineer",
+  "status": "done",
+  "priority": "P0",
+  "dependencies": ["DEV-002"],
+  "estimated_hours": 3,
+  "actual_hours": 2,
+  "estimated_started": "2026-03-20T13:30:00+08:00",
+  "completed_at": "2026-03-20T14:00:00+08:00",
+  "deliverables": [
+    "Chart.js 集成",
+    "项目进展图表",
+    "任务分布图表",
+    "阶段分布图表",
+    "路径分布图表"
+  ]
+}

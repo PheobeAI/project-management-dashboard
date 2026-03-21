@@ -1,0 +1,230 @@
+{
+  "project_name": "project-management-dashboard",
+  "created_at": "2026-03-19T22:12:00+08:00",
+  "phase": "done",
+  "previous_phase": "approved",
+  "waiting_for": {
+    "agent": "Engineer",
+    "action": "github_commit",
+    "since": "2026-03-21T20:29:00+08:00"
+  },
+  "idea": "Boss需要一个项目管理平台，用于管理项目状态、任务、Agent等。核心要求：侧边栏布局（可收缩）、清晰的导航结构",
+  "team": {
+    "pm": "PM",
+    "designer": "Designer",
+    "art": "Art",
+    "engineer": "Engineer",
+    "qa": "QA"
+  },
+  "review_iteration": 5,
+  "max_review_iterations": 5,
+  "design_review_iteration": 4,
+  "max_design_review_iterations": 3,
+  "test_plan_review_iteration": 0,
+  "max_test_plan_review_iterations": 2,
+  "bug_fix_iteration": 3,
+  "max_bug_fix_iterations": 10,
+  "blockers": [
+    {
+      "id": "BLOCKER-001",
+      "type": "missing_functionality",
+      "description": "侧边栏导航的5个页面（Projects/Agents/Tasks/Versions/Documents）只有占位，无实际功能",
+      "severity": "critical",
+      "status": "resolved",
+      "resolved_at": "2026-03-21T10:25:00+08:00",
+      "resolved_by": "v5评审通过"
+    },
+    {
+      "id": "BLOCKER-002",
+      "type": "missing_feature",
+      "description": "缺少 Bugs 板块，无法追踪bug总数、修复数、进度",
+      "severity": "major",
+      "status": "resolved",
+      "resolved_at": "2026-03-21T10:25:00+08:00",
+      "resolved_by": "v5评审通过"
+    },
+    {
+      "id": "BLOCKER-003",
+      "type": "missing_asset",
+      "description": "系统缺少 Logo，需 Art 设计并提供",
+      "severity": "major",
+      "status": "resolved",
+      "resolved_at": "2026-03-21T10:01:00+08:00",
+      "resolved_by": "Art"
+    },
+    {
+      "id": "BLOCKER-004",
+      "type": "bug",
+      "description": "侧边栏无法收缩，点击无反应",
+      "severity": "major",
+      "status": "fixed",
+      "fixed_at": "2026-03-21T12:50:00+08:00",
+      "fixed_by": "Engineer",
+      "verified_by": "QA"
+    },
+    {
+      "id": "BLOCKER-005",
+      "type": "bug",
+      "description": "项目卡片状态显示错误：阶段名称映射错误",
+      "severity": "minor",
+      "status": "fixed",
+      "fixed_at": "2026-03-21T12:50:00+08:00",
+      "fixed_by": "Engineer",
+      "verified_by": "QA"
+    },
+    {
+      "id": "BLOCKER-006",
+      "type": "bug",
+      "description": "所有图标图片加载不出来（BUG-006）",
+      "severity": "critical",
+      "status": "fixed",
+      "fixed_at": "2026-03-21T18:29:00+08:00",
+      "fixed_by": "Engineer",
+      "verified_by": "QA",
+      "verified_at": "2026-03-21T18:30:00+08:00"
+    },
+    {
+      "id": "BLOCKER-007",
+      "type": "bug",
+      "description": "Tasks 页面看不到 Art Task（BUG-007）",
+      "severity": "major",
+      "status": "wontfix",
+      "note": "API 数据正常，前端显示需进一步验证"
+    },
+    {
+      "id": "BLOCKER-008",
+      "type": "bug",
+      "description": "Dashboard 强制弹窗加载失败（BUG-008）",
+      "severity": "critical",
+      "status": "wontfix",
+      "qa_result": "CANNOT REPRODUCE"
+    },
+    {
+      "id": "BLOCKER-009",
+      "type": "bug",
+      "description": "项目详情页白屏（BUG-009）",
+      "severity": "critical",
+      "status": "fixed",
+      "fixed_at": "2026-03-21T18:29:00+08:00",
+      "fixed_by": "Engineer",
+      "verified_by": "QA",
+      "verified_at": "2026-03-21T18:30:00+08:00"
+    },
+    {
+      "id": "BLOCKER-010",
+      "type": "new_requirement",
+      "description": "Settings 下新增 Log 页面（显示异常/报错信息）",
+      "severity": "major",
+      "status": "resolved",
+      "dev_completed": "2026-03-21T16:30:00+08:00",
+      "qa_verified": "2026-03-21T18:30:00+08:00"
+    },
+    {
+      "id": "BLOCKER-011",
+      "type": "new_requirement",
+      "description": "Documents 应能浏览各项目的需求/设计/技术文档",
+      "severity": "major",
+      "status": "resolved",
+      "dev_completed": "2026-03-21T16:35:00+08:00",
+      "qa_verified": "2026-03-21T18:30:00+08:00"
+    }
+  ],
+  "dev_task_summary": {
+    "total": 29,
+    "todo": 0,
+    "in_progress": 0,
+    "dev_done": 0,
+    "testing": 0,
+    "bug_fixing": 0,
+    "tested": 29
+  },
+  "art_task_summary": {
+    "total": 9,
+    "todo": 0,
+    "in_progress": 0,
+    "art_done": 9,
+    "review": 0,
+    "revision": 0,
+    "approved": 0
+  },
+  "history": [
+    {
+      "timestamp": "2026-03-20T17:11:00+08:00",
+      "event": "rejected",
+      "by": "Boss",
+      "detail": "v2 再次打回：布局问题、功能缺失、QA 不认真"
+    },
+    {
+      "timestamp": "2026-03-20T17:20:00+08:00",
+      "event": "qa_retesting_completed",
+      "by": "QA",
+      "detail": "全面测试完成，发现 6 个问题（2 Critical, 3 Major, 1 Minor）"
+    },
+    {
+      "timestamp": "2026-03-20T18:05:00+08:00",
+      "event": "v3_layout_testing_completed",
+      "by": "QA",
+      "detail": "v3 布局测试完成 - 侧边栏完全未实现，设计存在但未开发"
+    },
+    {
+      "timestamp": "2026-03-20T19:40:00+08:00",
+      "event": "qa_testing_completed",
+      "by": "QA",
+      "detail": "v4 侧边栏修复验证完成 - 所有 Critical 和 Major 问题已修复，项目通过验收"
+    },
+    {
+      "timestamp": "2026-03-21T09:10:00+08:00",
+      "event": "bug_fix_verified",
+      "by": "QA",
+      "detail": "BUG-002(端口自动切换) 和 BUG-003(右侧空白) 修复验证通过"
+    },
+    {
+      "timestamp": "2026-03-21T09:50:00+08:00",
+      "event": "rejected",
+      "by": "Boss",
+      "detail": "v4 打回：5个页面功能未实现、缺 Bugs 板块、缺 Logo、侧边栏无法收缩、项目状态显示错误"
+    },
+    {
+      "timestamp": "2026-03-21T09:55:00+08:00",
+      "event": "requirements_revised",
+      "by": "Designer",
+      "detail": "v4.0 页面设计系统性补充完成：新增 07-page-design.md，包含 7 个页面完整设计"
+    },
+    {
+      "timestamp": "2026-03-21T10:01:00+08:00",
+      "event": "asset_completed",
+      "by": "Art",
+      "detail": "Logo 设计完成：6 个文件已输出到 assets/logo/"
+    },
+    {
+      "timestamp": "2026-03-21T10:25:00+08:00",
+      "event": "requirements_review_approved",
+      "by": "Art,Engineer,QA",
+      "detail": "v5 评审全员 APPROVE"
+    },
+    {
+      "timestamp": "2026-03-21T11:04:00+08:00",
+      "event": "boss_confirmed_direction",
+      "by": "Boss",
+      "detail": "同意进入 Phase 3"
+    },
+    {
+      "timestamp": "2026-03-21T12:50:00+08:00",
+      "event": "bug_fix_verified",
+      "by": "QA",
+      "detail": "BUG-004(侧边栏收缩) 和 BUG-005(阶段名称映射) 修复验证通过"
+    },
+    {
+      "timestamp": "2026-03-21T15:15:00+08:00",
+      "event": "qa_testing_completed",
+      "by": "QA",
+      "detail": "Phase 7 最终测试完成：7个页面全部通过，27个任务标记为 tested，0个 critical/major bug"
+    },
+    {
+      "timestamp": "2026-03-21T18:30:00+08:00",
+      "event": "qa_phase8_testing_completed",
+      "by": "QA",
+      "detail": "Phase 8 测试完成：BUG-006(图标)、BUG-009(详情页白屏)已修复验证，DEV-028(Log)、DEV-029(Documents增强)验收通过，29个任务全部 tested"
+    }
+  ]
+}

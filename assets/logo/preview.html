@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Logo 预览</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #F8FAFC;
+      padding: 40px;
+    }
+    
+    h1 {
+      color: #0F172A;
+      font-size: 28px;
+      margin-bottom: 32px;
+    }
+    
+    h2 {
+      color: #0F172A;
+      font-size: 18px;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #E2E8F0;
+    }
+    
+    .section {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .logo-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      align-items: center;
+    }
+    
+    .logo-item {
+      text-align: center;
+    }
+    
+    .logo-item label {
+      display: block;
+      margin-top: 8px;
+      font-size: 12px;
+      color: #64748B;
+    }
+    
+    .dark-bg {
+      background: #1E293B;
+      border-radius: 12px;
+      padding: 24px;
+      display: inline-block;
+    }
+    
+    .sidebar-preview {
+      display: flex;
+      gap: 0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      max-width: 600px;
+    }
+    
+    .sidebar {
+      width: 260px;
+      background: linear-gradient(180deg, #1E293B 0%, #0F172A 100%);
+      padding: 20px;
+      color: white;
+    }
+    
+    .sidebar-logo {
+      background: #3B82F6;
+      border-radius: 8px;
+      padding: 12px 20px;
+      display: inline-block;
+      margin-bottom: 24px;
+    }
+    
+    .sidebar-logo span {
+      font-size: 16px;
+      font-weight: 700;
+      color: white;
+    }
+    
+    .menu-item {
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 4px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .menu-item.active {
+      background: #334155;
+      border-left: 4px solid #60A5FA;
+    }
+    
+    .menu-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #94A3B8;
+    }
+    
+    .menu-item.active .menu-icon {
+      background: #60A5FA;
+    }
+    
+    .main-area {
+      flex: 1;
+      background: #F8FAFC;
+      padding: 24px;
+    }
+    
+    .favicon-row {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    
+    .size-badge {
+      font-size: 10px;
+      color: #94A3B8;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎨 Dashboard Logo 设计预览</h1>
+  
+  <div class="section">
+    <h2>📐 主 Logo（侧边栏顶部）</h2>
+    <div class="logo-grid">
+      <div class="logo-item">
+        <img src="logo-main.svg" width="128" height="128" alt="Main Logo">
+        <label>256×256 SVG</label>
+      </div>
+      <div class="logo-item">
+        <img src="logo-main.svg" width="64" height="64" alt="Main Logo">
+        <label>128×128</label>
+      </div>
+      <div class="logo-item">
+        <img src="logo-main.svg" width="32" height="32" alt="Main Logo">
+        <label>64×64</label>
+      </div>
+      <div class="logo-item">
+        <img src="logo-main.svg" width="16" height="16" alt="Main Logo">
+        <label>32×32</label>
+      </div>
+    </div>
+  </div>
+  
+  <div class="section">
+    <h2>🖼️ 深色背景版本（适合浅色页面）</h2>
+    <div class="logo-grid">
+      <div class="logo-item">
+        <img src="logo-dark-bg.svg" width="128" height="128" alt="Dark BG Logo">
+        <label>256×256</label>
+      </div>
+    </div>
+  </div>
+  
+  <div class="section">
+    <h2>📱 Favicon / 应用图标</h2>
+    <div class="favicon-row">
+      <div class="logo-item">
+        <div class="dark-bg">
+          <img src="favicon.svg" width="32" height="32" alt="Favicon">
+        </div>
+        <label>32×32 SVG</label>
+        <span class="size-badge">Browser Tab</span>
+      </div>
+      <div class="logo-item">
+        <div class="dark-bg">
+          <img src="logo-icon.svg" width="32" height="32" alt="Icon">
+        </div>
+        <label>32×32</label>
+        <span class="size-badge">简化版</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="section">
+    <h2>⬛ 横向版本（含文字）</h2>
+    <div class="logo-grid">
+      <div class="logo-item" style="background: white; padding: 20px; border-radius: 8px;">
+        <img src="logo-horizontal.svg" width="300" height="75" alt="Horizontal Logo">
+        <label>400×100 SVG</label>
+      </div>
+      <div class="logo-item" style="background: #1E293B; padding: 20px; border-radius: 8px;">
+        <img src="logo-horizontal.svg" width="200" height="50" alt="Horizontal Logo Dark">
+        <label style="color: #94A3B8">深色背景</label>
+      </div>
+    </div>
+  </div>
+  
+  <div class="section">
+    <h2>🖥️ 侧边栏应用预览</h2>
+    <div class="sidebar-preview">
+      <div class="sidebar">
+        <div class="sidebar-logo">
+          <img src="logo-main.svg" width="32" height="32" alt="Logo">
+          <span style="margin-left: 8px;">Dashboard</span>
+        </div>
+        <div class="menu-item active">
+          <div class="menu-icon"></div>
+          <span>Dashboard</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-icon"></div>
+          <span>Projects</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-icon"></div>
+          <span>Agents</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-icon"></div>
+          <span>Tasks</span>
+        </div>
+      </div>
+      <div class="main-area">
+        <p style="color: #64748B;">主内容区域预览</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="section">
+    <h2>📋 设计规范</h2>
+    <table style="width: 100%; border-collapse: collapse;">
+      <tr style="border-bottom: 1px solid #E2E8F0;">
+        <td style="padding: 12px; font-weight: 600; color: #0F172A;">主色</td>
+        <td style="padding: 12px;">
+          <span style="display: inline-block; width: 24px; height: 24px; background: #3B82F6; border-radius: 4px; vertical-align: middle;"></span>
+          <code style="margin-left: 8px; color: #64748B;">#3B82F6</code>
+        </td>
+      </tr>
+      <tr style="border-bottom: 1px solid #E2E8F0;">
+        <td style="padding: 12px; font-weight: 600; color: #0F172A;">深主色</td>
+        <td style="padding: 12px;">
+          <span style="display: inline-block; width: 24px; height: 24px; background: #1E40AF; border-radius: 4px; vertical-align: middle;"></span>
+          <code style="margin-left: 8px; color: #64748B;">#1E40AF</code>
+        </td>
+      </tr>
+      <tr style="border-bottom: 1px solid #E2E8F0;">
+        <td style="padding: 12px; font-weight: 600; color: #0F172A;">亮蓝</td>
+        <td style="padding: 12px;">
+          <span style="display: inline-block; width: 24px; height: 24px; background: #60A5FA; border-radius: 4px; vertical-align: middle;"></span>
+          <code style="margin-left: 8px; color: #64748B;">#60A5FA</code>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 12px; font-weight: 600; color: #0F172A;">深色背景</td>
+        <td style="padding: 12px;">
+          <span style="display: inline-block; width: 24px; height: 24px; background: #1E293B; border-radius: 4px; vertical-align: middle; border: 1px solid #334155;"></span>
+          <code style="margin-left: 8px; color: #64748B;">#1E293B</code>
+        </td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

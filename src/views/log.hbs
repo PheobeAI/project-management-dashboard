@@ -1,0 +1,527 @@
+{{! Log Page }}
+
+<div class="page-header">
+  <h1 class="page-title">📋 Log</h1>
+  <div class="page-actions">
+    <select id="typeFilter" class="filter-select" onchange="filterLogs()">
+      <option value="all">全部类型</option>
+      <option value="agent_offline">Agent 掉线</option>
+      <option value="task_stalled">Task 停滞</option>
+      <option value="load_failed">加载失败</option>
+      <option value="system_error">系统错误</option>
+    </select>
+    <select id="severityFilter" class="filter-select" onchange="filterLogs()">
+      <option value="all">全部严重度</option>
+      <option value="high">高</option>
+      <option value="medium">中</option>
+      <option value="resolved">已解决</option>
+    </select>
+    <button class="btn btn-secondary" onclick="refreshLogs()">
+      <span class="btn-icon">🔄</span> 刷新
+    </button>
+  </div>
+</div>
+
+<!-- 健康状态统计 -->
+<div class="health-status-card">
+  <div class="health-title">系统健康状态</div>
+  <div class="health-stats">
+    <div class="health-stat">
+      <div class="stat-label">今日异常</div>
+      <div class="stat-value error" id="todayAnomalies">0</div>
+      <div class="stat-change error">↑0</div>
+    </div>
+    <div class="health-stat">
+      <div class="stat-dot error"></div>
+      <div class="stat-label">Agent 掉线</div>
+      <div class="stat-value" id="agentOffline">0</div>
+    </div>
+    <div class="health-stat">
+      <div class="stat-dot warning"></div>
+      <div class="stat-label">Task 停滞</div>
+      <div class="stat-value" id="taskStalled">0</div>
+    </div>
+    <div class="health-stat">
+      <div class="stat-dot warning"></div>
+      <div class="stat-label">加载失败</div>
+      <div class="stat-value" id="loadFailed">0</div>
+    </div>
+    <div class="health-stat">
+      <div class="stat-dot error"></div>
+      <div class="stat-label">系统错误</div>
+      <div class="stat-value" id="systemErrors">0</div>
+    </div>
+  </div>
+</div>
+
+<!-- 加载状态 -->
+<div class="loading-state" id="loadingState">
+  <div class="spinner"></div>
+  <p>加载日志数据...</p>
+</div>
+
+<!-- 日志列表 -->
+<div class="logs-container" id="logsContainer">
+  <!-- 高严重度 -->
+  <div class="log-group" id="highSeverityGroup">
+    <div class="log-group-header high">
+      🔴 高严重度 (<span class="count" id="highCount">0</span>)
+    </div>
+    <div class="log-list" id="highLogsList">
+      <!-- 高严重度日志项 -->
+    </div>
+  </div>
+
+  <!-- 中严重度 -->
+  <div class="log-group" id="mediumSeverityGroup">
+    <div class="log-group-header medium">
+      🟡 中严重度 (<span class="count" id="mediumCount">0</span>)
+    </div>
+    <div class="log-list" id="mediumLogsList">
+      <!-- 中严重度日志项 -->
+    </div>
+  </div>
+
+  <!-- 已解决 -->
+  <div class="log-group" id="resolvedGroup">
+    <div class="log-group-header resolved">
+      ⚪ 已解决 (<span class="count" id="resolvedCount">0</span>)
+    </div>
+    <div class="log-list" id="resolvedLogsList">
+      <!-- 已解决日志项 -->
+    </div>
+  </div>
+</div>
+
+<!-- 空状态 -->
+<div class="empty-state" id="emptyState" style="display: none;">
+  <div class="empty-state-icon">✅</div>
+  <div class="empty-state-title">暂无日志</div>
+  <div class="empty-state-description">系统运行正常，没有异常记录</div>
+</div>
+
+<script>
+// 模拟日志数据
+const mockLogs = [
+  {
+    id: 'LOG-001',
+    type: 'agent_offline',
+    severity: 'high',
+    title: 'Agent Designer 掉线',
+    lastResponse: '2026-03-21 10:30',
+    duration: '2 小时 15 分钟',
+    status: 'unresolved',
+    agent: 'Designer'
+  },
+  {
+    id: 'LOG-002',
+    type: 'task_stalled',
+    severity: 'high',
+    title: 'Task TASK-003 停滞超过 48 小时',
+    waitingAgent: 'Engineer',
+    since: '2026-03-19',
+    taskTitle: '实现深色模式切换功能',
+    status: 'unresolved'
+  },
+  {
+    id: 'LOG-003',
+    type: 'load_failed',
+    severity: 'medium',
+    title: '项目 char-counter 数据加载失败',
+    reason: '.project/status.json 格式错误',
+    time: '2026-03-21 09:15',
+    status: 'ignored'
+  },
+  {
+    id: 'LOG-004',
+    type: 'agent_online',
+    severity: 'resolved',
+    title: 'Agent Art 已重新连接',
+    resolvedTime: '2026-03-21 08:30',
+    status: 'resolved'
+  }
+];
+
+let currentLogs = [];
+let currentFilter = { type: 'all', severity: 'all' };
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadLogs();
+});
+
+async function loadLogs() {
+  showLoading(true);
+  
+  // 模拟加载延迟
+  await new Promise(resolve => setTimeout(resolve, 500));
+  
+  // 使用模拟数据
+  currentLogs = [...mockLogs];
+  
+  updateHealthStats();
+  renderLogs();
+  
+  showLoading(false);
+}
+
+function updateHealthStats() {
+  const todayAnomalies = currentLogs.filter(l => l.status !== 'resolved').length;
+  const agentOffline = currentLogs.filter(l => l.type === 'agent_offline' && l.status !== 'resolved').length;
+  const taskStalled = currentLogs.filter(l => l.type === 'task_stalled' && l.status !== 'resolved').length;
+  const loadFailed = currentLogs.filter(l => l.type === 'load_failed' && l.status !== 'resolved').length;
+  const systemErrors = currentLogs.filter(l => l.type === 'system_error' && l.status !== 'resolved').length;
+  
+  document.getElementById('todayAnomalies').textContent = todayAnomalies;
+  document.getElementById('agentOffline').textContent = agentOffline;
+  document.getElementById('taskStalled').textContent = taskStalled;
+  document.getElementById('loadFailed').textContent = loadFailed;
+  document.getElementById('systemErrors').textContent = systemErrors;
+}
+
+function filterLogs() {
+  currentFilter.type = document.getElementById('typeFilter').value;
+  currentFilter.severity = document.getElementById('severityFilter').value;
+  renderLogs();
+}
+
+function renderLogs() {
+  let filtered = [...currentLogs];
+  
+  // 类型过滤
+  if (currentFilter.type !== 'all') {
+    filtered = filtered.filter(l => l.type === currentFilter.type);
+  }
+  
+  // 严重度过滤
+  if (currentFilter.severity !== 'all') {
+    if (currentFilter.severity === 'resolved') {
+      filtered = filtered.filter(l => l.status === 'resolved');
+    } else {
+      filtered = filtered.filter(l => l.severity === currentFilter.severity);
+    }
+  }
+  
+  // 分组
+  const highLogs = filtered.filter(l => l.severity === 'high' && l.status !== 'resolved');
+  const mediumLogs = filtered.filter(l => l.severity === 'medium' && l.status !== 'resolved');
+  const resolvedLogs = filtered.filter(l => l.status === 'resolved');
+  
+  // 更新计数
+  document.getElementById('highCount').textContent = highLogs.length;
+  document.getElementById('mediumCount').textContent = mediumLogs.length;
+  document.getElementById('resolvedCount').textContent = resolvedLogs.length;
+  
+  // 渲染各组
+  document.getElementById('highLogsList').innerHTML = highLogs.map(renderLogItem).join('');
+  document.getElementById('mediumLogsList').innerHTML = mediumLogs.map(renderLogItem).join('');
+  document.getElementById('resolvedLogsList').innerHTML = resolvedLogs.map(renderLogItem).join('');
+  
+  // 显示/隐藏空状态
+  const hasLogs = highLogs.length > 0 || mediumLogs.length > 0 || resolvedLogs.length > 0;
+  document.getElementById('logsContainer').style.display = hasLogs ? 'block' : 'none';
+  document.getElementById('emptyState').style.display = hasLogs ? 'none' : 'flex';
+}
+
+function renderLogItem(log) {
+  const statusClass = log.status === 'resolved' ? 'resolved' : 
+                      log.status === 'ignored' ? 'ignored' : 'unresolved';
+  const statusText = log.status === 'resolved' ? '已解决' : 
+                      log.status === 'ignored' ? '已忽略' : '未解决';
+  
+  let metaHtml = '';
+  if (log.type === 'agent_offline') {
+    metaHtml = `<div class="log-meta">最后响应: ${log.lastResponse}</div>
+                <div class="log-meta">持续时间: ${log.duration}</div>`;
+  } else if (log.type === 'task_stalled') {
+    metaHtml = `<div class="log-meta">等待 Agent: ${log.waitingAgent} | 自: ${log.since}</div>
+                <div class="log-meta">任务: ${log.taskTitle}</div>`;
+  } else if (log.type === 'load_failed') {
+    metaHtml = `<div class="log-meta">原因: ${log.reason}</div>
+                <div class="log-meta">时间: ${log.time}</div>`;
+  } else if (log.status === 'resolved') {
+    metaHtml = `<div class="log-meta">解决时间: ${log.resolvedTime || '-'}</div>`;
+  }
+  
+  return `
+    <div class="log-item ${log.severity}" onclick="viewLogDetail('${log.id}')">
+      <div class="log-indicator ${log.severity}"></div>
+      <div class="log-content">
+        <div class="log-title">${log.title}</div>
+        ${metaHtml}
+      </div>
+      <div class="log-actions">
+        <span class="status-badge ${statusClass}">${statusText}</span>
+        <button class="btn btn-detail" onclick="event.stopPropagation(); viewLogDetail('${log.id}')">查看详情</button>
+      </div>
+    </div>
+  `;
+}
+
+function viewLogDetail(logId) {
+  const log = currentLogs.find(l => l.id === logId);
+  if (log) {
+    alert(`日志详情\n\n类型: ${log.type}\n严重度: ${log.severity}\n状态: ${log.status}\n\n${log.title}`);
+  }
+}
+
+function showLoading(show) {
+  document.getElementById('loadingState').style.display = show ? 'flex' : 'none';
+}
+
+function refreshLogs() {
+  loadLogs();
+}
+</script>
+
+<style>
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+}
+
+.page-title {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+}
+
+.page-actions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.filter-select {
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-card);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+}
+
+/* 健康状态卡片 */
+.health-status-card {
+  background: var(--color-card);
+  border-radius: 12px;
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.health-title {
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  margin-bottom: var(--space-md);
+}
+
+.health-stats {
+  display: flex;
+  gap: var(--space-xl);
+}
+
+.health-stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.stat-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.stat-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.stat-value.error {
+  color: var(--color-error);
+}
+
+.stat-change {
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+}
+
+.stat-change.error {
+  color: var(--color-error);
+  background: rgba(239, 68, 68, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+  width: 32px;
+  text-align: center;
+}
+
+.stat-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-bottom: var(--space-xs);
+}
+
+.stat-dot.error { background: var(--color-error); }
+.stat-dot.warning { background: var(--color-warning); }
+
+/* 日志列表 */
+.logs-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.log-group-header {
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  margin-bottom: var(--space-sm);
+  padding: var(--space-xs) 0;
+}
+
+.log-group-header.high { color: var(--color-error); }
+.log-group-header.medium { color: var(--color-warning); }
+.log-group-header.resolved { color: var(--color-text-muted); }
+
+.log-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.log-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  background: var(--color-card);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.log-item:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.log-indicator {
+  width: 4px;
+  height: 100%;
+  min-height: 60px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.log-indicator.high { background: var(--color-error); }
+.log-indicator.medium { background: var(--color-warning); }
+.log-indicator.resolved { background: var(--color-success); }
+
+.log-content {
+  flex: 1;
+}
+
+.log-title {
+  font-weight: 500;
+  margin-bottom: var(--space-xs);
+}
+
+.log-meta {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-xs);
+}
+
+.log-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-shrink: 0;
+}
+
+.status-badge {
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: 6px;
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+}
+
+.status-badge.unresolved {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--color-error);
+}
+
+.status-badge.ignored {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--color-warning);
+}
+
+.status-badge.resolved {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--color-success);
+}
+
+.btn-detail {
+  padding: var(--space-xs) var(--space-sm);
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--color-primary);
+  border: none;
+  border-radius: 6px;
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+}
+
+.btn-detail:hover {
+  background: rgba(59, 130, 246, 0.2);
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl) * 2;
+  text-align: center;
+}
+
+.empty-state-icon {
+  font-size: 64px;
+  opacity: 0.5;
+  margin-bottom: var(--space-md);
+}
+
+.empty-state-title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+}
+
+.empty-state-description {
+  color: var(--color-text-muted);
+}
+
+/* 加载状态 */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl) * 2;
+  gap: var(--space-md);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+</style>

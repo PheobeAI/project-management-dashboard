@@ -1,0 +1,600 @@
+{{! Bugs Page }}
+
+<div class="page-header">
+  <h1 class="page-title">🐛 Bug 追踪</h1>
+  <div class="page-actions">
+    <button class="btn btn-secondary" onclick="refreshBugs()">
+      <span class="btn-icon">🔄</span> 刷新
+    </button>
+  </div>
+</div>
+
+<!-- Bug 统计卡片 -->
+<div class="bug-stats-grid" id="bugStatsGrid">
+  <div class="stat-card">
+    <div class="stat-icon">🐛</div>
+    <div class="stat-content">
+      <div class="stat-value" id="totalBugs">-</div>
+      <div class="stat-label">Bug 总数</div>
+    </div>
+  </div>
+  <div class="stat-card warning">
+    <div class="stat-icon">🔴</div>
+    <div class="stat-content">
+      <div class="stat-value" id="openBugs">-</div>
+      <div class="stat-label">未修复</div>
+    </div>
+  </div>
+  <div class="stat-card success">
+    <div class="stat-icon">✅</div>
+    <div class="stat-content">
+      <div class="stat-value" id="fixedBugs">-</div>
+      <div class="stat-label">已修复</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">📊</div>
+    <div class="stat-content">
+      <div class="stat-value" id="fixRate">-</div>
+      <div class="stat-label">修复率</div>
+    </div>
+  </div>
+</div>
+
+<!-- 筛选栏 -->
+<div class="filter-bar">
+  <div class="filter-group">
+    <label>状态:</label>
+    <select id="statusFilter" onchange="filterBugs()">
+      <option value="all">全部</option>
+      <option value="open">未修复</option>
+      <option value="fixed">已修复</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label>严重程度:</label>
+    <select id="severityFilter" onchange="filterBugs()">
+      <option value="all">全部</option>
+      <option value="critical">Critical</option>
+      <option value="high">High</option>
+      <option value="medium">Medium</option>
+      <option value="minor">Minor</option>
+    </select>
+  </div>
+</div>
+
+<!-- Bug 趋势图 -->
+<div class="bug-trend-card" id="bugTrendCard">
+  <h3 class="card-title">📈 Bug 趋势</h3>
+  <div class="chart-container">
+    <canvas id="bugTrendChart"></canvas>
+  </div>
+</div>
+
+<!-- 加载状态 -->
+<div class="loading-state" id="loadingState">
+  <div class="spinner"></div>
+  <p>加载 Bug 数据...</p>
+</div>
+
+<!-- Bug 列表 -->
+<div class="bugs-list" id="bugsList">
+  <!-- Bug 项将在这里渲染 -->
+</div>
+
+<!-- 空状态 -->
+<div class="empty-state" id="emptyState" style="display: none;">
+  <div class="empty-state-icon">🐛</div>
+  <div class="empty-state-title">暂无 Bug 数据</div>
+  <div class="empty-state-description">当前没有项目包含 Bug 记录</div>
+</div>
+
+<script>
+const API_BASE = '/api';
+
+// 全局状态
+let bugsData = [];
+let bugTrendChart = null;
+let currentFilter = { status: 'all', severity: 'all' };
+
+// 初始化
+document.addEventListener('DOMContentLoaded', () => {
+  loadBugsData();
+  loadBugTrend();
+});
+
+// 加载 Bug 数据
+async function loadBugsData() {
+  showLoading(true);
+  
+  try {
+    const response = await fetch(`${API_BASE}/bugs/stats`);
+    const result = await response.json();
+    
+    if (result.success) {
+      renderBugStats(result.data);
+    }
+    
+    // 加载 Bug 列表
+    const listResponse = await fetch(`${API_BASE}/bugs`);
+    const listResult = await listResponse.json();
+    
+    if (listResult.success) {
+      bugsData = listResult.data;
+      renderBugList(bugsData);
+    }
+  } catch (error) {
+    console.error('Failed to load bugs:', error);
+    showError('加载 Bug 数据失败');
+  } finally {
+    showLoading(false);
+  }
+}
+
+// 加载 Bug 趋势
+async function loadBugTrend() {
+  try {
+    const response = await fetch(`${API_BASE}/bugs/trend?days=7`);
+    const result = await response.json();
+    
+    if (result.success) {
+      renderBugTrendChart(result.data);
+    }
+  } catch (error) {
+    console.warn('Failed to load bug trend:', error);
+  }
+}
+
+// 渲染 Bug 统计
+function renderBugStats(stats) {
+  document.getElementById('totalBugs').textContent = stats.total || 0;
+  document.getElementById('openBugs').textContent = stats.open || 0;
+  document.getElementById('fixedBugs').textContent = stats.fixed || 0;
+  document.getElementById('fixRate').textContent = (stats.progress || 0) + '%';
+}
+
+// 渲染 Bug 趋势图表
+function renderBugTrendChart(trend) {
+  const ctx = document.getElementById('bugTrendChart');
+  if (!ctx) return;
+  
+  if (bugTrendChart) {
+    bugTrendChart.destroy();
+  }
+  
+  // 使用 Art 提供的图表配置
+  if (window.ChartConfigs && window.ChartConfigs.getBugTrendChartConfig) {
+    const config = window.ChartConfigs.getBugTrendChartConfig(
+      trend.map(t => ({ date: t.date.slice(5), count: t.total }))
+    );
+    bugTrendChart = new Chart(ctx, config);
+  } else {
+    // 回退到内联配置
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const textColor = isDark ? '#94A3B8' : '#64748B';
+    const gridColor = isDark ? '#334155' : '#E2E8F0';
+    
+    bugTrendChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: trend.map(t => t.date.slice(5)),
+        datasets: [
+          {
+            label: '总 Bug',
+            data: trend.map(t => t.total),
+            borderColor: '#EF4444',
+            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+            fill: true,
+            tension: 0.3
+          },
+          {
+            label: '已修复',
+            data: trend.map(t => t.fixed),
+            borderColor: '#10B981',
+            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+            fill: true,
+            tension: 0.3
+          },
+          {
+            label: '未修复',
+            data: trend.map(t => t.open),
+            borderColor: '#F59E0B',
+            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+            fill: true,
+            tension: 0.3
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'bottom', labels: { color: textColor } }
+        },
+        scales: {
+          x: { ticks: { color: textColor }, grid: { color: gridColor } },
+          y: { beginAtZero: true, ticks: { color: textColor, stepSize: 1 }, grid: { color: gridColor } }
+        }
+      }
+    });
+  }
+}
+
+// 渲染 Bug 列表
+function renderBugList(bugs) {
+  const listEl = document.getElementById('bugsList');
+  const emptyState = document.getElementById('emptyState');
+  
+  if (!bugs || bugs.length === 0) {
+    listEl.style.display = 'none';
+    emptyState.style.display = 'flex';
+    return;
+  }
+  
+  listEl.style.display = 'block';
+  emptyState.style.display = 'none';
+  
+  // 按严重程度分组
+  const grouped = {
+    critical: bugs.filter(b => b.severity === 'critical'),
+    high: bugs.filter(b => b.severity === 'high'),
+    medium: bugs.filter(b => b.severity === 'medium'),
+    minor: bugs.filter(b => b.severity === 'minor')
+  };
+  
+  let html = '';
+  
+  for (const [severity, items] of Object.entries(grouped)) {
+    if (items.length === 0) continue;
+    
+    const severityLabels = {
+      critical: '🔴 Critical',
+      high: '🟠 High',
+      medium: '🟡 Medium',
+      minor: '🔵 Minor'
+    };
+    
+    html += `
+      <div class="bug-group">
+        <div class="bug-group-header ${severity}">
+          ${severityLabels[severity]} (${items.length})
+        </div>
+        <div class="bug-group-list">
+          ${items.map(bug => renderBugItem(bug)).join('')}
+        </div>
+      </div>
+    `;
+  }
+  
+  listEl.innerHTML = html || '<p class="no-bugs">没有符合筛选条件的 Bug</p>';
+}
+
+function renderBugItem(bug) {
+  const statusIcon = bug.status === 'fixed' ? '✅' : '🔴';
+  const statusClass = bug.status === 'fixed' ? 'fixed' : 'open';
+  const date = bug.created_at ? new Date(bug.created_at).toLocaleDateString('zh-CN') : '-';
+  const fixedDate = bug.fixed_at ? new Date(bug.fixed_at).toLocaleDateString('zh-CN') : '-';
+  
+  return `
+    <div class="bug-item ${statusClass}">
+      <div class="bug-status">${statusIcon}</div>
+      <div class="bug-content">
+        <div class="bug-title">${bug.title || bug.id}</div>
+        <div class="bug-meta">
+          <span class="bug-project">${bug.projectName || '未知项目'}</span>
+          <span class="bug-date">创建: ${date}</span>
+          ${bug.status === 'fixed' ? `<span class="bug-fixed-date">修复: ${fixedDate}</span>` : ''}
+        </div>
+      </div>
+      <div class="bug-actions">
+        <button class="btn btn-sm" onclick="viewBugDetail('${bug.id}')">查看</button>
+      </div>
+    </div>
+  `;
+}
+
+// 筛选 Bug
+function filterBugs() {
+  currentFilter.status = document.getElementById('statusFilter').value;
+  currentFilter.severity = document.getElementById('severityFilter').value;
+  
+  let filtered = [...bugsData];
+  
+  if (currentFilter.status !== 'all') {
+    filtered = filtered.filter(b => b.status === currentFilter.status);
+  }
+  
+  if (currentFilter.severity !== 'all') {
+    filtered = filtered.filter(b => b.severity === currentFilter.severity);
+  }
+  
+  renderBugList(filtered);
+}
+
+// 查看 Bug 详情
+function viewBugDetail(bugId) {
+  // 简化实现：只是显示一个提示
+  const bug = bugsData.find(b => b.id === bugId);
+  if (bug) {
+    alert(`Bug: ${bug.title || bugId}\n状态: ${bug.status}\n严重程度: ${bug.severity}\n项目: ${bug.projectName}`);
+  }
+}
+
+function showLoading(show) {
+  document.getElementById('loadingState').style.display = show ? 'flex' : 'none';
+}
+
+function showError(message) {
+  alert(message);
+}
+
+function refreshBugs() {
+  loadBugsData();
+  loadBugTrend();
+}
+
+// 主题切换时更新图表
+document.addEventListener('themeChanged', () => {
+  if (bugsData.length > 0) {
+    loadBugTrend();
+  }
+});
+</script>
+
+<style>
+/* Bug 页面样式 */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+}
+
+.page-title {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+}
+
+.page-actions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+/* 统计卡片 */
+.bug-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  background: var(--color-card);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-card .stat-icon {
+  font-size: 32px;
+}
+
+.stat-card .stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.stat-card .stat-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.stat-card.warning .stat-value {
+  color: var(--color-error);
+}
+
+.stat-card.success .stat-value {
+  color: var(--color-success);
+}
+
+/* 筛选栏 */
+.filter-bar {
+  display: flex;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-lg);
+  padding: var(--space-md);
+  background: var(--color-card);
+  border-radius: 8px;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.filter-group label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.filter-group select {
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* Bug 趋势图 */
+.bug-trend-card {
+  background: var(--color-card);
+  border-radius: 12px;
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.card-title {
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  margin-bottom: var(--space-md);
+}
+
+.chart-container {
+  height: 200px;
+}
+
+/* Bug 列表 */
+.bugs-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.bug-group {
+  background: var(--color-card);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.bug-group-header {
+  padding: var(--space-md) var(--space-lg);
+  font-weight: 600;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.bug-group-header.critical {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--color-error);
+}
+
+.bug-group-header.high {
+  background: rgba(249, 115, 22, 0.1);
+  color: #F97316;
+}
+
+.bug-group-header.medium {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--color-warning);
+}
+
+.bug-group-header.minor {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--color-primary);
+}
+
+.bug-group-list {
+  padding: var(--space-sm);
+}
+
+.bug-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.bug-item:hover {
+  background: var(--color-bg);
+}
+
+.bug-item.fixed {
+  opacity: 0.7;
+}
+
+.bug-status {
+  font-size: 20px;
+}
+
+.bug-content {
+  flex: 1;
+}
+
+.bug-title {
+  font-weight: 500;
+  margin-bottom: var(--space-xs);
+}
+
+.bug-meta {
+  display: flex;
+  gap: var(--space-md);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.bug-project {
+  color: var(--color-primary);
+}
+
+.bug-actions {
+  flex-shrink: 0;
+}
+
+.btn-sm {
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--font-size-xs);
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl) * 2;
+  text-align: center;
+}
+
+.empty-state-icon {
+  font-size: 64px;
+  opacity: 0.5;
+  margin-bottom: var(--space-md);
+}
+
+.empty-state-title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+}
+
+.empty-state-description {
+  color: var(--color-text-muted);
+}
+
+/* 加载状态 */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl) * 2;
+  gap: var(--space-md);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.no-bugs {
+  text-align: center;
+  padding: var(--space-xl);
+  color: var(--color-text-muted);
+}
+</style>

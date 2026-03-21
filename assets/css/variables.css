@@ -1,0 +1,197 @@
+/**
+ * CSS Variables - 视觉设计规范
+ * 项目：project-management-dashboard
+ * 版本：v1.0
+ * 更新：2026-03-21
+ */
+
+/* ==================== 颜色变量 ==================== */
+
+:root {
+  /* 主色 */
+  --color-primary: #1E40AF;
+  --color-primary-light: #3B82F6;
+  --color-primary-dark: #1E3A8A;
+  --color-primary-bright: #60A5FA;
+  
+  /* 背景色 */
+  --color-bg: #F8FAFC;
+  --color-card: #FFFFFF;
+  --color-sidebar: #1E293B;
+  
+  /* 边框 */
+  --color-border: #E2E8F0;
+  --color-border-dark: #CBD5E1;
+  
+  /* 文字色 */
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #475569;
+  --color-text-muted: #94A3B8;
+  
+  /* 状态色 */
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #3B82F6;
+  --color-in-progress: #3B82F6;
+  --color-done: #64748B;
+  --color-cancelled: #64748B;
+  --color-paused: #94A3B8;
+  
+  /* 路径颜色 */
+  --color-path-blue: #3B82F6;
+  --color-path-green: #10B981;
+  --color-path-yellow: #F59E0B;
+  --color-path-red: #EF4444;
+  --color-path-purple: #8B5CF6;
+  --color-path-pink: #EC4899;
+  --color-path-cyan: #06B6D4;
+  --color-path-gray: #6B7280;
+  
+  /* 阴影 */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  
+  /* 圆角 */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+  
+  /* 间距 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  
+  /* 字体 */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  
+  /* 字号 */
+  --text-xs: 10px;
+  --text-sm: 12px;
+  --text-base: 14px;
+  --text-lg: 16px;
+  --text-xl: 18px;
+  --text-2xl: 20px;
+  --text-3xl: 24px;
+  --text-4xl: 28px;
+  
+  /* 字重 */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  
+  /* 过渡 */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.2s ease;
+  --transition-slow: 0.3s ease;
+  --transition-bounce: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  
+  /* z-index */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal-backdrop: 400;
+  --z-modal: 500;
+  --z-popover: 600;
+  --z-tooltip: 700;
+}
+
+/* 深色模式 */
+[data-theme="dark"] {
+  --color-primary: #60A5FA;
+  --color-primary-light: #93C5FD;
+  --color-primary-dark: #3B82F6;
+  
+  --color-bg: #0F172A;
+  --color-card: #1E293B;
+  --color-sidebar: #0F172A;
+  
+  --color-border: #334155;
+  --color-border-dark: #475569;
+  
+  --color-text-primary: #F8FAFC;
+  --color-text-secondary: #94A3B8;
+  --color-text-muted: #64748B;
+  
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+}
+
+/* ==================== 组件变量 ==================== */
+
+/* 按钮 */
+--btn-height: 40px;
+--btn-padding-x: 24px;
+--btn-padding-y: 12px;
+--btn-radius: var(--radius-md);
+--btn-font-size: var(--text-base);
+--btn-font-weight: var(--font-medium);
+
+/* 输入框 */
+--input-height: 40px;
+--input-padding-x: 14px;
+--input-padding-y: 10px;
+--input-radius: var(--radius-md);
+--input-border: 1px solid var(--color-border);
+--input-focus-border: var(--color-primary-light);
+--input-focus-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+
+/* 卡片 */
+--card-padding: var(--space-5);
+--card-radius: var(--radius-lg);
+--card-shadow: var(--shadow-md);
+--card-shadow-hover: var(--shadow-lg);
+
+/* 表格 */
+--table-header-height: 48px;
+--table-row-height: 48px;
+--table-header-bg: #F8FAFC;
+
+/* 侧边栏 */
+--sidebar-width: 260px;
+--sidebar-collapsed-width: 60px;
+--sidebar-item-height: 48px;
+
+/* Header */
+--header-height: 64px;
+
+/* ==================== 状态标签背景色 ==================== */
+
+:root {
+  --status-success-bg: #D1FAE5;
+  --status-success-text: #059669;
+  --status-warning-bg: #FEF3C7;
+  --status-warning-text: #D97706;
+  --status-error-bg: #FEE2E2;
+  --status-error-text: #DC2626;
+  --status-info-bg: #DBEAFE;
+  --status-info-text: #2563EB;
+  --status-done-bg: #F1F5F9;
+  --status-done-text: #475569;
+}
+
+[data-theme="dark"] {
+  --status-success-bg: #064E3B;
+  --status-success-text: #34D399;
+  --status-warning-bg: #78350F;
+  --status-warning-text: #FBBF24;
+  --status-error-bg: #7F1D1D;
+  --status-error-text: #F87171;
+  --status-info-bg: #1E3A8A;
+  --status-info-text: #60A5FA;
+  --status-done-bg: #1E293B;
+  --status-done-text: #94A3B8;
+}

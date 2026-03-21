@@ -1,0 +1,21 @@
+{
+  "id": "DEV-021",
+  "title": "Agents 页面开发",
+  "type": "feature",
+  "description": "实现 Agents 页面，展示团队成员工作负载。",
+  "assignee": "Engineer",
+  "status": "done",
+  "priority": "P0",
+  "art_dependency": "none",
+  "estimated_hours": 2.5,
+  "completed_at": "2026-03-21T13:00:00+08:00",
+  "api_endpoints": [
+    "GET /api/agents",
+    "GET /api/agents/stats"
+  ],
+  "deliverables": [
+    "agents.hbs 页面 ✅",
+    "Agent 卡片组件 ✅",
+    "工作负载柱状图 ✅"
+  ]
+}

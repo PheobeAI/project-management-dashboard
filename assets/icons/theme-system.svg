@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="40" viewBox="0 0 60 40">
+  <!-- 系统主题预览缩略图 -->
+  <defs>
+    <linearGradient id="sysGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="50%" stop-color="#F8FAFC"/>
+      <stop offset="50%" stop-color="#0F172A"/>
+    </linearGradient>
+  </defs>
+  <rect width="60" height="40" rx="4" fill="url(#sysGrad)"/>
+  <rect x="4" y="4" width="20" height="32" rx="2" fill="#1E293B"/>
+  <rect x="28" y="8" width="28" height="6" rx="2" fill="#CBD5E1"/>
+  <rect x="28" y="18" width="28" height="4" rx="1" fill="#64748B"/>
+  <rect x="28" y="26" width="20" height="4" rx="1" fill="#64748B"/>
+  <rect x="4" y="4" width="4" height="32" rx="0" fill="#94A3B8"/>
+</svg>

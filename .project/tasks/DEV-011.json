@@ -1,0 +1,21 @@
+{
+  "id": "DEV-011",
+  "title": "基础测试与验收",
+  "type": "test",
+  "description": "基础功能测试：单元测试覆盖核心逻辑，集成测试验证 API。",
+  "assignee": "Engineer",
+  "status": "done",
+  "priority": "P0",
+  "dependencies": ["All"],
+  "estimated_hours": 3,
+  "actual_hours": 2,
+  "estimated_started": "2026-03-20T13:30:00+08:00",
+  "completed_at": "2026-03-20T14:00:00+08:00",
+  "deliverables": [
+    "DataParser 单元测试",
+    "ConfigManager 单元测试",
+    "FileScanner 单元测试",
+    "API 集成测试（框架）",
+    "Vitest 配置"
+  ]
+}

@@ -1,0 +1,493 @@
+{{! Tasks Page }}
+
+<div class="page-header">
+  <h1 class="page-title">✅ 任务流转</h1>
+  <div class="page-actions">
+    <button class="btn btn-secondary" onclick="refreshTasks()">
+      <span class="btn-icon">🔄</span> 刷新
+    </button>
+  </div>
+</div>
+
+<!-- 任务统计 -->
+<div class="task-stats-row" id="taskStatsRow">
+  <div class="stat-mini">
+    <span class="stat-num" id="statTotal">-</span>
+    <span class="stat-lbl">总计</span>
+  </div>
+  <div class="stat-mini waiting">
+    <span class="stat-num" id="statWaiting">-</span>
+    <span class="stat-lbl">等待</span>
+  </div>
+  <div class="stat-mini in-progress">
+    <span class="stat-num" id="statInProgress">-</span>
+    <span class="stat-lbl">进行中</span>
+  </div>
+  <div class="stat-mini done">
+    <span class="stat-num" id="statDone">-</span>
+    <span class="stat-lbl">已完成</span>
+  </div>
+</div>
+
+<!-- 筛选栏 -->
+<div class="filter-bar">
+  <div class="filter-group">
+    <label>状态:</label>
+    <select id="statusFilter" onchange="filterTasks()">
+      <option value="all">全部</option>
+      <option value="waiting">等待</option>
+      <option value="in_progress">进行中</option>
+      <option value="done">已完成</option>
+      <option value="cancelled">已取消</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label>类型:</label>
+    <select id="typeFilter" onchange="filterTasks()">
+      <option value="all">全部</option>
+      <option value="dev">开发</option>
+      <option value="art">美术</option>
+      <option value="test">测试</option>
+      <option value="other">其他</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label>负责人:</label>
+    <select id="assigneeFilter" onchange="filterTasks()">
+      <option value="all">全部</option>
+      <option value="PM">PM</option>
+      <option value="Designer">Designer</option>
+      <option value="Engineer">Engineer</option>
+      <option value="Art">Art</option>
+      <option value="QA">QA</option>
+    </select>
+  </div>
+</div>
+
+<!-- 加载状态 -->
+<div class="loading-state" id="loadingState">
+  <div class="spinner"></div>
+  <p>加载任务数据...</p>
+</div>
+
+<!-- 任务列表 -->
+<div class="tasks-container" id="tasksContainer">
+  <!-- 按状态分组的任务 -->
+</div>
+
+<!-- 空状态 -->
+<div class="empty-state" id="emptyState" style="display: none;">
+  <div class="empty-state-icon">📋</div>
+  <div class="empty-state-title">暂无任务数据</div>
+  <div class="empty-state-description">当前没有项目包含任务记录</div>
+</div>
+
+<script>
+const API_BASE = '/api';
+
+// 全局状态
+let tasksData = [];
+let currentFilter = { status: 'all', type: 'all', assignee: 'all' };
+
+// 初始化
+document.addEventListener('DOMContentLoaded', () => {
+  loadTasks();
+});
+
+// 加载任务数据
+async function loadTasks() {
+  showLoading(true);
+  
+  try {
+    // 加载统计
+    const statsResponse = await fetch(`${API_BASE}/tasks/stats`);
+    const statsResult = await statsResponse.json();
+    
+    if (statsResult.success) {
+      renderTaskStats(statsResult.data);
+    }
+    
+    // 加载任务列表
+    const response = await fetch(`${API_BASE}/tasks`);
+    const result = await response.json();
+    
+    if (result.success) {
+      tasksData = result.data;
+      renderTasks(tasksData);
+    }
+  } catch (error) {
+    console.error('Failed to load tasks:', error);
+    showError('加载任务数据失败');
+  } finally {
+    showLoading(false);
+  }
+}
+
+// 渲染任务统计
+function renderTaskStats(stats) {
+  document.getElementById('statTotal').textContent = stats.total || 0;
+  document.getElementById('statWaiting').textContent = stats.waiting || 0;
+  document.getElementById('statInProgress').textContent = stats.inProgress || 0;
+  document.getElementById('statDone').textContent = stats.done || 0;
+}
+
+// 渲染任务列表
+function renderTasks(tasks) {
+  const container = document.getElementById('tasksContainer');
+  const emptyState = document.getElementById('emptyState');
+  
+  if (!tasks || tasks.length === 0) {
+    container.style.display = 'none';
+    emptyState.style.display = 'flex';
+    return;
+  }
+  
+  container.style.display = 'block';
+  emptyState.style.display = 'none';
+  
+  // 按状态分组
+  const grouped = {
+    waiting: tasks.filter(t => t.status === 'waiting'),
+    in_progress: tasks.filter(t => t.status === 'in_progress'),
+    done: tasks.filter(t => t.status === 'done'),
+    cancelled: tasks.filter(t => t.status === 'cancelled')
+  };
+  
+  const statusLabels = {
+    waiting: { icon: '/assets/icons/status-waiting.svg', label: '等待中', color: '#F59E0B' },
+    in_progress: { icon: '/assets/icons/status-in-progress.svg', label: '进行中', color: '#3B82F6' },
+    done: { icon: '/assets/icons/status-done.svg', label: '已完成', color: '#10B981' },
+    cancelled: { icon: '/assets/icons/status-cancelled.svg', label: '已取消', color: '#6B7280' }
+  };
+  
+  let html = '';
+  
+  for (const [status, items] of Object.entries(grouped)) {
+    if (items.length === 0) continue;
+    
+    const info = statusLabels[status];
+    
+    html += `
+      <div class="task-group">
+        <div class="task-group-header" style="border-left-color: ${info.color}">
+          <span class="task-group-icon"><img src="${info.icon}" alt="${info.label}"></span>
+          <span class="task-group-label">${info.label}</span>
+          <span class="task-group-count">(${items.length})</span>
+        </div>
+        <div class="task-group-list">
+          ${items.map(task => renderTaskItem(task)).join('')}
+        </div>
+      </div>
+    `;
+  }
+  
+  container.innerHTML = html || '<p class="no-tasks">没有符合筛选条件的任务</p>';
+}
+
+function renderTaskItem(task) {
+  const typeIcons = {
+    dev: '/assets/icons/agent-engineer.svg',
+    art: '/assets/icons/agent-art.svg',
+    test: '/assets/icons/agent-qa.svg',
+    other: '/assets/icons/folder.svg'
+  };
+  const typeIcon = typeIcons[task.type] || typeIcons.other;
+  const dueDate = task.due ? new Date(task.due).toLocaleDateString('zh-CN') : '-';
+  const isOverdue = task.due && new Date(task.due) < new Date() && task.status !== 'done';
+  
+  return `
+    <div class="task-item ${isOverdue ? 'overdue' : ''}">
+      <div class="task-type"><img src="${typeIcon}" alt="${task.type}"></div>
+      <div class="task-content">
+        <div class="task-title">${task.title || task.id}</div>
+        <div class="task-meta">
+          <span class="task-project">${task.projectName || '未知项目'}</span>
+          <span class="task-assignee"><img src="/assets/icons/agent-pm.svg" alt="assignee" style="width:16px;height:16px;vertical-align:middle;"> ${task.assignee || '未分配'}</span>
+          <span class="task-due ${isOverdue ? 'overdue' : ''}">📅 ${dueDate}</span>
+        </div>
+      </div>
+      <div class="task-actions">
+        <button class="btn btn-sm" onclick="viewTask('${task.id}')">详情</button>
+      </div>
+    </div>
+  `;
+}
+
+// 筛选任务
+function filterTasks() {
+  currentFilter.status = document.getElementById('statusFilter').value;
+  currentFilter.type = document.getElementById('typeFilter').value;
+  currentFilter.assignee = document.getElementById('assigneeFilter').value;
+  
+  let filtered = [...tasksData];
+  
+  if (currentFilter.status !== 'all') {
+    filtered = filtered.filter(t => t.status === currentFilter.status);
+  }
+  
+  if (currentFilter.type !== 'all') {
+    filtered = filtered.filter(t => t.type === currentFilter.type);
+  }
+  
+  if (currentFilter.assignee !== 'all') {
+    filtered = filtered.filter(t => t.assignee === currentFilter.assignee);
+  }
+  
+  renderTasks(filtered);
+}
+
+// 查看任务详情
+function viewTask(taskId) {
+  const task = tasksData.find(t => t.id === taskId);
+  if (task) {
+    alert(`任务: ${task.title || taskId}\n状态: ${task.status}\n类型: ${task.type}\n负责人: ${task.assignee || '未分配'}\n项目: ${task.projectName || '未知'}`);
+  }
+}
+
+function showLoading(show) {
+  document.getElementById('loadingState').style.display = show ? 'flex' : 'none';
+}
+
+function showError(message) {
+  alert(message);
+}
+
+function refreshTasks() {
+  loadTasks();
+}
+</script>
+
+<style>
+/* Tasks 页面样式 */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+}
+
+.page-title {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+}
+
+/* 任务统计 */
+.task-stats-row {
+  display: flex;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.stat-mini {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-card);
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+  min-width: 80px;
+}
+
+.stat-mini .stat-num {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.stat-mini .stat-lbl {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.stat-mini.waiting .stat-num { color: #F59E0B; }
+.stat-mini.in-progress .stat-num { color: #3B82F6; }
+.stat-mini.done .stat-num { color: #10B981; }
+
+/* 筛选栏 */
+.filter-bar {
+  display: flex;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-lg);
+  padding: var(--space-md);
+  background: var(--color-card);
+  border-radius: 8px;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.filter-group label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.filter-group select {
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* 任务列表 */
+.tasks-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.task-group {
+  background: var(--color-card);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.task-group-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-lg);
+  border-left: 4px solid;
+  background: var(--color-bg);
+  font-weight: 600;
+}
+
+.task-group-icon {
+  font-size: 18px;
+}
+
+.task-group-count {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.task-group-list {
+  padding: var(--space-sm);
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.task-item:hover {
+  background: var(--color-bg);
+}
+
+.task-item.overdue {
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.task-type {
+  font-size: 24px;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.task-type img {
+  width: 24px;
+  height: 24px;
+}
+
+.task-content {
+  flex: 1;
+}
+
+.task-title {
+  font-weight: 500;
+  margin-bottom: var(--space-xs);
+}
+
+.task-meta {
+  display: flex;
+  gap: var(--space-md);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.task-project {
+  color: var(--color-primary);
+}
+
+.task-due.overdue {
+  color: var(--color-error);
+  font-weight: 500;
+}
+
+.task-actions {
+  flex-shrink: 0;
+}
+
+.btn-sm {
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--font-size-xs);
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl) * 2;
+  text-align: center;
+}
+
+.empty-state-icon {
+  font-size: 64px;
+  opacity: 0.5;
+  margin-bottom: var(--space-md);
+}
+
+.empty-state-title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+}
+
+.empty-state-description {
+  color: var(--color-text-muted);
+}
+
+/* 加载状态 */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl) * 2;
+  gap: var(--space-md);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.no-tasks {
+  text-align: center;
+  padding: var(--space-xl);
+  color: var(--color-text-muted);
+}
+</style>

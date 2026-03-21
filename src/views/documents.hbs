@@ -1,0 +1,636 @@
+{{! Documents Page - Enhanced }}
+
+<div class="page-header">
+  <h1 class="page-title">📄 Documents</h1>
+  <div class="page-actions">
+    <input type="text" id="searchInput" class="search-input" placeholder="搜索文档..." oninput="searchDocuments()">
+    <select id="projectFilter" class="filter-select" onchange="filterDocuments()">
+      <option value="all">所有项目</option>
+    </select>
+    <select id="typeFilter" class="filter-select" onchange="filterDocuments()">
+      <option value="all">所有类型</option>
+      <option value="md">Markdown</option>
+      <option value="json">JSON</option>
+      <option value="yaml">YAML</option>
+    </select>
+    <button class="btn btn-secondary" onclick="refreshDocuments()">
+      <span class="btn-icon">🔄</span>
+    </button>
+  </div>
+</div>
+
+<!-- 主内容区：左侧文档树 + 右侧预览 -->
+<div class="documents-layout">
+  <!-- 左侧：文档树 -->
+  <div class="doc-tree-panel">
+    <div class="panel-header">
+      <span class="panel-title">📁 文档树</span>
+    </div>
+    <div class="doc-tree" id="docTree">
+      <!-- 文档树将在这里渲染 -->
+    </div>
+  </div>
+
+  <!-- 右侧：文档预览 -->
+  <div class="doc-preview-panel">
+    <div class="preview-header" id="previewHeader">
+      <div class="preview-title" id="previewTitle">选择文档</div>
+      <div class="preview-path" id="previewPath"></div>
+    </div>
+    <div class="preview-actions" id="previewActions" style="display: none;">
+      <button class="btn btn-preview" onclick="downloadDocument()">下载</button>
+      <button class="btn btn-preview primary" onclick="shareDocument()">分享</button>
+    </div>
+    <div class="preview-content" id="previewContent">
+      <div class="preview-placeholder">
+        <div class="placeholder-icon">📄</div>
+        <div class="placeholder-text">从左侧选择一个文档查看预览</div>
+      </div>
+    </div>
+    <div class="preview-footer" id="previewFooter" style="display: none;">
+      <span class="version-info" id="versionInfo"></span>
+    </div>
+  </div>
+</div>
+
+<!-- 加载状态 -->
+<div class="loading-state" id="loadingState">
+  <div class="spinner"></div>
+  <p>加载文档数据...</p>
+</div>
+
+<script>
+const API_BASE = '/api';
+
+// 文档类型颜色
+const TYPE_COLORS = {
+  requirements: '#3B82F6',
+  design: '#8B5CF6',
+  review: '#10B981',
+  task: '#F59E0B',
+  md: '#64748B',
+  json: '#F97316',
+  yaml: '#06B6D4',
+  txt: '#6B7280'
+};
+
+let documentsData = [];
+let currentDoc = null;
+let currentFilter = { search: '', project: 'all', type: 'all' };
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadDocuments();
+});
+
+async function loadDocuments() {
+  showLoading(true);
+  
+  try {
+    const response = await fetch(`${API_BASE}/documents`);
+    const result = await response.json();
+    
+    if (result.success) {
+      documentsData = result.data;
+      buildDocumentTree();
+      populateProjectFilter();
+    }
+  } catch (error) {
+    console.error('Failed to load documents:', error);
+  } finally {
+    showLoading(false);
+  }
+}
+
+function buildDocumentTree() {
+  // 按项目分组
+  const projects = {};
+  
+  documentsData.forEach(doc => {
+    const projectName = doc.projectName || '未知项目';
+    if (!projects[projectName]) {
+      projects[projectName] = {
+        name: projectName,
+        children: {}
+      };
+    }
+    
+    // 解析路径获取分类
+    const parts = doc.relativePath?.split(/[\/\\]/) || ['', doc.name];
+    const category = getCategory(parts);
+    
+    if (!projects[projectName].children[category]) {
+      projects[projectName].children[category] = {
+        name: category,
+        icon: getCategoryIcon(category),
+        color: TYPE_COLORS[category.toLowerCase()] || TYPE_COLORS.md,
+        docs: []
+      };
+    }
+    projects[projectName].children[category].docs.push(doc);
+  });
+  
+  // 渲染树
+  const treeContainer = document.getElementById('docTree');
+  let html = '';
+  
+  for (const [projectName, project] of Object.entries(projects)) {
+    const isExpanded = projectName === Object.keys(projects)[0]; // 默认展开第一个
+    
+    html += `
+      <div class="tree-project">
+        <div class="tree-item project ${isExpanded ? 'expanded' : ''}" onclick="toggleProject(this)">
+          <span class="tree-arrow">${isExpanded ? '▼' : '▶'}</span>
+          <span class="tree-folder" style="background: ${TYPE_COLORS.task}">📁</span>
+          <span class="tree-label">${projectName}</span>
+          <span class="tree-count">(${Object.values(project.children).reduce((sum, c) => sum + c.docs.length, 0)})</span>
+        </div>
+        <div class="tree-children" style="display: ${isExpanded ? 'block' : 'none'}">
+          ${Object.entries(project.children).map(([catName, cat]) => renderCategory(cat, catName)).join('')}
+        </div>
+      </div>
+    `;
+  }
+  
+  treeContainer.innerHTML = html || '<div class="no-docs">暂无文档</div>';
+}
+
+function renderCategory(category, catName) {
+  const isExpanded = true;
+  let html = `
+    <div class="tree-category">
+      <div class="tree-item category ${isExpanded ? 'expanded' : ''}" onclick="toggleCategory(this)">
+        <span class="tree-arrow">${isExpanded ? '▼' : '▶'}</span>
+        <span class="tree-folder" style="background: ${category.color}">${category.icon}</span>
+        <span class="tree-label">${category.name}</span>
+        <span class="tree-count">(${category.docs.length})</span>
+      </div>
+      <div class="tree-children" style="display: ${isExpanded ? 'block' : 'none'}">
+  `;
+  
+  category.docs.forEach(doc => {
+    html += `
+      <div class="tree-item file" onclick="selectDocument('${encodeURIComponent(doc.path)}', '${encodeURIComponent(doc.name)}', '${encodeURIComponent(doc.projectName || '')}')">
+        <span class="tree-file-icon" style="background: ${getFileColor(doc.type)}">${getFileIcon(doc.type)}</span>
+        <span class="tree-label">${doc.name}</span>
+      </div>
+    `;
+  });
+  
+  html += '</div></div>';
+  return html;
+}
+
+function getCategory(parts) {
+  if (parts.length > 1) {
+    const first = parts[0].toLowerCase();
+    if (first.includes('需求') || first.includes('requirement')) return '需求文档';
+    if (first.includes('设计') || first.includes('design')) return '设计文档';
+    if (first.includes('评审') || first.includes('review')) return '评审记录';
+    if (first.includes('任务') || first.includes('task')) return '任务文档';
+  }
+  return '其他文档';
+}
+
+function getCategoryIcon(category) {
+  const icons = {
+    '需求文档': '📄',
+    '设计文档': '📐',
+    '评审记录': '✅',
+    '任务文档': '📋',
+    '其他文档': '📁'
+  };
+  return icons[category] || '📁';
+}
+
+function getFileIcon(type) {
+  const icons = {
+    md: '📝',
+    json: '📋',
+    yaml: '⚙️',
+    yml: '⚙️',
+    txt: '📄'
+  };
+  return icons[type?.toLowerCase()] || '📄';
+}
+
+function getFileColor(type) {
+  return TYPE_COLORS[type?.toLowerCase()] || TYPE_COLORS.md;
+}
+
+function toggleProject(element) {
+  const arrow = element.querySelector('.tree-arrow');
+  const children = element.nextElementSibling;
+  
+  if (children && children.classList.contains('tree-children')) {
+    const isExpanded = element.classList.toggle('expanded');
+    arrow.textContent = isExpanded ? '▼' : '▶';
+    children.style.display = isExpanded ? 'block' : 'none';
+  }
+}
+
+function toggleCategory(element) {
+  const arrow = element.querySelector('.tree-arrow');
+  const children = element.nextElementSibling;
+  
+  if (children && children.classList.contains('tree-children')) {
+    const isExpanded = element.classList.toggle('expanded');
+    arrow.textContent = isExpanded ? '▼' : '▶';
+    children.style.display = isExpanded ? 'block' : 'none';
+  }
+}
+
+function selectDocument(path, name, projectName) {
+  currentDoc = {
+    path: decodeURIComponent(path),
+    name: decodeURIComponent(name),
+    projectName: decodeURIComponent(projectName)
+  };
+  
+  // 更新选中状态
+  document.querySelectorAll('.tree-item.file').forEach(el => el.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+  
+  // 更新预览面板
+  document.getElementById('previewTitle').textContent = currentDoc.name;
+  document.getElementById('previewPath').textContent = currentDoc.projectName;
+  document.getElementById('previewActions').style.display = 'flex';
+  document.getElementById('previewFooter').style.display = 'flex';
+  
+  // 加载文档内容
+  loadDocumentContent(currentDoc.path);
+}
+
+async function loadDocumentContent(path) {
+  const content = document.getElementById('previewContent');
+  content.innerHTML = '<div class="loading-preview"><div class="spinner"></div></div>';
+  
+  try {
+    // 简单显示文档信息作为预览
+    const doc = documentsData.find(d => d.path === path);
+    if (doc) {
+      content.innerHTML = `
+        <div class="doc-preview-content">
+          <div class="preview-meta">
+            <span class="meta-item">📁 ${doc.relativePath || doc.path}</span>
+            <span class="meta-item">📊 ${doc.type?.toUpperCase() || 'FILE'}</span>
+          </div>
+          <div class="preview-placeholder">
+            <div class="placeholder-icon">${getFileIcon(doc.type)}</div>
+            <div class="placeholder-text">文档内容预览</div>
+            <div class="placeholder-subtext">${doc.name}</div>
+          </div>
+        </div>
+      `;
+      document.getElementById('versionInfo').textContent = `版本: v1.0.0 (${new Date().toLocaleDateString()})`;
+    }
+  } catch (error) {
+    content.innerHTML = '<div class="preview-error">加载失败</div>';
+  }
+}
+
+function downloadDocument() {
+  if (currentDoc) {
+    alert(`下载文档: ${currentDoc.name}`);
+  }
+}
+
+function shareDocument() {
+  if (currentDoc) {
+    alert(`分享文档: ${currentDoc.name}`);
+  }
+}
+
+function populateProjectFilter() {
+  const projects = [...new Set(documentsData.map(d => d.projectName))];
+  const select = document.getElementById('projectFilter');
+  
+  select.innerHTML = '<option value="all">所有项目</option>' +
+    projects.map(p => `<option value="${p}">${p}</option>`).join('');
+}
+
+function searchDocuments() {
+  currentFilter.search = document.getElementById('searchInput').value.toLowerCase();
+  filterDocuments();
+}
+
+function filterDocuments() {
+  currentFilter.project = document.getElementById('projectFilter').value;
+  currentFilter.type = document.getElementById('typeFilter').value;
+  
+  // 重建树并应用过滤
+  let filtered = [...documentsData];
+  
+  if (currentFilter.search) {
+    filtered = filtered.filter(d => 
+      d.name.toLowerCase().includes(currentFilter.search) ||
+      d.relativePath?.toLowerCase().includes(currentFilter.search)
+    );
+  }
+  
+  if (currentFilter.project !== 'all') {
+    filtered = filtered.filter(d => d.projectName === currentFilter.project);
+  }
+  
+  if (currentFilter.type !== 'all') {
+    filtered = filtered.filter(d => d.type === currentFilter.type);
+  }
+  
+  // 重新构建树
+  documentsData = filtered;
+  buildDocumentTree();
+}
+
+function showLoading(show) {
+  document.getElementById('loadingState').style.display = show ? 'flex' : 'none';
+}
+
+function refreshDocuments() {
+  loadDocuments();
+}
+</script>
+
+<style>
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+}
+
+.page-title {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+}
+
+.page-actions {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+}
+
+.search-input {
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: var(--font-size-sm);
+  width: 200px;
+}
+
+.filter-select {
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-card);
+  font-size: var(--font-size-sm);
+}
+
+/* 文档布局 */
+.documents-layout {
+  display: flex;
+  gap: var(--space-lg);
+  height: calc(100vh - 200px);
+  min-height: 500px;
+}
+
+/* 文档树面板 */
+.doc-tree-panel {
+  width: 400px;
+  flex-shrink: 0;
+  background: var(--color-card);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panel-header {
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.panel-title {
+  font-weight: 600;
+}
+
+.doc-tree {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-sm);
+}
+
+/* 树形结构 */
+.tree-project {
+  margin-bottom: var(--space-xs);
+}
+
+.tree-category {
+  margin-left: var(--space-md);
+  margin-bottom: var(--space-xs);
+}
+
+.tree-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.tree-item:hover {
+  background: var(--color-bg);
+}
+
+.tree-item.selected {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.tree-arrow {
+  font-size: 10px;
+  color: var(--color-text-muted);
+  width: 16px;
+}
+
+.tree-folder, .tree-file-icon {
+  font-size: 12px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.tree-label {
+  flex: 1;
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tree-count {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.tree-children {
+  margin-left: var(--space-md);
+}
+
+.tree-item.file {
+  padding-left: var(--space-lg);
+}
+
+/* 预览面板 */
+.doc-preview-panel {
+  flex: 1;
+  background: var(--color-card);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.preview-header {
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-md);
+}
+
+.preview-title {
+  font-weight: 600;
+  font-size: var(--font-size-md);
+}
+
+.preview-path {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.preview-actions {
+  padding: var(--space-sm) var(--space-lg);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.btn-preview {
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-bg);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.btn-preview:hover {
+  background: var(--color-border);
+}
+
+.btn-preview.primary {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.preview-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-lg);
+}
+
+.preview-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--color-text-muted);
+}
+
+.placeholder-icon {
+  font-size: 64px;
+  opacity: 0.5;
+  margin-bottom: var(--space-md);
+}
+
+.placeholder-text {
+  font-size: var(--font-size-md);
+}
+
+.placeholder-subtext {
+  font-size: var(--font-size-sm);
+  margin-top: var(--space-xs);
+}
+
+.loading-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.preview-footer {
+  padding: var(--space-sm) var(--space-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+.version-info {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.doc-preview-content {
+  font-size: var(--font-size-sm);
+}
+
+.preview-meta {
+  display: flex;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+  padding: var(--space-sm);
+  background: var(--color-bg);
+  border-radius: 6px;
+}
+
+.meta-item {
+  color: var(--color-text-muted);
+}
+
+/* 空状态 */
+.no-docs {
+  padding: var(--space-lg);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+/* 加载状态 */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl);
+  gap: var(--space-md);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+</style>
