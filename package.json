@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node src/server/index.js",
     "dev": "node src/server/index.js",
-    "test": "vitest"
+    "test": "vitest",
+    "verify": "node tests/basic/verify-singleton.js"
   },
   "keywords": ["dashboard", "project-management", "visualization"],
   "author": "",

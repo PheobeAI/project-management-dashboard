@@ -4,7 +4,6 @@
 
 const { describe, it, expect, beforeEach, vi } = require('vitest');
 const fs = require('fs').promises;
-const os = require('os');
 
 // Mock fs module
 vi.mock('fs', () => ({
@@ -15,6 +14,14 @@ vi.mock('fs', () => ({
   }
 }));
 
+// Mock logger
+vi.mock('../../src/server/services/Logger', () => ({
+  info: vi.fn(),
+  warn: vi.fn(),
+  error: vi.fn(),
+  debug: vi.fn()
+}));
+
 describe('ConfigManager', () => {
   let ConfigManager;
   let configManager;
@@ -23,13 +30,27 @@ describe('ConfigManager', () => {
     vi.resetModules();
     vi.clearAllMocks();
     
-    // Mock os.homedir
-    vi.stubGlobal('os', {
-      homedir: () => '/mock/home'
+    // Import the singleton instance directly
+    ConfigManager = require('../../src/server/services/ConfigManager');
+    configManager = ConfigManager;
+  });
+  
+  describe('export type', () => {
+    it('should be exported as a singleton instance, not a constructor', () => {
+      // ConfigManager should be an instance, not a class/function
+      expect(typeof ConfigManager).toBe('object');
+      expect(typeof ConfigManager).not.toBe('function');
     });
     
-    ConfigManager = require('../../src/server/services/ConfigManager');
-    configManager = new ConfigManager();
+    it('should have all required methods', () => {
+      expect(typeof configManager.getPaths).toBe('function');
+      expect(typeof configManager.savePaths).toBe('function');
+      expect(typeof configManager.addPath).toBe('function');
+      expect(typeof configManager.updatePath).toBe('function');
+      expect(typeof configManager.deletePath).toBe('function');
+      expect(typeof configManager.getSettings).toBe('function');
+      expect(typeof configManager.updateSettings).toBe('function');
+    });
   });
   
   describe('getPaths', () => {
@@ -61,6 +82,17 @@ describe('ConfigManager', () => {
       
       expect(paths).toEqual(mockPaths.paths);
     });
+    
+    it('should handle JSON parse errors gracefully', async () => {
+      fs.promises.readFile.mockResolvedValue('invalid json');
+      fs.promises.writeFile.mockResolvedValue();
+      fs.promises.mkdir.mockResolvedValue();
+      
+      const paths = await configManager.getPaths();
+      
+      // Should return default paths on parse error
+      expect(Array.isArray(paths)).toBe(true);
+    });
   });
   
   describe('addPath', () => {
@@ -78,6 +110,47 @@ describe('ConfigManager', () => {
       expect(result[0].path).toBe('/new/path');
       expect(result[0].alias).toBe('New');
       expect(result[0].color).toBe('#10B981');
+    });
+    
+    it('should generate id for new path', async () => {
+      const existingPaths = [];
+      const newPath = { path: '/new/path' };
+      
+      fs.promises.readFile.mockResolvedValue(JSON.stringify({ paths: existingPaths }));
+      fs.promises.writeFile.mockResolvedValue();
+      fs.promises.mkdir.mockResolvedValue();
+      
+      const result = await configManager.addPath(newPath);
+      
+      expect(result[0].id).toBeDefined();
+      expect(result[0].id).toMatch(/^path-\d+$/);
+    });
+  });
+  
+  describe('updatePath', () => {
+    it('should update an existing path', async () => {
+      const existingPaths = [
+        { id: 'path-1', path: '/old/path', alias: 'Old', color: '#000000' }
+      ];
+      
+      fs.promises.readFile.mockResolvedValue(JSON.stringify({ paths: existingPaths }));
+      fs.promises.writeFile.mockResolvedValue();
+      fs.promises.mkdir.mockResolvedValue();
+      
+      const result = await configManager.updatePath('path-1', { alias: 'Updated', color: '#FFFFFF' });
+      
+      expect(result[0].alias).toBe('Updated');
+      expect(result[0].color).toBe('#FFFFFF');
+      expect(result[0].path).toBe('/old/path'); // Unchanged
+    });
+    
+    it('should throw error when path not found', async () => {
+      const existingPaths = [];
+      fs.promises.readFile.mockResolvedValue(JSON.stringify({ paths: existingPaths }));
+      fs.promises.writeFile.mockResolvedValue();
+      fs.promises.mkdir.mockResolvedValue();
+      
+      await expect(configManager.updatePath('non-existent', {})).rejects.toThrow('Path not found');
     });
   });
   
@@ -112,6 +185,25 @@ describe('ConfigManager', () => {
       expect(settings).toHaveProperty('theme', 'light');
       expect(settings).toHaveProperty('autoRefresh', true);
       expect(settings).toHaveProperty('refreshInterval', 60000);
+    });
+  });
+  
+  describe('updateSettings', () => {
+    it('should update and return merged settings', async () => {
+      const existingSettings = {
+        theme: 'dark',
+        autoRefresh: false,
+        refreshInterval: 30000
+      };
+      
+      fs.promises.readFile.mockResolvedValue(JSON.stringify(existingSettings));
+      fs.promises.writeFile.mockResolvedValue();
+      fs.promises.mkdir.mockResolvedValue();
+      
+      const result = await configManager.updateSettings({ refreshInterval: 120000 });
+      
+      expect(result.theme).toBe('dark'); // Unchanged
+      expect(result.refreshInterval).toBe(120000); // Updated
     });
   });
 });
