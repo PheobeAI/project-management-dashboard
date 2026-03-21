@@ -4,6 +4,8 @@
  * 设置页逻辑：主题、刷新、路径管理
  */
 
+const API_BASE = '/api';
+
 document.addEventListener('DOMContentLoaded', async () => {
   await loadSettings();
   await loadPaths();
