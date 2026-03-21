@@ -20,20 +20,22 @@
 // API 基础路径
 const API_BASE = '/api';
 
-// ============ 初始�?============
+// ============ 初始化 ============
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // 初始化主�?  initTheme();
+  // 初始化主题（总是运行）
+  initTheme();
+  
+  // 初始化事件监听（总是运行）
+  initEventListeners();
   
   // 加载设置
-  await loadSettings();
+  await loadSettings().catch(() => {});
   
-  // 加载数据
-  await loadProjects();
+  // 加载数据（Dashboard 专属，其他页面会失败但不影响）
+  await loadProjects().catch(() => {});
   
-  // 初始化事件监�?  initEventListeners();
-  
-  // 启动自动刷新
+  // 启动自动刷新（Dashboard 专属）
   if (AppState.settings.autoRefresh) {
     startAutoRefresh();
   }
