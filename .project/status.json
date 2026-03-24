@@ -2,9 +2,13 @@
   "project_name": "project-management-dashboard",
   "created_at": "2026-03-19T22:12:00+08:00",
   "milestone": "M0",
-  "phase": "approved",
+  "phase": "iterating",
   "previous_phase": "iterating",
-  "waiting_for": null,
+  "waiting_for": {
+    "agent": "Engineer",
+    "action": "fix_new_bugs",
+    "since": "2026-03-24T17:46:00+08:00"
+  },
   "idea": "Boss需要一个项目管理平台，用于管理项目状态、任务、Agent等。核心要求：侧边栏布局（可收缩）、清晰的导航结构",
   "team": {
     "pm": "PM",
@@ -360,6 +364,12 @@
       "event": "project_accepted",
       "by": "Boss",
       "detail": "Boss 最终验收通过，项目 M0 正式完成。github_commit 由 Engineer 完成后即上线。"
+    },
+    {
+      "timestamp": "2026-03-24T17:31:00+08:00",
+      "event": "reopened",
+      "by": "Boss",
+      "detail": "Boss 打回：BLOCKER-007 数据问题未闭环，不认可 M0 完成。继续 iterating。"
     }
   ]
 }

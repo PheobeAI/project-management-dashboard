@@ -387,6 +387,13 @@ function showAddPathModal() {
   document.getElementById('newPathColor').value = '#3B82F6';
   document.getElementById('pathModalTitle').textContent = '添加项目路径';
   
+  // 重置 confirmBtn 状态（修复 editPath 后 confirmBtn 仍指向 updatePath 的问题）
+  const confirmBtn = document.querySelector('#addPathModal .btn-primary');
+  if (confirmBtn) {
+    confirmBtn.textContent = '添加';
+    confirmBtn.onclick = addPath;
+  }
+  
   // 先显示弹窗，再触发目录选择器
   const modal = document.getElementById('addPathModal');
   modal.style.display = 'flex';
