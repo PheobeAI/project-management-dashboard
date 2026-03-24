@@ -146,6 +146,10 @@ let currentLogs = [];
 let currentFilter = { type: 'all', severity: 'all' };
 
 document.addEventListener('DOMContentLoaded', () => {
+  // 应用保存的主题
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+  
   loadLogs();
 });
 

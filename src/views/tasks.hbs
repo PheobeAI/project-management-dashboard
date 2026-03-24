@@ -91,6 +91,10 @@ let currentFilter = { status: 'all', type: 'all', assignee: 'all' };
 
 // 初始化
 document.addEventListener('DOMContentLoaded', () => {
+  // 应用保存的主题
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+  
   loadTasks();
 });
 

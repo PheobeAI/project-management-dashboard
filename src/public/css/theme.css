@@ -4,17 +4,6 @@
  * 使用 CSS Variables 实现主题切换
  */
 
-/* Sidebar Light Mode Variables */
-:root {
-  --sidebar-bg: #1E293B;
-  --sidebar-header-bg: #0F172A;
-  --sidebar-text: #FFFFFF;
-  --sidebar-text-muted: #94A3B8;
-  --sidebar-divider: #334155;
-  --sidebar-nav-hover: rgba(255, 255, 255, 0.1);
-  --sidebar-nav-active: rgba(96, 165, 250, 0.2);
-}
-
 /* Dark Mode */
 [data-theme="dark"] {
   --color-primary: #60A5FA;
@@ -31,7 +20,7 @@
   --color-error: #F87171;
   --color-info: #60A5FA;
   
-  /* Sidebar Dark Mode */
+  /* Sidebar Dark Mode - deep dark variant */
   --sidebar-bg: #0F172A;
   --sidebar-header-bg: #020617;
   --sidebar-text: #F8FAFC;

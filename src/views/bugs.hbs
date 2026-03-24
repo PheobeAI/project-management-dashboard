@@ -99,6 +99,10 @@ let currentFilter = { status: 'all', severity: 'all' };
 
 // 初始化
 document.addEventListener('DOMContentLoaded', () => {
+  // 应用保存的主题
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+  
   loadBugsData();
   loadBugTrend();
 });
@@ -160,6 +164,21 @@ function renderBugTrendChart(trend) {
   
   if (bugTrendChart) {
     bugTrendChart.destroy();
+  }
+  
+  // 无历史数据时显示提示
+  const hasData = trend.some(t => t.total > 0 || t.fixed > 0 || t.open > 0);
+  if (!hasData) {
+    ctx.parentElement.style.position = 'relative';
+    const existing = ctx.parentElement.querySelector('.no-trend-data');
+    if (!existing) {
+      const msg = document.createElement('div');
+      msg.className = 'no-trend-data';
+      msg.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#94A3B8;font-size:14px;pointer-events:none;';
+      msg.textContent = '暂无历史趋势数据';
+      ctx.parentElement.appendChild(msg);
+    }
+    return;
   }
   
   // 使用 Art 提供的图表配置

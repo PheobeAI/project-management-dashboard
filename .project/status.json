@@ -4,7 +4,11 @@
   "milestone": "M0",
   "phase": "iterating",
   "previous_phase": "approved",
-  "waiting_for": null,
+  "waiting_for": {
+    "agent": "Engineer",
+    "action": "fix_new_bugs",
+    "since": "2026-03-24T17:03:00+08:00"
+  },
   "idea": "Boss需要一个项目管理平台，用于管理项目状态、任务、Agent等。核心要求：侧边栏布局（可收缩）、清晰的导航结构",
   "team": {
     "pm": "PM",
@@ -85,8 +89,11 @@
       "type": "bug",
       "description": "Tasks 页面看不到 Art Task（BUG-007）",
       "severity": "major",
-      "status": "wontfix",
-      "note": "API 数据正常，前端显示需进一步验证"
+      "status": "fixed",
+      "fixed_at": "2026-03-24T16:32:00+08:00",
+      "fixed_by": "Engineer",
+      "verified_by": "QA",
+      "verified_at": "2026-03-24T16:40:00+08:00"
     },
     {
       "id": "BLOCKER-008",
@@ -94,7 +101,9 @@
       "description": "Dashboard 强制弹窗加载失败（BUG-008）",
       "severity": "critical",
       "status": "wontfix",
-      "qa_result": "CANNOT REPRODUCE"
+      "qa_result": "CANNOT REPRODUCE",
+      "agreed_by": "QA,Engineer,PM",
+      "closed_at": "2026-03-24T16:43:00+08:00"
     },
     {
       "id": "BLOCKER-009",
@@ -140,16 +149,19 @@
       "type": "bug",
       "description": "Projects 页面白屏：Cannot GET /projects（BUG-011）",
       "severity": "critical",
-      "status": "fixed_pending_qa",
-      "fixed_at": "2026-03-21T22:06:00+08:00"
+      "status": "fixed",
+      "fixed_at": "2026-03-21T22:06:00+08:00",
+      "verified_by": "QA"
     },
     {
       "id": "BLOCKER-014",
       "type": "bug",
       "description": "Agents/Tasks/Versions 页面无法切换夜间模式（BUG-012）",
       "severity": "major",
-      "status": "fixed_pending_qa",
-      "fixed_at": "2026-03-21T22:06:00+08:00"
+      "status": "fixed",
+      "fixed_at": "2026-03-21T22:06:00+08:00",
+      "verified_by": "QA",
+      "verified_at": "2026-03-24T15:20:00+08:00"
     },
     {
       "id": "BLOCKER-015",
@@ -166,23 +178,40 @@
       "type": "bug",
       "description": "深色/浅色模式对侧边栏不生效（BUG-014）",
       "severity": "major",
-      "status": "open"
+      "status": "fixed",
+      "fixed_at": "2026-03-24T15:00:00+08:00",
+      "verified_by": "QA",
+      "verified_at": "2026-03-24T15:20:00+08:00"
     },
     {
       "id": "BLOCKER-017",
       "type": "bug",
       "description": "侧边栏logo在深色模式下不清晰（BUG-015）",
       "severity": "minor",
-      "status": "open"
+      "status": "fixed",
+      "fixed_at": "2026-03-24T15:00:00+08:00",
+      "verified_by": "QA",
+      "verified_at": "2026-03-24T15:20:00+08:00"
     },
     {
-      "id": "BLOCKER-016",
+      "id": "BLOCKER-018",
       "type": "bug",
-      "description": "Projects/Agents/Tasks 页面右上角切换主题按钮无效（BUG-014）",
+      "description": "Projects/Agents/Tasks 页面右上角切换主题按钮无效（BUG-017）",
       "severity": "critical",
-      "status": "open",
-      "reported_by": "Boss",
-      "reported_at": "2026-03-21T22:15:00+08:00"
+      "status": "fixed",
+      "fixed_at": "2026-03-24T15:00:00+08:00",
+      "verified_by": "QA",
+      "verified_at": "2026-03-24T15:20:00+08:00"
+    },
+    {
+      "id": "BLOCKER-019",
+      "type": "bug",
+      "description": "Settings 添加路径无目录选择器（BUG-018）",
+      "severity": "major",
+      "status": "fixed",
+      "fixed_at": "2026-03-24T15:00:00+08:00",
+      "verified_by": "QA",
+      "verified_at": "2026-03-24T15:20:00+08:00"
     }
   ],
   "dev_task_summary": {
@@ -287,6 +316,12 @@
       "event": "project_accepted",
       "by": "Boss",
       "detail": "Boss 最终验收通过，同意上线。指示 Engineer 提交代码到 GitHub"
+    },
+    {
+      "timestamp": "2026-03-24T16:43:00+08:00",
+      "event": "bug_close_complete",
+      "by": "QA",
+      "detail": "全部 18 个 bug 已处理完毕：16 fixed+verified，1 wontfix(BUG-008)，1 data issue(BUG-007 已修复)。所有 blocker 清除，项目进入发布就绪状态。"
     }
   ]
 }
