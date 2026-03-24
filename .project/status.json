@@ -4,11 +4,7 @@
   "milestone": "M0",
   "phase": "iterating",
   "previous_phase": "approved",
-  "waiting_for": {
-    "agent": "Engineer",
-    "action": "github_commit",
-    "since": "2026-03-21T20:29:00+08:00"
-  },
+  "waiting_for": null,
   "idea": "Boss需要一个项目管理平台，用于管理项目状态、任务、Agent等。核心要求：侧边栏布局（可收缩）、清晰的导航结构",
   "team": {
     "pm": "PM",
