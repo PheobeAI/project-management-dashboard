@@ -598,7 +598,8 @@ router.get('/tasks', async (req, res) => {
       allTasks = allTasks.filter(t => t.status === status);
     }
     if (type && type !== 'all') {
-      allTasks = allTasks.filter(t => t.type === type);
+      // 大小写不敏感匹配，支持 art/Art/ART 等各种大小写形式
+      allTasks = allTasks.filter(t => t.type && t.type.toLowerCase() === type.toLowerCase());
     }
     if (assignee && assignee !== 'all') {
       allTasks = allTasks.filter(t => t.assignee === assignee);

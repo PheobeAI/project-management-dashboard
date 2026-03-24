@@ -101,9 +101,16 @@ class DataParser {
     
     try {
       const files = await fs.readdir(tasksDir);
+      
+      // JSON 文件：DEV-xxx.json
       const jsonFiles = files.filter(f => f.endsWith('.json'));
       
+      // Markdown 文件：ART-xxx.md（Art Task）
+      const mdFiles = files.filter(f => /^ART-\d+\.md$/i.test(f));
+      
       const tasks = [];
+      
+      // 解析 JSON 文件
       for (const file of jsonFiles) {
         try {
           const content = await fs.readFile(path.join(tasksDir, file), 'utf-8');
@@ -119,6 +126,17 @@ class DataParser {
         }
       }
       
+      // 解析 ART Markdown 文件
+      for (const file of mdFiles) {
+        try {
+          const content = await fs.readFile(path.join(tasksDir, file), 'utf-8');
+          const task = this._parseArtTaskMd(content, file);
+          if (task) tasks.push(task);
+        } catch (error) {
+          console.warn(`Failed to parse art task file ${file}: ${error.message}`);
+        }
+      }
+      
       return tasks;
     } catch (error) {
       if (error.code === 'ENOENT') {
@@ -127,6 +145,62 @@ class DataParser {
       console.warn(`Failed to read tasks directory: ${error.message}`);
       return [];
     }
+  }
+  
+  /**
+   * 解析 ART-*.md 文件，提取 Art Task 数据
+   * @param {string} content - Markdown 内容
+   * @param {string} filename - 文件名
+   * @returns {object|null}
+   */
+  _parseArtTaskMd(content, filename) {
+    try {
+      const idMatch = filename.match(/^(ART-\d+)\.md$/i);
+      if (!idMatch) return null;
+      const id = idMatch[1].toUpperCase();
+      
+      // 从 # 标题提取 title
+      const titleMatch = content.match(/^#\s*Art\s*Task:\s*(.+)$/m);
+      const title = titleMatch ? titleMatch[1].trim() : id;
+      
+      // 从 **ID** / **Type** / **Status** / **Priority** 提取字段
+      const getField = (label) => {
+        const re = new RegExp(`\\*\\*${label}\\*\\*\\s*[:：]\\s*(.+)`, 'i');
+        const m = content.match(re);
+        return m ? m[1].trim() : null;
+      };
+      
+      const artStatus = getField('Status') || 'waiting';
+      const status = this._mapArtStatus(artStatus);
+      
+      return {
+        id,
+        title,
+        type: 'art',
+        status,
+        artStatus, // 保留原始 art status
+        priority: getField('Priority') || 'P1',
+        created: getField('Created') || null,
+        assignee: 'Art',
+        description: content.substring(0, 200),
+        projectName: '',
+        projectId: ''
+      };
+    } catch (e) {
+      console.warn(`[DataParser] Failed to parse art task ${filename}: ${e.message}`);
+      return null;
+    }
+  }
+  
+  /**
+   * 将 Art 任务状态映射为标准状态
+   */
+  _mapArtStatus(artStatus) {
+    const s = artStatus.toLowerCase();
+    if (s.includes('done') || s.includes('complete')) return 'done';
+    if (s.includes('progress')) return 'in_progress';
+    if (s.includes('cancelled') || s.includes('cancel')) return 'cancelled';
+    return 'waiting';
   }
 
   /**

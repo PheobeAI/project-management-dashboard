@@ -191,7 +191,8 @@ function renderTaskItem(task) {
     test: '/assets/icons/agent-qa.svg',
     other: '/assets/icons/folder.svg'
   };
-  const typeIcon = typeIcons[task.type] || typeIcons.other;
+  const taskType = (task.type || 'other').toLowerCase();
+  const typeIcon = typeIcons[taskType] || typeIcons.other;
   const dueDate = task.due ? new Date(task.due).toLocaleDateString('zh-CN') : '-';
   const isOverdue = task.due && new Date(task.due) < new Date() && task.status !== 'done';
   
@@ -226,7 +227,7 @@ function filterTasks() {
   }
   
   if (currentFilter.type !== 'all') {
-    filtered = filtered.filter(t => t.type === currentFilter.type);
+    filtered = filtered.filter(t => t.type && t.type.toLowerCase() === currentFilter.type.toLowerCase());
   }
   
   if (currentFilter.assignee !== 'all') {
