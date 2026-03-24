@@ -27,7 +27,8 @@ async function loadTemplates() {
     'versions.hbs',
     'documents.hbs',
     'bugs.hbs',
-    'projects.hbs'
+    'projects.hbs',
+    'log.hbs'
   ];
   
   for (const file of templateFiles) {
@@ -59,6 +60,7 @@ router.get('/', async (req, res) => {
       title: 'Project Dashboard',
       content,
       page: 'home'
+      // app.js 和 sidebar.js 已在 layout.hbs 中默认加载，无需 extraScripts
     }));
   } catch (error) {
     res.status(500).send('Error loading page');

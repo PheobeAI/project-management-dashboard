@@ -60,15 +60,14 @@ class FileScanner {
     const projectDir = path.join(projectPath, '.project');
     const projectName = path.basename(projectPath);
     
-    // 读取 status.json
+    // 读取 status.json（用于获取 milestone）
     const status = await this.dataParser.parseStatus(projectDir);
     
-    // 读取任务列表
-    const tasksDir = path.join(projectDir, 'tasks');
-    const tasks = await this.dataParser.parseTasks(tasksDir);
+    // 读取任务列表（milestone-aware）
+    const tasks = await this.dataParser.parseTasks(projectDir);
     
-    // 读取测试结果
-    const testResults = await this.dataParser.parseTestResults(projectPath);
+    // 读取测试结果（milestone-aware）
+    const testResults = await this.dataParser.parseTestResults(projectDir);
     
     // 计算进度
     const progress = this.calculateProgress(tasks);
@@ -84,6 +83,7 @@ class FileScanner {
       pathAlias: pathConfig.alias || pathConfig.path,
       pathColor: pathConfig.color,
       phase: status?.phase || 0,
+      milestone: status?.milestone || 'M0',
       progress,
       status: statusIndicator,
       waitingFor: status?.waiting_for || null,

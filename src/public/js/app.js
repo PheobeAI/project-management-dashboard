@@ -3,6 +3,8 @@
  * Project Management Dashboard
  */
 
+console.log('[Dashboard] app.js loading...');
+
 const AppState = {
   projects: [],
   settings: { theme: 'light', autoRefresh: true, refreshInterval: 60000 },
@@ -15,12 +17,24 @@ const AppState = {
 const API_BASE = '/api';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  initTheme();
-  initEventListeners();
-  await loadSettings().catch(() => {});
-  await loadProjects().catch(() => {});
+  console.log('[Dashboard] DOMContentLoaded fired');
+  try {
+    initTheme();
+    initEventListeners();
+  } catch (e) {
+    console.error('[Dashboard] init error:', e);
+  }
+  await loadSettings().catch((e) => console.error('[Dashboard] loadSettings error:', e));
+  console.log('[Dashboard] Starting loadProjects...');
+  await loadProjects().catch((e) => console.error('[Dashboard] loadProjects error:', e));
   if (AppState.settings.autoRefresh) startAutoRefresh();
 });
+
+// Global error handler
+window.onerror = function(msg, url, line, col, error) {
+  console.error('[Dashboard] Global error:', msg, 'at line', line, col);
+  return false;
+};
 
 function initTheme() {
   const savedTheme = localStorage.getItem('theme') || 'light';
@@ -71,14 +85,25 @@ async function loadSettings() {
 }
 
 async function loadProjects() {
-  const response = await fetch(`${API_BASE}/projects`);
-  const result = await response.json();
-  if (result.success) {
-    AppState.projects = result.data;
-    renderProjects();
-    renderStats();
-    renderCharts();
-    renderPathFilter();
+  console.log('[Dashboard] loadProjects called');
+  try {
+    const response = await fetch(`${API_BASE}/projects`);
+    const result = await response.json();
+    console.log('[Dashboard] API response:', result);
+    if (result.success) {
+      AppState.projects = result.data;
+      console.log('[Dashboard] Projects loaded:', AppState.projects.length);
+      try { renderProjects(); } catch(e) { console.error('[Dashboard] renderProjects error:', e); }
+      try { renderStats(); } catch(e) { console.error('[Dashboard] renderStats error:', e); }
+      try { renderCharts(); } catch(e) { console.error('[Dashboard] renderCharts error:', e); }
+      try { renderPathFilter(); } catch(e) { console.error('[Dashboard] renderPathFilter error:', e); }
+    } else {
+      console.error('[Dashboard] API returned success:false', result.error);
+      showError('加载项目失败: ' + (result.error || '未知错误'));
+    }
+  } catch (error) {
+    console.error('[Dashboard] loadProjects error:', error);
+    showError('加载项目失败: ' + error.message);
   }
 }
 
@@ -96,9 +121,9 @@ async function refreshData() {
   const result = await response.json();
   if (result.success) {
     AppState.projects = result.data.projects;
-    renderProjects();
-    renderStats();
-    renderCharts();
+    try { renderProjects(); } catch(e) { console.error('[Dashboard] renderProjects error:', e); }
+    try { renderStats(); } catch(e) { console.error('[Dashboard] renderStats error:', e); }
+    try { renderCharts(); } catch(e) { console.error('[Dashboard] renderCharts error:', e); }
   }
 }
 
@@ -127,12 +152,14 @@ function renderProjects() {
 }
 
 function renderStats() {
+  console.log('[Dashboard] renderStats called, projects count:', AppState.projects.length);
   const s = {
     total: AppState.projects.length,
     inProgress: AppState.projects.filter(p => p.status === 'warning').length,
     completed: AppState.projects.filter(p => p.progress === 100).length,
     blocked: AppState.projects.filter(p => p.status === 'blocked').length
   };
+  console.log('[Dashboard] Stats values:', s);
   const el = id => document.getElementById(id);
   if (el('totalProjects')) el('totalProjects').textContent = s.total;
   if (el('inProgress')) el('inProgress').textContent = s.inProgress;
@@ -159,6 +186,7 @@ function renderCharts() {
 }
 
 function initCharts() {
+  try {
   const isDark = AppState.settings.theme === 'dark';
   const textColor = isDark ? '#94A3B8' : '#64748B';
   const gridColor = isDark ? '#334155' : '#E2E8F0';
@@ -191,9 +219,12 @@ function initCharts() {
   }
   
   window.charts = true;
+  } catch(e) {
+    console.error('[Dashboard] initCharts error:', e);
+  }
 }
 
-function updateChartsTheme() { initCharts(); }
+function updateChartsTheme() { try { initCharts(); } catch(e) {} }
 
 function filterProjects(projects) {
   return projects.filter(p => {
@@ -256,6 +287,7 @@ function initEventListeners() {
 }
 
 window.AppState = AppState;
+window.initTheme = initTheme;
 window.toggleTheme = toggleTheme;
 window.refreshData = refreshData;
 window.navigateToProject = navigateToProject;

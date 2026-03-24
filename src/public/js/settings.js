@@ -264,11 +264,16 @@ function updateThemeButtons(theme) {
 // ============ 路径管理 ============
 
 let selectedColor = '#3B82F6';
+let editingPathId = null; // 当前编辑的路径 ID
 
 function showAddPathModal() {
+  // 重置编辑状态
+  editingPathId = null;
+  document.getElementById('newPathId').value = '';
+  
   const modal = document.getElementById('addPathModal');
   if (modal) {
-    modal.classList.add('active');
+    modal.style.display = 'flex';
     document.getElementById('newPathInput').value = '';
     document.getElementById('newPathInput').placeholder = '选择或输入路径';
     document.getElementById('newPathAlias').value = '';
@@ -277,28 +282,33 @@ function showAddPathModal() {
       b.classList.toggle('active', b.dataset.color === selectedColor);
     });
     
+    // 重置模态框标题和按钮
+    const title = modal.querySelector('h3');
+    const confirmBtn = document.getElementById('confirmAddPath');
+    if (title) title.textContent = '添加路径';
+    if (confirmBtn) {
+      confirmBtn.textContent = '添加';
+      confirmBtn.onclick = addPath;
+    }
+    
     // 设置目录选择器事件
     const dirPicker = document.getElementById('pathDirectoryPicker');
     if (dirPicker) {
       dirPicker.onchange = (e) => {
         const files = e.target.files;
         if (files && files.length > 0) {
-          // 获取第一个文件的路径（目录路径）
           const file = files[0];
           let dirPath = file.webkitRelativePath || file.name;
-          // 从完整路径中提取目录
           if (file.webkitRelativePath) {
             const parts = file.webkitRelativePath.split('/');
             if (parts.length > 1) {
-              parts.pop(); // 移除文件名
+              parts.pop();
               dirPath = parts.join('/');
-              // 获取盘符
               if (file.mozFullPath) {
                 dirPath = file.mozFullPath.split('/').slice(0, -1).join('/');
               }
             }
           }
-          // 尝试获取完整路径
           if (file.fullPath) {
             dirPath = file.fullPath.split('/').slice(0, -1).join('/');
           }
@@ -324,7 +334,16 @@ function showAddPathModal() {
 function hideAddPathModal() {
   const modal = document.getElementById('addPathModal');
   if (modal) {
-    modal.classList.remove('active');
+    modal.style.display = 'none';
+    // 重置编辑状态
+    editingPathId = null;
+    const title = modal.querySelector('h3');
+    const confirmBtn = document.getElementById('confirmAddPath');
+    if (title) title.textContent = '添加路径';
+    if (confirmBtn) {
+      confirmBtn.textContent = '添加';
+      confirmBtn.onclick = addPath;
+    }
   }
 }
 
@@ -356,7 +375,6 @@ async function addPath() {
       hideAddPathModal();
       renderPaths(result.data);
       
-      // 刷新首页
       if (window.opener) {
         window.opener.location.reload();
       }
@@ -366,6 +384,52 @@ async function addPath() {
   } catch (error) {
     console.error('Failed to add path:', error);
     showError('添加路径失败');
+  }
+}
+
+async function updatePath() {
+  const pathId = document.getElementById('newPathId').value;
+  if (!pathId) {
+    showError('路径 ID 不存在');
+    return;
+  }
+  
+  const pathInput = document.getElementById('newPathInput');
+  const aliasInput = document.getElementById('newPathAlias');
+  const path = pathInput.value.trim();
+  
+  if (!path) {
+    pathInput.placeholder = '请输入或选择路径';
+    pathInput.focus();
+    return;
+  }
+  
+  try {
+    const response = await fetch(`${API_BASE}/paths/${pathId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        path,
+        alias: aliasInput.value.trim(),
+        color: selectedColor
+      })
+    });
+    
+    const result = await response.json();
+    
+    if (result.success) {
+      hideAddPathModal();
+      renderPaths(result.data);
+      
+      if (window.opener) {
+        window.opener.location.reload();
+      }
+    } else {
+      showError('更新失败: ' + result.error);
+    }
+  } catch (error) {
+    console.error('Failed to update path:', error);
+    showError('更新路径失败');
   }
 }
 
@@ -382,7 +446,6 @@ async function deletePath(id) {
     if (result.success) {
       renderPaths(result.data);
       
-      // 刷新首页
       if (window.opener) {
         window.opener.location.reload();
       }
@@ -396,7 +459,6 @@ async function deletePath(id) {
 }
 
 function editPath(id) {
-  // 编辑路径
   const pathData = window.pathData || {};
   const path = pathData[id];
   
@@ -405,20 +467,26 @@ function editPath(id) {
     return;
   }
   
-  // 填充编辑表单
+  editingPathId = id;
   document.getElementById('newPathId').value = id;
   document.getElementById('newPathInput').value = path.path;
   document.getElementById('newPathAlias').value = path.alias || '';
-  document.getElementById('newPathColor').value = path.color || '#3B82F6';
+  selectedColor = path.color || '#3B82F6';
   
-  // 显示编辑模态框
   const modal = document.getElementById('addPathModal');
   const title = modal.querySelector('h3');
   const confirmBtn = document.getElementById('confirmAddPath');
   
-  title.textContent = '编辑路径';
-  confirmBtn.textContent = '保存';
-  confirmBtn.onclick = updatePath;
+  if (title) title.textContent = '编辑路径';
+  if (confirmBtn) {
+    confirmBtn.textContent = '保存';
+    confirmBtn.onclick = updatePath;
+  }
+  
+  // 更新颜色选择
+  document.querySelectorAll('.color-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.color === selectedColor);
+  });
   
   modal.style.display = 'flex';
 }
@@ -458,5 +526,6 @@ window.loadPaths = loadPaths;
 window.showAddPathModal = showAddPathModal;
 window.hideAddPathModal = hideAddPathModal;
 window.addPath = addPath;
+window.updatePath = updatePath;
 window.deletePath = deletePath;
 window.editPath = editPath;

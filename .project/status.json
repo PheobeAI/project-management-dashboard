@@ -1,6 +1,7 @@
 {
   "project_name": "project-management-dashboard",
   "created_at": "2026-03-19T22:12:00+08:00",
+  "milestone": "M0",
   "phase": "iterating",
   "previous_phase": "approved",
   "waiting_for": {
@@ -133,8 +134,10 @@
       "type": "bug",
       "description": "Dashboard 项目卡片永远显示加载动画，数字显示'-'（BUG-010）",
       "severity": "critical",
-      "status": "fixed_pending_qa",
-      "fixed_at": "2026-03-21T22:06:00+08:00"
+      "status": "fixed",
+      "fixed_at": "2026-03-21T22:06:00+08:00",
+      "verified_by": "QA",
+      "verified_at": "2026-03-24T14:20:00+08:00"
     },
     {
       "id": "BLOCKER-013",
@@ -157,8 +160,10 @@
       "type": "bug",
       "description": "Settings 无法编辑项目路径（BUG-013）",
       "severity": "major",
-      "status": "fixed_pending_qa",
-      "fixed_at": "2026-03-21T22:06:00+08:00"
+      "status": "fixed",
+      "fixed_at": "2026-03-21T22:06:00+08:00",
+      "verified_by": "QA",
+      "verified_at": "2026-03-24T14:20:00+08:00"
     },
     {
       "id": "BLOCKER-016",

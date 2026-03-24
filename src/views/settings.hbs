@@ -202,6 +202,11 @@ async function loadSettings() {
       // 主题
       document.getElementById('themeSelect').value = settings.theme || 'light';
       
+      // 应用主题到 DOM
+      if (settings.theme) {
+        document.documentElement.setAttribute('data-theme', settings.theme);
+      }
+      
       // 自动刷新
       document.getElementById('autoRefreshToggle').checked = settings.autoRefresh !== false;
       document.getElementById('refreshInterval').value = settings.refreshInterval || 60000;
@@ -284,6 +289,9 @@ async function updateTheme() {
   
   // 保存设置
   await saveSettings({ theme });
+  
+  // 同步到 localStorage（Dashboard 等页面从 localStorage 读取主题）
+  localStorage.setItem('theme', theme);
 }
 
 // 更新自动刷新
@@ -419,12 +427,30 @@ async function editPath(id) {
     return;
   }
   
+  selectedColor = path.color || '#3B82F6';
+  
+  // 填充表单
   document.getElementById('newPathId').value = id;
-  document.getElementById('newPathInput').value = path.path;
+  document.getElementById('newPathInput').value = path.path || '';
   document.getElementById('newPathAlias').value = path.alias || '';
-  document.getElementById('newPathColor').value = path.color || '#3B82F6';
-  document.getElementById('pathModalTitle').textContent = '编辑项目路径';
-  document.getElementById('addPathModal').style.display = 'flex';
+  document.getElementById('newPathColor').value = selectedColor;
+  
+  // 切换按钮为更新模式
+  const modal = document.getElementById('addPathModal');
+  const title = modal ? modal.querySelector('h3') : null;
+  const confirmBtn = document.querySelector('#addPathModal .btn-primary');
+  if (title) title.textContent = '编辑路径';
+  if (confirmBtn) {
+    confirmBtn.textContent = '保存';
+    confirmBtn.onclick = updatePath;
+  }
+  
+  // 更新颜色选择高亮
+  document.querySelectorAll('.color-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.color === selectedColor);
+  });
+  
+  if (modal) modal.style.display = 'flex';
 }
 
 // 更新路径
