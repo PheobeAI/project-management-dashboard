@@ -163,7 +163,11 @@
       <input type="hidden" id="newPathId" value="">
       <div class="form-group">
         <label>路径</label>
-        <input type="text" id="newPathInput" class="setting-input" placeholder="C:\Users\Projects">
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input type="text" id="newPathInput" class="setting-input" placeholder="C:\Users\Projects" readonly style="flex:1;">
+          <button type="button" class="btn btn-sm btn-secondary" onclick="document.getElementById('pathDirPicker').click()">浏览</button>
+          <input type="file" id="pathDirPicker" webkitdirectory style="display:none;" onchange="handleDirSelect(this)">
+        </div>
       </div>
       <div class="form-group">
         <label>别名</label>
@@ -367,6 +371,15 @@ async function saveSettings(updates) {
 }
 
 // 显示添加路径 Modal
+// 目录选择器回调
+function handleDirSelect(input) {
+  if (input.files && input.files.length > 0) {
+    // webkitdirectory 返回完整路径（Chromium 系浏览器）
+    const fullPath = input.files[0].path || input.files[0].webkitRelativePath.split('/')[0];
+    document.getElementById('newPathInput').value = fullPath || '';
+  }
+}
+
 function showAddPathModal() {
   document.getElementById('newPathId').value = '';
   document.getElementById('newPathInput').value = '';

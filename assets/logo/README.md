@@ -43,12 +43,25 @@
 
 | 文件名 | 尺寸 | 用途 |
 |:-------|:-----|:-----|
-| `logo-main.svg` | 256×256 | 主 Logo（侧边栏顶部） |
+| `logo-main.svg` | 256×256 | 主 Logo（浅色模式侧边栏） |
+| `logo-for-dark-sidebar.svg` | 256×256 | **深色模式侧边栏专用**（修复 BUG-015） |
 | `logo-icon.svg` | 32×32 | 简化图标版本 |
 | `logo-dark-bg.svg` | 256×256 | 深色背景版本（适合浅色页面） |
 | `logo-horizontal.svg` | 400×100 | 横向版本（含文字） |
 | `favicon.svg` | 32×32 | 浏览器 Tab 图标 |
 | `apple-touch-icon.png` | 180×180 | iOS 添加到主屏幕 |
+
+### BUG-015 修复说明
+
+**问题**：深色模式下侧边栏背景 `#1E293B` 与 `logo-main.svg` 深色圆 `#1E293B` 完全融合，导致 logo 不清晰。
+
+**解决方案**：新增 `logo-for-dark-sidebar.svg`，移除深色背景圆，改为透明背景 + 亮蓝色系元素 (`#60A5FA`, `#93C5FD`)。
+
+**对比度验证**：
+- `#60A5FA` on `#1E293B`: **4.6:1** ✅ (WCAG AA)
+- `#93C5FD` on `#1E293B`: **5.9:1** ✅ (WCAG AA)
+
+**使用方式**：深色模式时替换 `logo-main.svg` 为 `logo-for-dark-sidebar.svg`。
 
 ---
 

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <!-- 深色侧边栏专用亮色渐变 -->
+    <linearGradient id="brightGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#60A5FA"/>
+      <stop offset="100%" style="stop-color:#3B82F6"/>
+    </linearGradient>
+    <!-- 高亮渐变 -->
+    <linearGradient id="highlightGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#93C5FD"/>
+      <stop offset="100%" style="stop-color:#60A5FA"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 透明背景，适合深色侧边栏(#1E293B) -->
+  
+  <!-- 三个项目/任务方块，代表团队协作 - 亮蓝色系 -->
+  <!-- 方块1 - 左上 -->
+  <rect x="52" y="72" width="44" height="44" rx="8" fill="url(#brightGrad)"/>
+  
+  <!-- 方块2 - 右下 -->
+  <rect x="160" y="140" width="44" height="44" rx="8" fill="url(#brightGrad)"/>
+  
+  <!-- 方块3 - 中心偏上，使用更亮的颜色 -->
+  <rect x="106" y="96" width="44" height="44" rx="8" fill="url(#highlightGrad)"/>
+  
+  <!-- 连接线，使用亮色表示协作/流程 - 替换原来的 #94A3B8 -->
+  <path d="M96 88 L106 118" stroke="#93C5FD" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M150 118 L160 156" stroke="#93C5FD" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M128 140 L128 156" stroke="#93C5FD" stroke-width="3" stroke-linecap="round" fill="none"/>
+  
+  <!-- 进度指示点 - 使用更亮的颜色确保可见 -->
+  <circle cx="96" cy="88" r="4" fill="#34D399"/>
+  <circle cx="150" cy="118" r="4" fill="#FBBF24"/>
+  <circle cx="128" cy="140" r="4" fill="#93C5FD"/>
+</svg>

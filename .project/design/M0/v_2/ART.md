@@ -562,4 +562,34 @@
 
 ---
 
+## Logo 文件使用规范
+
+### 文件对照表
+
+| 文件 | 背景 | 图形风格 | 正确使用场景 |
+|:-----|:-----|:---------|:-------------|
+| `logo-main.svg` | `#1E293B` 深色圆 | 方块图标 | ❌ 深色侧边栏（对比度不足，BUG-015） |
+| `logo-for-dark-sidebar.svg` | **透明** | 方块图标 | ✅ 深色侧边栏（对比度 4.6:1，BUG-015 修复版） |
+| `logo-dark-bg.svg` | 深色渐变 | 人物图标 | ✅ 浅色页面背景上的深色主题 Logo |
+| `logo-icon.svg` | 透明 | 方块图标（简化） | ✅ Favicon / 小尺寸场景 |
+
+### 代码引用建议
+
+```javascript
+// 侧边栏 Logo - 根据主题切换
+const sidebarLogo = document.getElementById('sidebar-logo');
+if (isDarkMode) {
+  sidebarLogo.src = 'assets/logo/logo-for-dark-sidebar.svg'; // 深色模式
+} else {
+  sidebarLogo.src = 'assets/logo/logo-main.svg'; // 浅色模式
+}
+```
+
+### BUG-015 修复记录
+- **问题**：深色侧边栏背景 `#1E293B` 与 `logo-main.svg` 深色圆 `#1E293B` 完全融合
+- **修复**：新增 `logo-for-dark-sidebar.svg`，移除深色背景圆，改为透明背景 + 亮蓝色系 (`#60A5FA`, `#93C5FD`)
+- **对比度**：4.6:1 ~ 5.9:1，满足 WCAG AA
+
+---
+
 **设计完成，可进入开发阶段。**

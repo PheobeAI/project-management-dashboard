@@ -42,6 +42,12 @@ function initTheme() {
   AppState.settings.theme = savedTheme;
   updateThemeButton(savedTheme);
   updateLogo(savedTheme);
+  
+  // 注册主题切换按钮事件
+  const themeBtn = document.getElementById('themeBtn');
+  if (themeBtn) {
+    themeBtn.addEventListener('click', toggleTheme);
+  }
 }
 
 function toggleTheme() {
@@ -57,7 +63,7 @@ function toggleTheme() {
 function updateLogo(theme) {
   const logo = document.getElementById('sidebarLogo');
   if (logo) {
-    logo.src = theme === 'dark' ? '/assets/logo/logo-dark-bg.svg' : '/assets/logo/logo-icon.svg';
+    logo.src = theme === 'dark' ? '/assets/logo/logo-for-dark-sidebar.svg' : '/assets/logo/logo-main.svg';
   }
 }
 
