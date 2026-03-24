@@ -165,8 +165,8 @@
         <label>路径</label>
         <div style="display:flex;gap:8px;align-items:center;">
           <input type="text" id="newPathInput" class="setting-input" placeholder="C:\Users\Projects" readonly style="flex:1;">
-          <button type="button" class="btn btn-sm btn-secondary" onclick="document.getElementById('pathDirPicker').click()">浏览</button>
-          <input type="file" id="pathDirPicker" webkitdirectory style="display:none;" onchange="handleDirSelect(this)">
+          <button type="button" class="btn btn-sm btn-secondary" onclick="document.getElementById('pathDirectoryPicker').click()">浏览</button>
+          <input type="file" id="pathDirectoryPicker" webkitdirectory style="display:none;" onchange="handleDirSelect(this)">
         </div>
       </div>
       <div class="form-group">
@@ -392,7 +392,7 @@ function showAddPathModal() {
   modal.style.display = 'flex';
   
   // 触发隐藏的 webkitdirectory 文件选择器
-  const dirPicker = document.getElementById('pathDirPicker');
+  const dirPicker = document.getElementById('pathDirectoryPicker');
   if (dirPicker) {
     dirPicker.value = ''; // 重置以便重复选择同一路径
     dirPicker.click();
