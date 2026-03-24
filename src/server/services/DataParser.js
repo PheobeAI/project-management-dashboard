@@ -238,20 +238,129 @@ class DataParser {
     // 降级旧路径：bugs/index.json
     const oldPath = path.join(projectDir, 'bugs', 'index.json');
     
-    // 优先新路径
+    // 优先新路径（JSON 格式）
     try {
       const content = await fs.readFile(newPath, 'utf-8');
       const data = JSON.parse(content);
       return data.bugs || [];
     } catch {}
     
-    // 降级旧路径
+    // 降级旧路径（JSON 格式）
     try {
       const content = await fs.readFile(oldPath, 'utf-8');
       const data = JSON.parse(content);
       return data.bugs || [];
-    } catch {
-      return [];
+    } catch {}
+    
+    // 降级：扫描 bug/M{ milestone }/BUG-*.md 文件
+    const bugsDir = path.join(projectDir, 'bug', milestone);
+    try {
+      const files = await fs.readdir(bugsDir);
+      const mdFiles = files.filter(f => /^BUG-\d+\.md$/i.test(f));
+      
+      if (mdFiles.length > 0) {
+        const bugs = await Promise.all(
+          mdFiles.map(async (file) => {
+            const content = await fs.readFile(path.join(bugsDir, file), 'utf-8');
+            return this._parseBugMd(content, file);
+          })
+        );
+        return bugs.filter(b => b !== null).sort((a, b) => a.id.localeCompare(b.id));
+      }
+    } catch {}
+    
+    return [];
+  }
+  
+  /**
+   * 解析单个 BUG-*.md 文件，提取 bug 数据对象
+   * @param {string} content - Markdown 内容
+   * @param {string} filename - 文件名（如 BUG-010.md）
+   * @returns {object|null}
+   */
+  _parseBugMd(content, filename) {
+    try {
+      // 提取 Bug ID（从文件名）
+      const idMatch = filename.match(/^BUG-(\d+)\.md$/i);
+      if (!idMatch) return null;
+      const id = `BUG-${idMatch[1].padStart(3, '0')}`;
+      
+      let status = 'open';
+      let severity = 'minor';
+      let title = id;
+      let description = '';
+      let foundAt = null;
+      let verifiedBy = null;
+      let verifiedAt = null;
+      let fixedAt = null;
+      
+      // 解析基本表格（| **Label** | Value | ...）
+      const lines = content.split('\n');
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed.startsWith('|') || trimmed.startsWith('|--')) continue;
+        
+        const cols = trimmed.split('|').map(c => c.trim()).filter(c => c.length > 0);
+        if (cols.length < 2) continue;
+        
+        const label = cols[0].replace(/\*\*/g, '').trim(); // 去掉 ** 
+        const rawValue = cols[1].trim();
+        
+        if (label === 'Bug ID') {
+          // 从表格获取 ID（确保格式一致）
+        } else if (label === '严重级别') {
+          const sev = rawValue.toLowerCase();
+          if (sev.includes('critical')) severity = 'critical';
+          else if (sev.includes('major')) severity = 'major';
+          else severity = 'minor';
+        } else if (label === '状态') {
+          const s = rawValue.toLowerCase();
+          if (s.includes('fixed') || s.includes('verified')) status = 'fixed';
+          else if (s.includes('in_progress') || s.includes('进行中')) status = 'in_progress';
+          else if (s.includes('open') || s.includes('未修复')) status = 'open';
+        } else if (label === '发现时间') {
+          const m = rawValue.match(/(\d{4}-\d{2}-\d{2})/);
+          if (m) foundAt = m[1];
+        } else if (label === '验证人') {
+          verifiedBy = rawValue || null;
+        }
+      }
+      
+      // 从标题提取 Bug ID 描述
+      const titleMatch = content.match(/^#\s*Bug\s*报告\s*-\s*(.+)$/m);
+      if (titleMatch) title = titleMatch[1].trim();
+      
+      // 提取 Bug 描述（## Bug 描述 章节）
+      const descMatch = content.match(/^##?\s*Bug\s*描述\s*\n+([\s\S]*?)(?=^##|\-\-\-)/m);
+      if (descMatch) description = descMatch[1].trim();
+      
+      // 全局搜索状态关键词（兜底）
+      if (/✅.*(?:FIXED|VERIFIED)/i.test(content)) status = 'fixed';
+      else if (/🔄.*(?:IN_PROGRESS|进行中)/i.test(content)) status = 'in_progress';
+      
+      // 提取最新验证时间
+      const verifyTimeMatches = [...content.matchAll(/\*\*第[\d一二三四五六七八九十]+[次回归]*验证\*\*[^\n]*\|\s*([^\|]+)/g)];
+      if (verifyTimeMatches.length > 0) {
+        const last = verifyTimeMatches[verifyTimeMatches.length - 1];
+        const timeStr = last[1].trim();
+        const timeMatch = timeStr.match(/(\d{4}-\d{2}-\d{2})/);
+        if (timeMatch) verifiedAt = timeMatch[1];
+      }
+      
+      return {
+        id,
+        title: title || id,
+        description,
+        severity,
+        status,
+        foundAt,
+        verifiedBy,
+        verifiedAt,
+        fixedAt
+      };
+    } catch (e) {
+      console.warn(`[DataParser] Failed to parse bug file ${filename}:`, e.message);
+      return null;
     }
   }
 
