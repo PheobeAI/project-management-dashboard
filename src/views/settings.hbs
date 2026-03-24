@@ -386,7 +386,17 @@ function showAddPathModal() {
   document.getElementById('newPathAlias').value = '';
   document.getElementById('newPathColor').value = '#3B82F6';
   document.getElementById('pathModalTitle').textContent = '添加项目路径';
-  document.getElementById('addPathModal').style.display = 'flex';
+  
+  // 先显示弹窗，再触发目录选择器
+  const modal = document.getElementById('addPathModal');
+  modal.style.display = 'flex';
+  
+  // 触发隐藏的 webkitdirectory 文件选择器
+  const dirPicker = document.getElementById('pathDirPicker');
+  if (dirPicker) {
+    dirPicker.value = ''; // 重置以便重复选择同一路径
+    dirPicker.click();
+  }
 }
 
 // 隐藏添加路径 Modal
