@@ -2,13 +2,9 @@
   "project_name": "project-management-dashboard",
   "created_at": "2026-03-19T22:12:00+08:00",
   "milestone": "M0",
-  "phase": "iterating",
-  "previous_phase": "approved",
-  "waiting_for": {
-    "agent": "Engineer",
-    "action": "fix_new_bugs",
-    "since": "2026-03-24T17:03:00+08:00"
-  },
+  "phase": "approved",
+  "previous_phase": "iterating",
+  "waiting_for": null,
   "idea": "Boss需要一个项目管理平台，用于管理项目状态、任务、Agent等。核心要求：侧边栏布局（可收缩）、清晰的导航结构",
   "team": {
     "pm": "PM",
@@ -212,6 +208,36 @@
       "fixed_at": "2026-03-24T15:00:00+08:00",
       "verified_by": "QA",
       "verified_at": "2026-03-24T15:20:00+08:00"
+    },
+    {
+      "id": "BLOCKER-020",
+      "type": "bug",
+      "description": "Settings 主题只影响 Settings，其他页面始终浅色（BUG-019）",
+      "severity": "major",
+      "status": "fixed",
+      "fixed_at": "2026-03-24T17:20:00+08:00",
+      "verified_by": "QA",
+      "verified_at": "2026-03-24T17:25:00+08:00"
+    },
+    {
+      "id": "BLOCKER-021",
+      "type": "bug",
+      "description": "Bugs 页面趋势图表无数据，无提示（BUG-020）",
+      "severity": "minor",
+      "status": "fixed",
+      "fixed_at": "2026-03-24T17:20:00+08:00",
+      "verified_by": "QA",
+      "verified_at": "2026-03-24T17:25:00+08:00"
+    },
+    {
+      "id": "BLOCKER-022",
+      "type": "bug",
+      "description": "整个系统 UI 布局乱，侧边栏深色+内容区浅色（BUG-021）",
+      "severity": "major",
+      "status": "fixed",
+      "fixed_at": "2026-03-24T17:20:00+08:00",
+      "verified_by": "QA",
+      "verified_at": "2026-03-24T17:25:00+08:00"
     }
   ],
   "dev_task_summary": {
@@ -322,6 +348,18 @@
       "event": "bug_close_complete",
       "by": "QA",
       "detail": "全部 18 个 bug 已处理完毕：16 fixed+verified，1 wontfix(BUG-008)，1 data issue(BUG-007 已修复)。所有 blocker 清除，项目进入发布就绪状态。"
+    },
+    {
+      "timestamp": "2026-03-24T17:25:00+08:00",
+      "event": "bug_fix_verified",
+      "by": "QA",
+      "detail": "BUG-019(主题持久化)、BUG-020(趋势图无数据提示)、BUG-021(UI布局)三个新 bug 已修复验证通过。项目恢复发布就绪状态，等待 Boss 最终验收。"
+    },
+    {
+      "timestamp": "2026-03-24T17:27:00+08:00",
+      "event": "project_accepted",
+      "by": "Boss",
+      "detail": "Boss 最终验收通过，项目 M0 正式完成。github_commit 由 Engineer 完成后即上线。"
     }
   ]
 }
