@@ -248,9 +248,10 @@
       "type": "bug",
       "description": "Agents 页面 Agent 卡片横向排列过挤，间距不足；柱状图 Y 轴上限过小导致数据溢出（Engineer 23/26 超出坐标轴范围）",
       "severity": "major",
-      "status": "open",
-      "reported_at": "2026-03-25T09:44:00+08:00",
-      "reported_by": "Boss"
+      "status": "fixed",
+      "fixed_at": "2026-03-25T09:59:00+08:00",
+      "fixed_by": "Engineer",
+      "commit": "ed52c12"
     }
   ],
   "dev_task_summary": {

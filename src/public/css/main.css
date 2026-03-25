@@ -533,13 +533,6 @@ body {
   border: 1px solid var(--color-border);
 }
 
-.agents-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--space-lg);
-  padding: var(--space-md) 0;
-}
-
 .task-list {
   display: flex;
   flex-direction: column;
