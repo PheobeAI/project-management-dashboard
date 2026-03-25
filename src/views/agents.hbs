@@ -177,7 +177,10 @@ function renderWorkloadChart(agents) {
           stacked: true,
           beginAtZero: true,
           ticks: { color: textColor, stepSize: 1 },
-          grid: { color: gridColor }
+          grid: { color: gridColor },
+          suggestedMax: Math.ceil(
+            Math.max(...agents.map(a => (a.tasks.waiting || 0) + (a.tasks.inProgress || 0) + (a.tasks.done || 0))) * 1.2
+          )
         }
       }
     }
@@ -251,7 +254,7 @@ document.addEventListener('themeChanged', () => {
 .agents-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--space-lg);
+  gap: 20px;
 }
 
 .agent-card {
