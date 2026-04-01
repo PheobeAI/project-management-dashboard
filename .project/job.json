@@ -59,11 +59,11 @@
     },
     {
       "id": 8,
-      "description": "GitHub push：推送所有迁移变更（网络恢复后执行）",
-      "status": "pending",
-      "note": ""
+      "description": "GitHub push：推送所有迁移变更",
+      "status": "in_progress",
+      "note": "GitHub 443 端口超时，网络问题。等网络恢复后手动执行：cd C:\\Users\\Pheobe\\Projects\\project-management-dashboard && git push"
     }
   ],
-  "current_step": 1,
+  "current_step": 8,
   "summary": ""
 }
