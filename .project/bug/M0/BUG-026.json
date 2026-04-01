@@ -1,0 +1,39 @@
+{
+  "id": "BUG-026",
+  "owner": "QA",
+  "title": "Dashboard skeleton loading 一直显示",
+  "severity": "critical",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": {
+    "os": "Windows 10 x64",
+    "browser": "Edge (已登录态)",
+    "app_version": "project-management-dashboard (latest)"
+  },
+  "steps_to_reproduce": [
+    "启动服务器: `node src/server/index.js`",
+    "打开浏览器访问 http://localhost:3000/",
+    "等待页面完全加载"
+  ],
+  "expected": "Dashboard 应显示项目卡片、统计数字和图表",
+  "actual": "Dashboard 一直显示 skeleton loading 卡片，无法渲染真实数据。",
+  "root_cause": "inline scripts 中的 `DOMContentLoaded` 监听器在 HTML 解析阶段注册，但 `API_BASE` 在 app.js 中以 `const` 声明，不在 `window` 上，导致 `${API_BASE}` 抛出 `ReferenceError`。该错误被 `window.onerror` 捕获后阻断了 `app.js` 自身 DOMContentLoaded 中的 `loadProjects()` 执行。\n\n**第一次修复（defer → head）无效的原因**：`defer` 脚本在 HTML 解析完成后才执行，晚于 inline scripts 的 `DOMContentLoaded` 注册时机。",
+  "fix": {
+    "description": "**Files modified:**\n- `src/views/layout.hbs` — 在 `<head>` 中添加内联脚本 `<script>window.API_BASE = '/api';</script>`，在内联脚本执行前就已设置\n- `src/public/js/app.js` — 添加 `window.API_BASE = '/api'`（保留作为 fallback）",
+    "files_modified": [
+      "src/views/layout.hbs",
+      "src/public/js/app.js"
+    ],
+    "commit": null,
+    "fixed_at": null
+  },
+  "related_bugs": [
+    "BUG-027",
+    "BUG-010"
+  ],
+  "test_script": "```javascript\n// 在浏览器控制台执行\nfetch('/api/projects').then(r=>r.json()).then(d=>console.log('API ok:', d.success, d.data.length))\ntypeof API_BASE  // 应返回 'string'\n```",
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

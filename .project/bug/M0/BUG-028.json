@@ -1,0 +1,35 @@
+{
+  "id": "BUG-028",
+  "owner": "QA",
+  "title": "多个 .hbs 文件 inline script 语法错误导致页面无法渲染",
+  "severity": "critical",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": {
+    "os": "Windows 10 x64",
+    "browser": "Edge (已登录态)",
+    "app_version": "project-management-dashboard (latest)"
+  },
+  "steps_to_reproduce": [
+    "启动服务器: `node src/server/index.js`",
+    "打开浏览器访问 http://localhost:3000/agents",
+    "观察页面状态"
+  ],
+  "expected": "各页面应正常加载并显示数据",
+  "actual": "页面一直显示 loading spinner，数据无法渲染。控制台有 JS 语法错误。",
+  "root_cause": "多个 .hbs 文件的 inline `<script>` 中存在 **template literal 语法错误**，导致整个 `<script>` 块解析失败，函数定义全部失效。\n\n**诊断方法**：\n```javascript\n// Node.js 中对每个 .hbs 文件执行\nconst m = content.match(/<script>([\\s\\S]*?)<\\/script>/);\nnew Function(m[1]);  // 抛出 SyntaxError\n```\n\n**具体错误**：\n\n| 文件 | 错误描述 |\n|------|---------|\n| agents.hbs Line 87 | `id=\"toggle-${agent.name}\">` — `${agent.name}` 缺少闭合 `}` |\n| versions.hbs Line 84 | `${changes.length > 0 ? \\`` — template literal 从句未闭合 |\n| projects.hbs | Invalid or unexpected token |\n| tasks.hbs | Unexpected token ':' |\n| documents.hbs | Invalid or unexpected token |\n| bugs.hbs | Unexpected token 'else' |\n\n所有错误都是 **Handlebars template literal 内 `${...}` 缺少闭合 `}`** 或 **反引号未正确配对**。",
+  "fix": {
+    "description": "修复这些 .hbs 文件中 template literal 的语法错误：\n1. agents.hbs: `${agent.name}` → 找到对应闭合 `</div>` 前的完整 template literal 修复\n2. versions.hbs: 修复 `${changes.length > 0 ? \\`...\\` : ''}` 的闭合\n3. 其他文件：逐一检查并修复",
+    "files_modified": [],
+    "commit": null,
+    "fixed_at": null
+  },
+  "related_bugs": [
+    "BUG-027"
+  ],
+  "test_script": "修复后刷新页面，所有受影响页面应：\n1. 不再显示 loading spinner\n2. 正常显示数据内容\n3. 浏览器控制台无 SyntaxError",
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

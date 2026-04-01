@@ -1,0 +1,28 @@
+{
+  "id": "BUG-001",
+  "owner": "QA",
+  "title": "点击状态筛选按钮（全部/进行中/已完成/阻塞）后，项目卡片未正确过滤。虽然统计栏的数字正确更新，但项目卡片列表仍然显示所有项目。",
+  "severity": "major",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": null,
+  "steps_to_reproduce": [],
+  "expected": "",
+  "actual": "",
+  "root_cause": null,
+  "fix": {
+    "description": "### 根因\n`filterProjects` 函数的筛选条件逻辑错误：",
+    "files_modified": [
+      "src/public/js/app.js",
+      "filterProjects()"
+    ],
+    "commit": null,
+    "fixed_at": null
+  },
+  "related_bugs": [],
+  "test_script": null,
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

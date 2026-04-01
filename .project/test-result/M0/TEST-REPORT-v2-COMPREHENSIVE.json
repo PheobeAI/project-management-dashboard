@@ -1,0 +1,123 @@
+{
+  "id": "TEST-REPORT-v2-COMPREHENSIVE",
+  "owner": "QA",
+  "project": " project-management-dashboard",
+  "version": " MVP v2 (F10/F11/F12 + UI修复)",
+  "phase": "",
+  "test_time": "2026-03-20 17:20 +08:00",
+  "tester": " QA",
+  "environment": null,
+  "summary": {
+    "total": 4,
+    "passed": 0,
+    "failed": 0,
+    "blocked": 0,
+    "skipped": 0,
+    "pass_rate": 0.0
+  },
+  "test_cases": [
+    {
+      "id": "🔴 BUG-002: 缺少左侧侧边栏（Critical）",
+      "title": "🔴 BUG-002: 缺少左侧侧边栏（Critical）",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "项目: fail; :-----: fail; **Bug ID**: fail; **严重级别**: fail; **状态**: fail",
+      "steps": []
+    },
+    {
+      "id": "🔴 BUG-003: 项目详情页加载失败（Critical）",
+      "title": "🔴 BUG-003: 项目详情页加载失败（Critical）",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "项目: fail; :-----: fail; **Bug ID**: fail; **严重级别**: fail; **状态**: fail",
+      "steps": []
+    },
+    {
+      "id": "🟡 BUG-004: 任务列表显示 \"undefined\"（Major）",
+      "title": "🟡 BUG-004: 任务列表显示 \"undefined\"（Major）",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "项目: fail; :-----: fail; **Bug ID**: fail; **严重级别**: fail; **状态**: fail",
+      "steps": []
+    },
+    {
+      "id": "🟡 BUG-005: 测试记录数据缺失（Major）",
+      "title": "🟡 BUG-005: 测试记录数据缺失（Major）",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "项目: fail; :-----: fail; **Bug ID**: fail; **严重级别**: fail; **状态**: fail",
+      "steps": []
+    },
+    {
+      "id": "🟡 BUG-006: Agent 任务视图数据不完整（Major）",
+      "title": "🟡 BUG-006: Agent 任务视图数据不完整（Major）",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "项目: fail; :-----: fail; **Bug ID**: fail; **严重级别**: fail; **状态**: fail",
+      "steps": []
+    },
+    {
+      "id": "🔵 BUG-007: 阶段进展视图时间显示异常（Minor）",
+      "title": "🔵 BUG-007: 阶段进展视图时间显示异常（Minor）",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "项目: fail; :-----: fail; **Bug ID**: fail; **严重级别**: fail; **状态**: fail",
+      "steps": []
+    },
+    {
+      "id": "💡 SUGGESTION-001: 侧边栏折叠功能",
+      "title": "💡 SUGGESTION-001: 侧边栏折叠功能",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "💡 SUGGESTION-002: 导出测试报告为 JSON",
+      "title": "💡 SUGGESTION-002: 导出测试报告为 JSON",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": ":-----: fail; F1 项目列表: fail; F6 数据可视化: fail; F8 深色模式: fail; F9 多路径管理: fail",
+      "steps": []
+    },
+    {
+      "id": "❌ REJECTED",
+      "title": "❌ REJECTED",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    }
+  ],
+  "defects": [],
+  "conclusion": "pass",
+  "screenshots": [],
+  "updated_at": null
+}

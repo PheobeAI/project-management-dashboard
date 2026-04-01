@@ -1,0 +1,68 @@
+{
+  "id": "TEST-REPORT-BUGS-PAGE-FIX",
+  "owner": "QA",
+  "project": "project-management-dashboard",
+  "version": "",
+  "phase": "",
+  "test_time": "2026-03-24 14:40 +08:00",
+  "tester": "QA",
+  "environment": null,
+  "summary": {
+    "total": 0,
+    "passed": 0,
+    "failed": 0,
+    "blocked": 0,
+    "skipped": 0,
+    "pass_rate": 0
+  },
+  "test_cases": [
+    {
+      "id": "API 数据",
+      "title": "API 数据",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "端点: fail; :-----: fail; GET /api/bugs: pass; GET /api/bugs/stats: pass",
+      "steps": []
+    },
+    {
+      "id": "Bug 统计明细",
+      "title": "Bug 统计明细",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "维度: fail; :-----: fail; **Total**: fail; **Fixed**: fail; **Open**: fail",
+      "steps": []
+    },
+    {
+      "id": "严重级别分布（Open bugs）",
+      "title": "严重级别分布（Open bugs）",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "Bug ID: fail; :-------: fail; BUG-007: fail; BUG-008: fail; BUG-014: fail",
+      "steps": []
+    },
+    {
+      "id": "注意事项",
+      "title": "注意事项",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    }
+  ],
+  "defects": [],
+  "conclusion": "pass",
+  "screenshots": [],
+  "updated_at": null
+}

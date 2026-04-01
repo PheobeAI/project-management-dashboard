@@ -1,0 +1,28 @@
+{
+  "id": "BUG-032",
+  "owner": "QA",
+  "title": "项目详情页\"项目阶段进展\"进度条显示不正确",
+  "severity": "major",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": {
+    "os": "Windows 10 x64",
+    "browser": "Edge (已登录态)"
+  },
+  "steps_to_reproduce": [
+    "启动服务器: `node src/server/index.js`",
+    "打开浏览器访问 Dashboard",
+    "点击进入 `project-management-dashboard` 项目详情页",
+    "观察\"项目阶段进展\"进度条"
+  ],
+  "expected": "进度条应正确显示当前项目阶段（如 \"Phase 3\" 或 \"approved\" 等）",
+  "actual": "进度条视觉上显示 85% 填充，但阶段标签显示为 \"Init\"（与项目当前阶段 \"approved\" 不符）",
+  "root_cause": null,
+  "fix": null,
+  "related_bugs": [],
+  "test_script": null,
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

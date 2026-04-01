@@ -1,0 +1,17 @@
+{
+  "owner": "Designer",
+  "project": "project-management-dashboard",
+  "version": "v1.0",
+  "status": "approved",
+  "milestone": "M0",
+  "pages": [],
+  "components": [],
+  "animations": [],
+  "style_guide": {},
+  "layout": {
+    "sidebar_width_expanded": 260,
+    "sidebar_width_collapsed": 60
+  },
+  "created_at": null,
+  "updated_at": null
+}

@@ -1,0 +1,20 @@
+{
+  "id": "BLOCKER-023",
+  "owner": "QA",
+  "title": "报告 - BLOCKER-023",
+  "severity": "major",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": null,
+  "steps_to_reproduce": [],
+  "expected": "",
+  "actual": "",
+  "root_cause": null,
+  "fix": null,
+  "related_bugs": [],
+  "test_script": null,
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

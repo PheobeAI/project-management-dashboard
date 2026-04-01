@@ -1,0 +1,27 @@
+{
+  "id": "BUG-031",
+  "owner": "QA",
+  "title": "侧边栏排版极其紧凑，导航选项聚集在顶部",
+  "severity": "major",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": {
+    "os": "Windows 10 x64",
+    "browser": "Edge (已登录态)"
+  },
+  "steps_to_reproduce": [
+    "启动服务器: `node src/server/index.js`",
+    "打开浏览器访问任意页面",
+    "观察左侧侧边栏布局"
+  ],
+  "expected": "侧边栏导航选项应均匀分布，占据整个侧边栏高度",
+  "actual": "所有导航选项（Dashboard、Projects、Agents、Tasks、Versions、Documents、Bugs、Log、Settings）**全部聚集在侧边栏顶部**，下方留下大量空白区域，只有最底部的\"收缩侧边栏\"按钮。",
+  "root_cause": null,
+  "fix": null,
+  "related_bugs": [],
+  "test_script": null,
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

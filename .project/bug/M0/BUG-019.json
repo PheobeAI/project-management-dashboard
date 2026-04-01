@@ -1,0 +1,25 @@
+{
+  "id": "BUG-019",
+  "owner": "QA",
+  "title": "Settings 页面修改颜色模式（深色/浅色），只影响 Settings 页面本身。Tasks/Bugs/Logs 等其他页面始终保持浅色，不受 Settings 主题设置影响。",
+  "severity": "major",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": null,
+  "steps_to_reproduce": [],
+  "expected": "",
+  "actual": "",
+  "root_cause": "**Settings 页面**：`updateTheme()` 正确保存主题到 `localStorage.theme` 和 `/api/settings`，并设置当前页面的 `data-theme` 属性 ✅\n\n**Tasks/Bugs/Logs 页面**：这三个页面都有自己独立的 inline JavaScript，有自己的 `DOMContentLoaded` 初始化函数，**完全不调用 `initTheme()` 或 `loadSettings()`**，也从 `localStorage` 读取主题。\n\n导致：用户从 Settings 切换深色模式后，Settings 页面显示深色 ✅，但导航到 Tasks/Bugs/Logs 时，这些页面以空白 `data-theme` 属性加载，`theme.css` 的 `:root` 默认值（意外地是深色值），与页面实际内容颜色不匹配。\n\n**额外发现**：`theme.css` 的 `:root` CSS 变量包含**深色值**（`--sidebar-bg: #1E293B`），而非浅色值。这意味着：\n- 无 `data-theme` 属性时：侧边栏深色，页面内容浅色 → **颜色严重不匹配**\n- `data-theme=\"dark\"` 时：侧边栏更深的深色，页面内容也变深 → 看起来一致",
+  "fix": {
+    "description": "### 1. Tasks/Bugs/Logs 页面主题初始化\n在每个页面的 `DOMContentLoaded` 开始处添加：",
+    "files_modified": [],
+    "commit": "3b8797e",
+    "fixed_at": null
+  },
+  "related_bugs": [],
+  "test_script": null,
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

@@ -1,0 +1,178 @@
+{
+  "id": "TEST-REPORT-v1",
+  "owner": "QA",
+  "project": " project-management-dashboard",
+  "version": " MVP (12 tasks completed)",
+  "phase": "",
+  "test_time": "2026-03-20 13:30 +08:00",
+  "tester": " QA",
+  "environment": null,
+  "summary": {
+    "total": 12,
+    "passed": 0,
+    "failed": 0,
+    "blocked": 0,
+    "skipped": 0,
+    "pass_rate": 0.0
+  },
+  "test_cases": [
+    {
+      "id": "F1 项目列表与概览 ✅",
+      "title": "F1 项目列表与概览 ✅",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "F2 项目详情视图 ✅",
+      "title": "F2 项目详情视图 ✅",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "F3 任务状态追踪 ✅",
+      "title": "F3 任务状态追踪 ✅",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "F4 测试结果展示 ⚠️",
+      "title": "F4 测试结果展示 ⚠️",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "F5 Agent 工作状态 ✅",
+      "title": "F5 Agent 工作状态 ✅",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "F6 数据可视化图表 ✅",
+      "title": "F6 数据可视化图表 ✅",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "F7 自动刷新 ✅",
+      "title": "F7 自动刷新 ✅",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "F8 深色/浅色模式 ✅",
+      "title": "F8 深色/浅色模式 ✅",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "F9 多路径管理 ✅",
+      "title": "F9 多路径管理 ✅",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "GitHub 版本管理 ✅",
+      "title": "GitHub 版本管理 ✅",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "项目搜索 ✅",
+      "title": "项目搜索 ✅",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "状态筛选 UI ❌",
+      "title": "状态筛选 UI ❌",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "Bug 1: 状态筛选 UI 不生效",
+      "title": "Bug 1: 状态筛选 UI 不生效",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "项目: fail; :-----: fail; **Bug ID**: fail; **严重级别**: fail; **描述**: fail",
+      "steps": []
+    },
+    {
+      "id": "✅ 验收通过 (With Minor Bug)",
+      "title": "✅ 验收通过 (With Minor Bug)",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    }
+  ],
+  "defects": [],
+  "conclusion": "pass",
+  "screenshots": [],
+  "updated_at": null
+}

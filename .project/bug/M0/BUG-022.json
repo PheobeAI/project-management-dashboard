@@ -1,0 +1,29 @@
+{
+  "id": "BUG-022",
+  "owner": "QA",
+  "title": "*两个表现（同一根因）：**",
+  "severity": "major",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": null,
+  "steps_to_reproduce": [],
+  "expected": "",
+  "actual": "",
+  "root_cause": "**CSS 变量覆盖链（加载顺序）：**\n\n1. `main.css`（line 25）：`:root { --sidebar-bg: #F1F5F9; }` — 浅色 ✅\n2. `theme.css`：`:root { --sidebar-bg: #1E293B; }` — **深色** ❌\n3. `variables.css`：`:root { --sidebar-bg: #1E293B; }` — **深色** ❌（来自 --color-sidebar，非 --sidebar-bg，但最终结果相同）\n\n`sidebar.css` 使用 `var(--sidebar-bg)`，该变量最终被 `variables.css :root` 的 `#1E293B` 覆盖，导致：\n\n- 无 `data-theme` 属性（初始/浅色模式）：侧边栏深色 #1E293B，页面内容区浅色 #F8FAFC — **严重颜色不匹配**\n- `data-theme=\"dark\"` 时：侧边栏 #0F172A，内容区也深色 — 看起来一致\n\n**加载顺序**（layout.hbs）：\n```html\n<link rel=\"stylesheet\" href=\"/static/css/main.css\">       <!-- line 8 -->\n<link rel=\"stylesheet\" href=\"/static/css/theme.css\">     <!-- line 9 -->\n<link rel=\"stylesheet\" href=\"/static/css/sidebar.css\">    <!-- line 12 -->\n<link rel=\"stylesheet\" href=\"/assets/css/variables.css\">  <!-- line 13 -->\n```",
+  "fix": {
+    "description": "### 方案（推荐）：调整 CSS 加载顺序\n将 `variables.css` 移到 `main.css` **之前**加载，使其 `:root --sidebar-bg: #1E293B` 被 `main.css :root --sidebar-bg: #F1F5F9` 覆盖：\n```html\n<link rel=\"stylesheet\" href=\"/assets/css/variables.css\">  <!-- 先加载，深色 -->\n<link rel=\"stylesheet\" href=\"/static/css/main.css\">       <!-- 后加载，浅色覆盖 -->\n<link rel=\"stylesheet\" href=\"/static/css/theme.css\">     <!-- [data-theme=dark] 覆盖块保留 -->\n```",
+    "files_modified": [
+      "先加载，深色 -->",
+      "后加载，浅色覆盖 -->",
+      "[data-theme=dark] 覆盖块保留 -->"
+    ],
+    "commit": "2812704",
+    "fixed_at": null
+  },
+  "related_bugs": [],
+  "test_script": null,
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

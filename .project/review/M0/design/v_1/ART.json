@@ -1,0 +1,36 @@
+{
+  "id": "REVIEW-DESIGN-v1-ENGINEER",
+  "owner": "Engineer",
+  "project": "project-management-dashboard",
+  "reviewer": "Engineer",
+  "date": "2026-03-20",
+  "version": "v1",
+  "phase": "design",
+  "verdict": "approve",
+  "summary": "✅ **APPROVE**\n\n---",
+  "items": [
+    {
+      "id": "item-1",
+      "description": "视觉设计要求 (对应状态)",
+      "verdict": "na",
+      "severity": "info",
+      "comment": "技术实现方案",
+      "file_ref": ""
+    },
+    {
+      "id": "item-2",
+      "description": "功能 (可行性)",
+      "verdict": "na",
+      "severity": "info",
+      "comment": "技术方案",
+      "file_ref": ""
+    }
+  ],
+  "risk_items": [],
+  "recommendations": [],
+  "participants": [
+    "Engineer"
+  ],
+  "next_action": "",
+  "updated_at": null
+}

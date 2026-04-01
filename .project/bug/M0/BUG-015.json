@@ -1,0 +1,20 @@
+{
+  "id": "BUG-015",
+  "owner": "QA",
+  "title": "侧边栏各个页面的 logo 在深色模式下观感很差，不清晰，需要调整。",
+  "severity": "major",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": null,
+  "steps_to_reproduce": [],
+  "expected": "",
+  "actual": "",
+  "root_cause": null,
+  "fix": null,
+  "related_bugs": [],
+  "test_script": null,
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

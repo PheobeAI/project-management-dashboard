@@ -1,0 +1,119 @@
+{
+  "id": "TECH-M0-ARCHITECTURE",
+  "owner": "Engineer",
+  "project": "project-management-dashboard",
+  "version": "v1.0",
+  "status": "draft",
+  "milestone": "M0",
+  "phase": "Phase 3",
+  "requirement_id": null,
+  "overview": "",
+  "tech_stack": {
+    "frontend": "原生 JavaScript (ES6+) + Handlebars",
+    "backend": "Node.js + Express",
+    "database": "内存 + JSON 文件持久化",
+    "infrastructure": "",
+    "libraries": []
+  },
+  "file_structure": {
+    "description": "项目目录结构",
+    "tree": [
+      "┌─────────────────────────────────────────────────────────────────────┐",
+      "│                         Browser (Frontend)                          │",
+      "│  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐ │",
+      "│  │Dashboard│  │Projects │  │Agents  │  │ Tasks   │  │Settings │ │",
+      "│  └─────────┘  └─────────┘  └─────────┘  └─────────┘  └─────────┘ │",
+      "│                            │                                        │",
+      "│                      ┌─────┴─────┐                                │",
+      "│                      │  Router   │                                │",
+      "│                      └─────┬─────┘                                │",
+      "│                            │                                        │",
+      "│  ┌─────────────────────────────────────────────────────────────┐ │",
+      "│  │                    State Management (AppState)               │ │",
+      "│  └─────────────────────────────────────────────────────────────┘ │",
+      "│                            │                                        │",
+      "│                      ┌─────┴─────┐                                │",
+      "│                      │  API Client │                              │",
+      "│                      └─────┬─────┘                                │",
+      "└────────────────────────────┼─────────────────────────────────────┘",
+      "                             │ HTTP/REST",
+      "┌────────────────────────────┼─────────────────────────────────────┐",
+      "│                         Express.js (Backend)                      │",
+      "│                            │                                      │",
+      "│  ┌─────────────────────────┼───────────────────────────────┐     │",
+      "│  │                    API Routes                        │     │",
+      "│  │  /api/projects  /api/agents  /api/tasks  /api/stats │     │",
+      "│  └─────────────────────────┼───────────────────────────────┘     │",
+      "│                            │                                      │",
+      "│  ┌─────────────────────────┼───────────────────────────────┐     │",
+      "│  │                  Services Layer                      │     │",
+      "│  │  FileScanner  DataParser  ConfigManager  GitHub   │     │",
+      "│  └─────────────────────────┼───────────────────────────────┘     │",
+      "│                            │                                      │",
+      "│  ┌─────────────────────────┼───────────────────────────────┐     │",
+      "│  │                  Data Sources                       │     │",
+      "│  │  File System (status.json, tasks/, test-results/) │     │",
+      "│  └───────────────────────────────────────────────────┘     │",
+      "└──────────────────────────────────────────────────────────────┘"
+    ]
+  },
+  "architecture": {
+    "diagram": "",
+    "layers": [
+      "Browser",
+      "Express.js",
+      "Data Sources"
+    ],
+    "data_flow": ""
+  },
+  "modules": [],
+  "api_design": {
+    "base_url": "/api",
+    "versioning": "",
+    "auth": "",
+    "rate_limit": "",
+    "error_format": "{ success: true, data: {...} }",
+    "endpoints": []
+  },
+  "database": {
+    "type": "FileSystem (JSON)",
+    "schema": "",
+    "tables": [],
+    "migrations": ""
+  },
+  "config": {
+    "env_vars": [],
+    "files": [
+      "constants.js"
+    ]
+  },
+  "security": {
+    "authentication": "",
+    "authorization": "",
+    "data_protection": "",
+    "cors": "",
+    "https": ""
+  },
+  "error_handling": {
+    "strategy": "try-catch in async functions",
+    "error_codes": [],
+    "logging": "",
+    "alerting": ""
+  },
+  "external_dependencies": [],
+  "test_strategy": {
+    "unit_test": "",
+    "integration_test": "",
+    "e2e_test": "",
+    "test_data": "",
+    "coverage_target": ""
+  },
+  "acceptance_criteria": [],
+  "risks": [],
+  "tasks": [],
+  "review_comments": [],
+  "participants": [],
+  "next_action": "",
+  "created_at": null,
+  "updated_at": null
+}

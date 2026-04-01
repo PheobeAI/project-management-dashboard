@@ -1,0 +1,145 @@
+{
+  "id": "TEST-REPORT-v3-LAYOUT",
+  "owner": "QA",
+  "project": " project-management-dashboard",
+  "version": " MVP v3 (layout-v3 侧边栏设计)",
+  "phase": "",
+  "test_time": "2026-03-20 18:05 +08:00",
+  "tester": " QA",
+  "environment": null,
+  "summary": {
+    "total": 5,
+    "passed": 0,
+    "failed": 0,
+    "blocked": 0,
+    "skipped": 0,
+    "pass_rate": 0.0
+  },
+  "test_cases": [
+    {
+      "id": "问题描述",
+      "title": "问题描述",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "栏目: fail; :-----: fail; Dashboard: fail; Projects: fail; Agents: fail",
+      "steps": []
+    },
+    {
+      "id": "实际布局（未实现侧边栏）",
+      "title": "实际布局（未实现侧边栏）",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "设计要求布局（layout-v3/LAYOUT-SVG.md）",
+      "title": "设计要求布局（layout-v3/LAYOUT-SVG.md）",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "验证结果",
+      "title": "验证结果",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "检查项: fail; :-------: fail; 左侧侧边栏存在: fail; Dashboard 栏目: fail; Projects 栏目: fail",
+      "steps": []
+    },
+    {
+      "id": "BUG-003: 项目详情页加载失败 ✅ 已修复",
+      "title": "BUG-003: 项目详情页加载失败 ✅ 已修复",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "BUG-004: 任务列表显示 undefined ✅ 部分改善",
+      "title": "BUG-004: 任务列表显示 undefined ✅ 部分改善",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "BUG-005: 测试记录数据格式 ⚠️ 仍有问题",
+      "title": "BUG-005: 测试记录数据格式 ⚠️ 仍有问题",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "BUG-006: Agent 分组 ✅ 已修复",
+      "title": "BUG-006: Agent 分组 ✅ 已修复",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "路由: fail; :-----: fail; /: pass; /project/:id: pass; /settings: pass",
+      "steps": []
+    },
+    {
+      "id": "✅ layout-v3/LAYOUT-SVG.md 优点",
+      "title": "✅ layout-v3/LAYOUT-SVG.md 优点",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "❌ 问题",
+      "title": "❌ 问题",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "❌ REJECTED - 关键功能未实现",
+      "title": "❌ REJECTED - 关键功能未实现",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "问题: fail; :-----: fail; **左侧侧边栏未实现**: fail; 导航路由不完整: fail; 测试记录格式问题: fail",
+      "steps": []
+    }
+  ],
+  "defects": [],
+  "conclusion": "pass",
+  "screenshots": [],
+  "updated_at": null
+}

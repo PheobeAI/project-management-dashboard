@@ -1,0 +1,20 @@
+{
+  "id": "BUG-007",
+  "owner": "QA",
+  "title": "Tasks 页面看不到 Art Task。系统中存在 Art 类型的任务，但 Tasks 页面筛选时无法看到。",
+  "severity": "major",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": null,
+  "steps_to_reproduce": [],
+  "expected": "",
+  "actual": "",
+  "root_cause": null,
+  "fix": null,
+  "related_bugs": [],
+  "test_script": null,
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

@@ -1,0 +1,158 @@
+{
+  "id": "TEST-REPORT-PHASE7-FINAL",
+  "owner": "QA",
+  "project": " project-management-dashboard",
+  "version": " Phase 7 (Final)",
+  "phase": "",
+  "test_time": "2026-03-21 15:15 +08:00",
+  "tester": " QA",
+  "environment": {
+    "url": " localhost:3005"
+  },
+  "summary": {
+    "total": 12,
+    "passed": 0,
+    "failed": 0,
+    "blocked": 0,
+    "skipped": 0,
+    "pass_rate": 0.0
+  },
+  "test_cases": [
+    {
+      "id": "1. Dashboard ✅",
+      "title": "1. Dashboard ✅",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "2. Agents ✅",
+      "title": "2. Agents ✅",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "3. Tasks ✅",
+      "title": "3. Tasks ✅",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "4. Bugs ✅",
+      "title": "4. Bugs ✅",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "5. Settings ✅",
+      "title": "5. Settings ✅",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "6. Versions ✅",
+      "title": "6. Versions ✅",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "7. Documents ✅",
+      "title": "7. Documents ✅",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "8. 侧边栏 ✅ (BUG-004 回归)",
+      "title": "8. 侧边栏 ✅ (BUG-004 回归)",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "9. 阶段名称 ✅ (BUG-005 回归)",
+      "title": "9. 阶段名称 ✅ (BUG-005 回归)",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "10. 美术资产 ✅",
+      "title": "10. 美术资产 ✅",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "UI-001: 侧边栏文字重复显示 (Minor)",
+      "title": "UI-001: 侧边栏文字重复显示 (Minor)",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "条件: fail; :-----: fail; 全 Dev tested: fail; 全 Art approved: fail; 零 critical/major Bug: fail",
+      "steps": []
+    },
+    {
+      "id": "✅ 验收通过",
+      "title": "✅ 验收通过",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    }
+  ],
+  "defects": [],
+  "conclusion": "pass",
+  "screenshots": [],
+  "updated_at": null
+}

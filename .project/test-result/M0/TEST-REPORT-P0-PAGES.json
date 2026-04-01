@@ -1,0 +1,92 @@
+{
+  "id": "TEST-REPORT-P0-PAGES",
+  "owner": "QA",
+  "project": " project-management-dashboard",
+  "version": " Phase 6",
+  "phase": "",
+  "test_time": "2026-03-21 14:30 +08:00",
+  "tester": " QA",
+  "environment": {
+    "url": " localhost:3004"
+  },
+  "summary": {
+    "total": 3,
+    "passed": 3,
+    "failed": 0,
+    "blocked": 0,
+    "skipped": 0,
+    "pass_rate": 100.0
+  },
+  "test_cases": [
+    {
+      "id": "DEV-021: Agents 页面 ✅ PASS",
+      "title": "DEV-021: Agents 页面 ✅ PASS",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": ":-----: fail; Agent 列表显示: fail; 工作负载柱状图: fail; Agent 卡片: fail; 任务统计数字: fail",
+      "steps": []
+    },
+    {
+      "id": "DEV-022: Tasks 页面 ✅ PASS",
+      "title": "DEV-022: Tasks 页面 ✅ PASS",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": ":-----: fail; 任务列表显示: fail; 状态分组: fail; 逾期提示: fail; 统计项: fail",
+      "steps": []
+    },
+    {
+      "id": "DEV-025: Bugs 页面 ✅ PASS",
+      "title": "DEV-025: Bugs 页面 ✅ PASS",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": ":-----: fail; Bug 统计卡片: fail; Bug 趋势图: fail; 空状态提示: fail; 统计项: fail",
+      "steps": []
+    },
+    {
+      "id": "✅ 全部通过",
+      "title": "✅ 全部通过",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "页面: fail; :-----: fail; Agents: pass; Tasks: pass; Bugs: pass",
+      "steps": []
+    },
+    {
+      "id": "优点",
+      "title": "优点",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "建议",
+      "title": "建议",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    }
+  ],
+  "defects": [],
+  "conclusion": "pass",
+  "screenshots": [],
+  "updated_at": null
+}

@@ -1,0 +1,20 @@
+{
+  "id": "BUG-005",
+  "owner": "QA",
+  "title": "项目卡片状态显示错误：`status.json` 中 phase 为 `\"reviewing\"` 或 `\"iterating\"`，但 UI 显示为 \"rethinking\" 或其他错误名称。",
+  "severity": "major",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": null,
+  "steps_to_reproduce": [],
+  "expected": "",
+  "actual": "",
+  "root_cause": null,
+  "fix": null,
+  "related_bugs": [],
+  "test_script": null,
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

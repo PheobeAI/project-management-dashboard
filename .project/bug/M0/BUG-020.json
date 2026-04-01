@@ -1,0 +1,25 @@
+{
+  "id": "BUG-020",
+  "owner": "QA",
+  "title": "Bugs 页面的 Bug 趋势图表（Bug Trend Chart）完全不显示数据，空白。",
+  "severity": "major",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": null,
+  "steps_to_reproduce": [],
+  "expected": "",
+  "actual": "",
+  "root_cause": "`/api/bugs/trend` 数据来源于历史记录，但系统从未每日记录 bug 总数/修复数，仅在查询时实时计算当日快照，导致趋势数据全为 0。",
+  "fix": {
+    "description": "方案 A（数据修复）：`/api/bugs/trend` 应维护每日 bug 统计数据（total/open/fixed），在 bug 状态变更时更新历史累计。",
+    "files_modified": [],
+    "commit": "3b8797e",
+    "fixed_at": null
+  },
+  "related_bugs": [],
+  "test_script": null,
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

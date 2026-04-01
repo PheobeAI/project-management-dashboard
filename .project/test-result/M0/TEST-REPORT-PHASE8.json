@@ -1,0 +1,79 @@
+{
+  "id": "TEST-REPORT-PHASE8",
+  "owner": "QA",
+  "project": " project-management-dashboard",
+  "version": " Phase 8",
+  "phase": "",
+  "test_time": "2026-03-21 18:30 +08:00",
+  "tester": " QA",
+  "environment": null,
+  "summary": {
+    "total": 0,
+    "passed": 0,
+    "failed": 0,
+    "blocked": 0,
+    "skipped": 0,
+    "pass_rate": 0
+  },
+  "test_cases": [
+    {
+      "id": "BUG-006: 图标加载 ✅ FIXED",
+      "title": "BUG-006: 图标加载 ✅ FIXED",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "验证项: fail; :-------: fail; Header Logo: pass; 侧边栏图标: pass; 导航图标: pass",
+      "steps": []
+    },
+    {
+      "id": "BUG-009: 项目详情页白屏 ✅ FIXED",
+      "title": "BUG-009: 项目详情页白屏 ✅ FIXED",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "验证项: fail; :-------: fail; 项目标题: pass; 阶段信息: pass; 任务列表: pass",
+      "steps": []
+    },
+    {
+      "id": "DEV-028: Log 页面 ✅ PASS",
+      "title": "DEV-028: Log 页面 ✅ PASS",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": ":-----: fail; 日志列表: pass; 分类 Tab: pass; 分页: pass; 图表: pass",
+      "steps": []
+    },
+    {
+      "id": "DEV-029: Documents 增强版 ✅ PASS",
+      "title": "DEV-029: Documents 增强版 ✅ PASS",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": ":-----: fail; 文档列表: pass; 分类 Tab: pass; 搜索: pass; 视图切换: pass",
+      "steps": []
+    },
+    {
+      "id": "✅ 全部通过",
+      "title": "✅ 全部通过",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "",
+      "steps": []
+    }
+  ],
+  "defects": [],
+  "conclusion": "pass",
+  "screenshots": [],
+  "updated_at": null
+}

@@ -1,0 +1,20 @@
+{
+  "id": "BUG-004",
+  "owner": "QA",
+  "title": "侧边栏无法收缩，点击收缩按钮无反应。",
+  "severity": "major",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": null,
+  "steps_to_reproduce": [],
+  "expected": "",
+  "actual": "",
+  "root_cause": null,
+  "fix": null,
+  "related_bugs": [],
+  "test_script": null,
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

@@ -1,0 +1,101 @@
+{
+  "id": "TEST-REPORT-v2-F10-F12",
+  "owner": "QA",
+  "project": " project-management-dashboard",
+  "version": " MVP v2 (F10/F11/F12 + UI 修复)",
+  "phase": "",
+  "test_time": "2026-03-20 16:45 +08:00",
+  "tester": " QA",
+  "environment": null,
+  "summary": {
+    "total": 6,
+    "passed": 0,
+    "failed": 0,
+    "blocked": 0,
+    "skipped": 0,
+    "pass_rate": 0.0
+  },
+  "test_cases": [
+    {
+      "id": "F10 Agent 任务视图 ✅",
+      "title": "F10 Agent 任务视图 ✅",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "F11 项目阶段进展视图 ✅",
+      "title": "F11 项目阶段进展视图 ✅",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "F12 测试详情视图 ✅",
+      "title": "F12 测试详情视图 ✅",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "UI-001 错误内联提示 ✅",
+      "title": "UI-001 错误内联提示 ✅",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "UI-002 Task 筛选 ✅",
+      "title": "UI-002 Task 筛选 ✅",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "回归测试 ✅",
+      "title": "回归测试 ✅",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "API 端点: fail; :---------: fail; GET /api/projects: fail; GET /api/projects/:id/agent-tasks: fail; GET /api/projects/:id/reviews: fail",
+      "steps": []
+    },
+    {
+      "id": "✅ 验收通过",
+      "title": "✅ 验收通过",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "fail",
+      "notes": "",
+      "steps": []
+    }
+  ],
+  "defects": [],
+  "conclusion": "pass",
+  "screenshots": [],
+  "updated_at": null
+}

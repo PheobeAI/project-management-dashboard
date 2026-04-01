@@ -1,0 +1,27 @@
+{
+  "id": "BUG-029",
+  "owner": "QA",
+  "title": "Dashboard 页面一直 skeleton loading，统计数据始终为 \"-\"",
+  "severity": "critical",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": {
+    "os": "Windows 10 x64",
+    "browser": "Edge (已登录态)"
+  },
+  "steps_to_reproduce": [
+    "启动服务器: `node src/server/index.js`",
+    "打开浏览器访问 http://localhost:3000/",
+    "等待页面完全加载"
+  ],
+  "expected": "Dashboard 应显示项目卡片、统计数字（总数、进行中、已完成）和图表",
+  "actual": "Dashboard 一直显示 skeleton loading 卡片。统计数据区域：\n- 项目总数: \"-\"\n- 进行中: \"-\"\n- 已完成: \"-\"\n- 阻塞: \"-\"\n\n项目网格区域只有 3 个灰色 skeleton 占位块，无真实数据。",
+  "root_cause": null,
+  "fix": null,
+  "related_bugs": [],
+  "test_script": null,
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

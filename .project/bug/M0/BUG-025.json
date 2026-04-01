@@ -1,0 +1,27 @@
+{
+  "id": "BUG-025",
+  "owner": "QA",
+  "title": "打开 Settings 页面和控制台报错：",
+  "severity": "major",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": null,
+  "steps_to_reproduce": [],
+  "expected": "",
+  "actual": "",
+  "root_cause": "**同一根因的两个表现：**\n\n`layout.hbs` 加载 `<script src=\"/static/js/app.js\">`，app.js 内有 `const API_BASE = '/api'`。\n\nprojects.hbs / agents.hbs / bugs.hbs / tasks.hbs / settings.hbs / documents.hbs / versions.hbs 这些页面模板的**内联 `<script>` 块**里也有 `const API_BASE = '/api'`。\n\n当 layout.hbs 与页面内容同时渲染时，app.js 的 `const API_BASE` 和页面内联脚本的 `const API_BASE` 在**同一全局作用域**，导致重复声明错误：\n\n```\napp.js: const API_BASE = '/api'  ← OK\nprojects.hbs inline: const API_BASE = '/api'  ← SyntaxError: already declared\n```\n\n**为什么 toggleTheme is not defined**：\n因为 `const API_BASE` 报 SyntaxError 后，该行**之后的 JavaScript 均不执行**。所以 app.js 中 `toggleTheme` 的定义也失效了（如果 `const API_BASE` 在 app.js 的前几行）。",
+  "fix": {
+    "description": "从所有 7 个页面模板的内联 `<script>` 块中**删除** `const API_BASE = '/api';` 这一行（app.js 已提供全局 `API_BASE`）。",
+    "files_modified": [
+      "const API_BASE = '/api';"
+    ],
+    "commit": "94f9cfe",
+    "fixed_at": null
+  },
+  "related_bugs": [],
+  "test_script": null,
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

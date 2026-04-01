@@ -1,0 +1,36 @@
+{
+  "id": "REVIEW-DESIGN-v1-DESIGNER",
+  "owner": "Designer",
+  "project": "project-management-dashboard",
+  "reviewer": "Designer",
+  "date": "2026-03-20",
+  "version": "v1",
+  "phase": "design",
+  "verdict": "approve",
+  "summary": "✅ **APPROVE**\n\n---",
+  "items": [
+    {
+      "id": "item-1",
+      "description": "评审项 (说明)",
+      "verdict": "na",
+      "severity": "info",
+      "comment": "状态",
+      "file_ref": ""
+    },
+    {
+      "id": "item-2",
+      "description": "评审项 (说明)",
+      "verdict": "na",
+      "severity": "info",
+      "comment": "状态",
+      "file_ref": ""
+    }
+  ],
+  "risk_items": [],
+  "recommendations": [],
+  "participants": [
+    "Designer"
+  ],
+  "next_action": "",
+  "updated_at": null
+}

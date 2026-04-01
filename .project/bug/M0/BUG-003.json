@@ -1,0 +1,30 @@
+{
+  "id": "BUG-003",
+  "owner": "QA",
+  "title": "Dashboard 主内容区右侧半边空白，`.main-content` 未占满剩余宽度。",
+  "severity": "major",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": null,
+  "steps_to_reproduce": [],
+  "expected": "",
+  "actual": "",
+  "root_cause": null,
+  "fix": {
+    "description": "### 根因\n`main.css` 中 `.main-content` 设置了 `max-width: 1400px` 和 `margin: 0 auto`，导致内容居中而非占满宽度。",
+    "files_modified": [
+      "src/public/css/main.css",
+      ".main-content",
+      "src/public/css/sidebar.css",
+      ".main-wrapper"
+    ],
+    "commit": null,
+    "fixed_at": null
+  },
+  "related_bugs": [],
+  "test_script": null,
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

@@ -1,0 +1,20 @@
+{
+  "id": "BUG-017",
+  "owner": "QA",
+  "title": "右上角主题切换按钮点击后无法切换深色模式（侧边栏和主内容区都不生效）。",
+  "severity": "major",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": null,
+  "steps_to_reproduce": [],
+  "expected": "",
+  "actual": "",
+  "root_cause": "**双重机制导致主题无法跨页面持久化：**\n\n### 机制 1：Settings 页面（写入 → API）\nSettings 页面的 `updateTheme()` 将主题保存到 **API**：\n```javascript\n// settings.hbs inline script\nasync function updateTheme() {\n  const theme = document.getElementById('themeSelect').value;\n  document.documentElement.setAttribute('data-theme', theme);\n  await saveSettings({ theme }); // 只写入 API，不写 localStorage！\n}\n```\n\n### 机制 2：其他页面（读取 ← localStorage）\nDashboard/Tasks/Projects 等页面通过 `app.js` 的 `initTheme()` 从 **localStorage** 读取：\n```javascript\n// app.js\nfunction initTheme() {\n  const savedTheme = localStorage.getItem('theme') || 'light'; // 只读 localStorage！\n  document.documentElement.setAttribute('data-theme', savedTheme);\n}\n```\n\n**两个机制完全隔离**：Settings 写 API，其他页面读 localStorage，永远对不上。\n\n### Engineer 第一轮修复（settings.hbs loadSettings）\n添加了 `document.documentElement.setAttribute('data-theme', settings.theme)` 到 `loadSettings()`，确保 Settings 页面加载时正确应用主题。\n\n**测试结果：✅ 有效** — Settings 页面自身的主题加载问题已解决。\n\n### 遗留问题：跨页面不持久化\n即使 Settings 正确写入了 API，其他页面（Dashboard/Tasks/Projects）也不从 API 读取主题，因为它们只读 `localStorage`。\n\n---",
+  "fix": null,
+  "related_bugs": [],
+  "test_script": null,
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

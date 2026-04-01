@@ -1,0 +1,20 @@
+{
+  "id": "BUG-016",
+  "owner": "QA",
+  "title": "Dashboard 打开后加载动画永远播放不完，数字显示为 \"-\"，永远停不下来。",
+  "severity": "major",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": null,
+  "steps_to_reproduce": [],
+  "expected": "",
+  "actual": "",
+  "root_cause": null,
+  "fix": null,
+  "related_bugs": [],
+  "test_script": null,
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

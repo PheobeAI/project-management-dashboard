@@ -1,0 +1,35 @@
+{
+  "id": "BUG-027",
+  "owner": "QA",
+  "title": "6个页面因 API_BASE 未定义导致数据加载失败",
+  "severity": "critical",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": {
+    "os": "Windows 10 x64",
+    "browser": "Edge (已登录态)"
+  },
+  "steps_to_reproduce": [
+    "启动服务器: `node src/server/index.js`",
+    "打开浏览器访问 http://localhost:3000/agents",
+    "观察页面状态"
+  ],
+  "expected": "各页面应正常加载并显示数据",
+  "actual": "所有受影响的页面都卡在 loading spinner 或 skeleton 状态，控制台报 `ReferenceError: API_BASE is not defined`。",
+  "root_cause": "`layout.hbs` 的 HTML 结构：\n```html\n<head>...</head>\n<body>\n  ...\n  <main class=\"main-content\">\n    {{{content}}}   ← agents.hbs 等页面的内容，含 inline <script>\n  </main>\n  ...\n  <script src=\"/static/js/app.js\"></script>  ← 在 body 末尾\n</body>\n```\n\n各页面的 inline `<script>` 中：\n```javascript\ndocument.addEventListener('DOMContentLoaded', () => {\n  loadAgents();  // DOMContentLoaded 触发时，API_BASE 尚不存在\n});\nasync function loadAgents() {\n  const response = await fetch(`${API_BASE}/agents`);  // ReferenceError!\n}\n```\n\n`const API_BASE` 在 app.js 中，不在 `window` 上，inline scripts 执行时 `API_BASE` 不在作用域内。\n\n**第一次修复（defer → head）无效的原因**：`defer` 脚本在 HTML 解析完成后才执行，DOMContentLoaded 在此之前已触发，inline scripts 的监听器已经注册但此时 API_BASE 仍不存在。",
+  "fix": {
+    "description": "**Files modified:**\n- `src/views/layout.hbs` — 在 `<head>` 中添加内联脚本 `<script>window.API_BASE = '/api';</script>`\n- `src/public/js/app.js` — 添加 `window.API_BASE = '/api'`（保留作为 fallback）",
+    "files_modified": [
+      "src/views/layout.hbs",
+      "src/public/js/app.js"
+    ],
+    "commit": null,
+    "fixed_at": null
+  },
+  "related_bugs": [],
+  "test_script": null,
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

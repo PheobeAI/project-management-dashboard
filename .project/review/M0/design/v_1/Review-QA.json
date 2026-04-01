@@ -1,0 +1,50 @@
+{
+  "id": "REVIEW-DESIGN-v1- QA",
+  "owner": " QA",
+  "project": " project-management-dashboard",
+  "reviewer": " QA",
+  "date": "2026-03-21 12:20 +08:00",
+  "version": "v1",
+  "phase": "design",
+  "verdict": "approve",
+  "summary": "✅ **APPROVE**\n\n技术架构清晰，API 设计规范，数据结构完整，测试可行性强。\n\n---",
+  "items": [
+    {
+      "id": "item-1",
+      "description": "层级 (状态)",
+      "verdict": "na",
+      "severity": "info",
+      "comment": "内容",
+      "file_ref": ""
+    },
+    {
+      "id": "item-2",
+      "description": "API 类别 (说明)",
+      "verdict": "na",
+      "severity": "info",
+      "comment": "可测试性",
+      "file_ref": ""
+    },
+    {
+      "id": "item-3",
+      "description": "风险 (缓解方案)",
+      "verdict": "na",
+      "severity": "info",
+      "comment": "级别",
+      "file_ref": ""
+    }
+  ],
+  "risk_items": [
+    {
+      "description": "测试层级\n\n| 层级 | 内容 | 状态 |\n|:-----|:-----|:-----|\n| 单元测试 | Services (FileScanner, DataParser, ConfigManager) | ✅ 已在 tests/basic/ |\n| API 测试 | REST API 端点 | ✅ 可使用 Postman/curl |\n| UI 测试 | 页面组件和交互 | ⚠️ 需补充 ",
+      "severity": "high",
+      "mitigation": ""
+    }
+  ],
+  "recommendations": [],
+  "participants": [
+    " QA"
+  ],
+  "next_action": "",
+  "updated_at": null
+}

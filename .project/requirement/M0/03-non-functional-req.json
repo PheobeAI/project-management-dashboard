@@ -1,0 +1,73 @@
+{
+  "id": "REQ-3_NON_FUNCTIONAL_REQ",
+  "owner": "PM",
+  "title": "03 - 非功能需求",
+  "version": "v1",
+  "status": "approved",
+  "priority": "P0",
+  "milestone": "M0",
+  "overview": "",
+  "functional_requirements": [],
+  "non_functional_requirements": [
+    {
+      "category": ":----------",
+      "description": ":---------",
+      "metric": ":-----"
+    },
+    {
+      "category": "`.project/status.json`",
+      "description": "✅ 必须",
+      "metric": "项目核心状态"
+    },
+    {
+      "category": "`.project/tasks/*.md`",
+      "description": "✅ 必须",
+      "metric": "所有任务文件"
+    },
+    {
+      "category": "`.project/reviews/`",
+      "description": "✅ 必须",
+      "metric": "评审记录"
+    },
+    {
+      "category": "`.project/logs/`",
+      "description": "✅ 必须",
+      "metric": "操作日志"
+    },
+    {
+      "category": "源代码目录",
+      "description": "✅ 必须",
+      "metric": "开发代码"
+    },
+    {
+      "category": "测试数据",
+      "description": "✅ 建议",
+      "metric": "测试用例和结果"
+    },
+    {
+      "category": "版本",
+      "description": "日期",
+      "metric": "变更内容"
+    },
+    {
+      "category": ":-----",
+      "description": ":-----",
+      "metric": ":---------"
+    },
+    {
+      "category": "v1.0",
+      "description": "2026-03-20",
+      "metric": "初始版本"
+    },
+    {
+      "category": "v2.0",
+      "description": "2026-03-20",
+      "metric": "新增 3.7 版本管理要求章节"
+    }
+  ],
+  "user_stories": [],
+  "acceptance_criteria": [],
+  "pages": [],
+  "changelog": [],
+  "updated_at": null
+}

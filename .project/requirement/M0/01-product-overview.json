@@ -1,0 +1,17 @@
+{
+  "id": "REQ-1_PRODUCT_OVERVIEW",
+  "owner": "PM",
+  "title": "01 - 产品概述",
+  "version": "v1",
+  "status": "approved",
+  "priority": "P0",
+  "milestone": "M0",
+  "overview": "**项目管理平台** 是一个集中式的 Web 仪表盘，用于可视化展示多个自定义路径下各个软件项目的开发进展、任务完成度、测试状态和 Agent 工作情况。",
+  "functional_requirements": [],
+  "non_functional_requirements": [],
+  "user_stories": [],
+  "acceptance_criteria": [],
+  "pages": [],
+  "changelog": [],
+  "updated_at": null
+}

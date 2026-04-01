@@ -1,0 +1,189 @@
+{
+  "id": "TEST-REPORT-v4-SIDEBAR-FIX",
+  "owner": "QA",
+  "project": " project-management-dashboard",
+  "version": " MVP v4 (侧边栏修复后)",
+  "phase": "",
+  "test_time": "2026-03-20 19:35 +08:00",
+  "tester": " QA",
+  "environment": null,
+  "summary": {
+    "total": 6,
+    "passed": 5,
+    "failed": 0,
+    "blocked": 0,
+    "skipped": 0,
+    "pass_rate": 83.3
+  },
+  "test_cases": [
+    {
+      "id": "✅ BUG-002: 左侧侧边栏 - FIXED",
+      "title": "✅ BUG-002: 左侧侧边栏 - FIXED",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "✅ BUG-003: 项目详情页加载失败 - FIXED",
+      "title": "✅ BUG-003: 项目详情页加载失败 - FIXED",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "✅ BUG-004: 任务列表显示 undefined - FIXED",
+      "title": "✅ BUG-004: 任务列表显示 undefined - FIXED",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "⚠️ BUG-005: 测试记录数据格式 - 部分修复",
+      "title": "⚠️ BUG-005: 测试记录数据格式 - 部分修复",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "✅ BUG-006: Agent 分组不完整 - FIXED",
+      "title": "✅ BUG-006: Agent 分组不完整 - FIXED",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "✅ NAV-001: 导航路由 - FIXED",
+      "title": "✅ NAV-001: 导航路由 - FIXED",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "路由: fail; :-----: fail; /: pass; /projects: pass; /agents: pass",
+      "steps": []
+    },
+    {
+      "id": "Dashboard 页面",
+      "title": "Dashboard 页面",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "Agents 页面",
+      "title": "Agents 页面",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "Tasks 页面",
+      "title": "Tasks 页面",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "Versions 页面",
+      "title": "Versions 页面",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "Documents 页面",
+      "title": "Documents 页面",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "Settings 页面",
+      "title": "Settings 页面",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "",
+      "steps": []
+    },
+    {
+      "id": "展开/收缩切换",
+      "title": "展开/收缩切换",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "操作: fail; :-----: fail; 点击\"收缩侧边栏\": pass; 点击\"展开侧边栏\": pass",
+      "steps": []
+    },
+    {
+      "id": "导航一致性",
+      "title": "导航一致性",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "测试项: fail; :-------: fail; 点击导航项: pass; 页面刷新: pass",
+      "steps": []
+    },
+    {
+      "id": "✅ 验收通过",
+      "title": "✅ 验收通过",
+      "page": "",
+      "feature": "",
+      "priority": "P0",
+      "status": "tested",
+      "result": "pass",
+      "notes": "严重级别: fail; :---------: fail; Critical: pass; Major: pass",
+      "steps": []
+    }
+  ],
+  "defects": [],
+  "conclusion": "pass",
+  "screenshots": [],
+  "updated_at": null
+}

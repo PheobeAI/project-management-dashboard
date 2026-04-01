@@ -1,0 +1,27 @@
+{
+  "id": "BUG-002",
+  "owner": "QA",
+  "title": "启动 Dashboard 时，端口 3000 被占用导致服务无法启动：",
+  "severity": "major",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": null,
+  "steps_to_reproduce": [],
+  "expected": "",
+  "actual": "",
+  "root_cause": null,
+  "fix": {
+    "description": "### 根因\n`server/index.js` 中端口启动逻辑未处理端口占用情况。",
+    "files_modified": [
+      "src/server/index.js"
+    ],
+    "commit": null,
+    "fixed_at": null
+  },
+  "related_bugs": [],
+  "test_script": null,
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

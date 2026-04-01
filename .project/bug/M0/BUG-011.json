@@ -1,0 +1,20 @@
+{
+  "id": "BUG-011",
+  "owner": "QA",
+  "title": "Projects 页面返回 \"Cannot GET /projects\"",
+  "severity": "major",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": null,
+  "steps_to_reproduce": [],
+  "expected": "",
+  "actual": "",
+  "root_cause": null,
+  "fix": null,
+  "related_bugs": [],
+  "test_script": null,
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

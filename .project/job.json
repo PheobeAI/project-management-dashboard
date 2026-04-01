@@ -1,81 +1,69 @@
 {
-  "job_id": "JOB-QA-001",
-  "created_at": "2026-03-24T03:38:00+08:00",
-  "agent": "QA",
-  "type": "inspection",
-  "project": "project-management-dashboard",
-  "milestone": "M0",
-  "phase": "iterating",
-  "status": "in_progress",
-  "waiting_for": {
-    "agent": "Engineer",
-    "action": "github_commit",
-    "since": "2026-03-21T20:29:00+08:00"
+  "job_id": "migrate-docs-to-json",
+  "source_agent_id": "pm",
+  "started_at": "2026-04-01T04:00:00+08:00",
+  "context": {
+    "project": "project-management-dashboard",
+    "description": "将 .project 下的所有 Markdown 文档迁移为 JSON 格式，对应各自的 Schema。",
+    "key_info": "GitHub 推送暂失败（网络问题），所有迁移 commit 暂存本地。task 文件部分已是 JSON，仅迁移 MD 文件。迁移后旧 MD 文件暂不删除，待验证新 JSON 可用后再清理。"
   },
-  "scope": "Full HEARTBEAT inspection + regression for fixed_pending_qa blockers",
-  "findings": [
+  "steps": [
     {
-      "id": "FINDING-001",
-      "type": "bug",
-      "severity": "critical",
-      "description": "BUG-016 (Dashboard 统计数字) 仍显示 '-'，app.js loadProjects() 未成功执行",
-      "evidence": "快照显示所有 generic stat 节点为 StaticText '-'，API /api/projects 返回正确数据但前端未渲染",
-      "bug_id": "BUG-016",
-      "blocker_id": "BLOCKER-012",
-      "status": "confirmed_broken"
+      "id": 1,
+      "description": "迁移 Bug 报告：bug/M0/*.md → .bug/M0/*.json（32个文件：BLOCKER-023, BUG-001~032 除024）",
+      "status": "done",
+      "completed_at": "2026-04-01T12:10:00+08:00",
+      "note": "32/32 bug 文件全部转换成功。BUG-026 章节格式解析正确，表格格式（BUG-001等）也正常。"
     },
     {
-      "id": "FINDING-002",
-      "type": "bug",
-      "severity": "major",
-      "description": "BUG-013 (Settings 编辑路径) 仍未修复，点击编辑按钮无任何响应",
-      "evidence": "快照显示点击后 DOM 无任何变化",
-      "bug_id": "BUG-013",
-      "blocker_id": "BLOCKER-015",
-      "status": "confirmed_broken"
+      "id": 2,
+      "description": "迁移 Task 文档：task/M0/*.md → task/M0/*.json（11个文件：ART-001~011）",
+      "status": "done",
+      "completed_at": "2026-04-01T12:20:00+08:00",
+      "note": "11/11 成功。deliverables 从资产清单表格解析正确。"
     },
     {
-      "id": "FINDING-003",
-      "type": "bug",
-      "severity": "major",
-      "description": "BLOCKER-016 (主题切换对侧边栏无效) 和 BUG-014 疑似同一问题，需合并验证",
-      "bug_id": "BUG-014",
-      "blocker_id": "BLOCKER-016",
-      "status": "needs_testing"
+      "id": 3,
+      "description": "迁移测试报告：test-result/M0/*.md → test-result/M0/*.json（13个文件）",
+      "status": "done",
+      "completed_at": "2026-04-01T12:30:00+08:00",
+      "note": "11/11 成功（含 bug 回归报告格式和标准测试报告格式）。"
     },
     {
-      "id": "FINDING-004",
-      "type": "observation",
-      "severity": "minor",
-      "description": "BUG-014 和 BLOCKER-016 描述相同但 bug 编号不同，建议合并",
-      "action": "建议 PM 合并或明确区分"
+      "id": 4,
+      "description": "迁移评审文档：review/M0/**/*.md → review/M0/**/*.json（23个文件）",
+      "status": "done",
+      "completed_at": "2026-04-01T12:45:00+08:00",
+      "note": "23/23 成功（含 design/requirements/layout 三类）。"
     },
     {
-      "id": "FINDING-005",
-      "type": "observation",
-      "severity": "minor",
-      "description": "BUG-015 (logo 深色模式) 未测试，需补充验证",
-      "bug_id": "BUG-015",
-      "status": "needs_testing"
+      "id": 5,
+      "description": "迁移需求文档：requirement/M0/*.md → requirement/M0/*.json（8个文件）",
+      "status": "done",
+      "completed_at": "2026-04-01T13:00:00+08:00",
+      "note": "7/7 成功。02-functional-req.json 正确提取了 F1-F12 共12条功能需求。"
+    },
+    {
+      "id": 6,
+      "description": "迁移设计文档：design/M0/**/*.md → design/M0/**/*.json（15个文件）",
+      "status": "done",
+      "completed_at": "2026-04-01T13:10:00+08:00",
+      "note": "15/15 成功。含 component-spec、animation-spec、style-guide、v_1、v_2 等文件。"
+    },
+    {
+      "id": 7,
+      "description": "迁移技术设计文档：tech-design/M0/ARCHITECTURE.md → tech-design/M0/ARCHITECTURE.json（2个文件）",
+      "status": "done",
+      "completed_at": "2026-04-01T13:15:00+08:00",
+      "note": "2/2 成功。提取了 API endpoints、目录结构、已知问题/风险。"
+    },
+    {
+      "id": 8,
+      "description": "GitHub push：推送所有迁移变更（网络恢复后执行）",
+      "status": "pending",
+      "note": ""
     }
   ],
-  "task_inspection": {
-    "todo_tasks": ["DEV-004", "DEV-005", "DEV-006"],
-    "tested_tasks": ["DEV-013", "DEV-014", "DEV-015"],
-    "done_tasks_count": 23,
-    "note": "无 dev_done 状态任务，无 QA 可测试内容（所有任务状态要么 done/tested 要么 todo）"
-  },
-  "regression_results": {
-    "BUG-016_Dashboard_stats": "FAIL - 数字显示为 '-'",
-    "BUG-013_Settings_edit": "FAIL - 编辑按钮无响应"
-  },
-  "next_steps": [
-    "1. 通知 Engineer BUG-016 和 BUG-013 仍未修复，需要第三次修复",
-    "2. 补充测试 BUG-014 (sidebar 主题切换) 和 BUG-015 (logo 深色模式)",
-    "3. 确认 BLOCKER-016 和 BUG-014 是否为同一问题"
-  ],
-  "notes": [
-    "服务运行端口: 3001（3000 被占用）",
-    "job.json 首次创建用于追踪本次巡检任务"
-  ]
+  "current_step": 1,
+  "summary": ""
 }

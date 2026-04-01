@@ -1,0 +1,20 @@
+{
+  "id": "BUG-006",
+  "owner": "QA",
+  "title": "图标全部加载不出来。侧边栏、页面标题等位置应该显示的图标（如 📊、📁、👥 等 emoji）都无法正常显示。",
+  "severity": "major",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": null,
+  "steps_to_reproduce": [],
+  "expected": "",
+  "actual": "",
+  "root_cause": null,
+  "fix": null,
+  "related_bugs": [],
+  "test_script": null,
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

@@ -1,0 +1,126 @@
+{
+  "id": "REQ-2_FUNCTIONAL_REQ",
+  "owner": "PM",
+  "title": "02 - 功能需求",
+  "version": "v1",
+  "status": "approved",
+  "priority": "P0",
+  "milestone": "M0",
+  "overview": "",
+  "functional_requirements": [
+    {
+      "id": "F1",
+      "title": "项目列表与概览",
+      "description": "项目列表与概览",
+      "priority": "P1",
+      "status": "approved",
+      "dependencies": [],
+      "acceptance": ""
+    },
+    {
+      "id": "F2",
+      "title": "项目详情视图",
+      "description": "项目详情视图",
+      "priority": "P1",
+      "status": "approved",
+      "dependencies": [],
+      "acceptance": ""
+    },
+    {
+      "id": "F3",
+      "title": "任务状态追踪",
+      "description": "任务状态追踪",
+      "priority": "P1",
+      "status": "approved",
+      "dependencies": [],
+      "acceptance": ""
+    },
+    {
+      "id": "F4",
+      "title": "测试结果展示",
+      "description": "测试结果展示",
+      "priority": "P1",
+      "status": "approved",
+      "dependencies": [],
+      "acceptance": ""
+    },
+    {
+      "id": "F5",
+      "title": "Agent 工作状态",
+      "description": "Agent 工作状态",
+      "priority": "P1",
+      "status": "approved",
+      "dependencies": [],
+      "acceptance": ""
+    },
+    {
+      "id": "F6",
+      "title": "数据可视化图表",
+      "description": "数据可视化图表",
+      "priority": "P1",
+      "status": "approved",
+      "dependencies": [],
+      "acceptance": ""
+    },
+    {
+      "id": "F7",
+      "title": "自动刷新",
+      "description": "自动刷新",
+      "priority": "P1",
+      "status": "approved",
+      "dependencies": [],
+      "acceptance": ""
+    },
+    {
+      "id": "F8",
+      "title": "深色/浅色模式切换",
+      "description": "深色/浅色模式切换",
+      "priority": "P1",
+      "status": "approved",
+      "dependencies": [],
+      "acceptance": ""
+    },
+    {
+      "id": "F9",
+      "title": "多路径管理",
+      "description": "多路径管理",
+      "priority": "P1",
+      "status": "approved",
+      "dependencies": [],
+      "acceptance": ""
+    },
+    {
+      "id": "F10",
+      "title": "Agent 任务视图",
+      "description": "Agent 任务视图",
+      "priority": "P1",
+      "status": "approved",
+      "dependencies": [],
+      "acceptance": ""
+    },
+    {
+      "id": "F11",
+      "title": "项目阶段进展视图",
+      "description": "项目阶段进展视图",
+      "priority": "P1",
+      "status": "approved",
+      "dependencies": [],
+      "acceptance": ""
+    },
+    {
+      "id": "F12",
+      "title": "测试详情视图",
+      "description": "测试详情视图",
+      "priority": "P1",
+      "status": "approved",
+      "dependencies": [],
+      "acceptance": ""
+    }
+  ],
+  "non_functional_requirements": [],
+  "user_stories": [],
+  "acceptance_criteria": [],
+  "pages": [],
+  "changelog": [],
+  "updated_at": null
+}

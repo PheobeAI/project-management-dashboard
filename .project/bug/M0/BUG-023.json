@@ -1,0 +1,25 @@
+{
+  "id": "BUG-023",
+  "owner": "QA",
+  "title": "在 Settings 页面，点击「添加路径」后点击「取消」，之后 Settings 页面所有路径操作（编辑、添加新路径）均失效，无法编辑。",
+  "severity": "major",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": null,
+  "steps_to_reproduce": [],
+  "expected": "",
+  "actual": "",
+  "root_cause": "**showAddPathModal() 的 confirmBtn.onclick 未重置**\n\n`hideAddPathModal()` 关闭 Modal 时：\n- 重置表单字段（newPathId, newPathInput, newPathAlias, newPathColor）\n- 重置 Modal 标题（通过 hideAddPathModal）\n- **但 confirmBtn.onclick 仍保持为 editPath() 中设置的 updatePath**\n\neditPath() 修改 Modal 状态：\n```js\nconfirmBtn.onclick = updatePath;  // editPath 中设置\ntitle.textContent = '编辑路径';\n```\n\nshowAddPathModal() 重新打开时：\n```js\n// 未重置 confirmBtn.onclick！\nmodal.style.display = 'flex';  // 显示 Modal，但 confirmBtn 仍指向 updatePath\n```\n\n**结果**：点击\"添加路径\"后，confirmBtn 仍执行 updatePath 而非 addPath，导致操作失败。",
+  "fix": {
+    "description": "在 `showAddPathModal()` 开头重置 confirmBtn 状态：",
+    "files_modified": [],
+    "commit": null,
+    "fixed_at": null
+  },
+  "related_bugs": [],
+  "test_script": null,
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

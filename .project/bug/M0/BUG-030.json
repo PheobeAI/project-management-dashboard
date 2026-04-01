@@ -1,0 +1,27 @@
+{
+  "id": "BUG-030",
+  "owner": "QA",
+  "title": "主题切换按钮完全无效",
+  "severity": "major",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": {
+    "os": "Windows 10 x64",
+    "browser": "Edge (已登录态)"
+  },
+  "steps_to_reproduce": [
+    "启动服务器: `node src/server/index.js`",
+    "打开浏览器访问 Dashboard",
+    "点击右上角的\"切换主题\"按钮（太阳/月亮图标）"
+  ],
+  "expected": "点击后页面主题在浅色和深色之间切换",
+  "actual": "点击按钮后，页面主题**没有任何变化**。`data-theme` 属性始终为 `null`。",
+  "root_cause": null,
+  "fix": null,
+  "related_bugs": [],
+  "test_script": null,
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

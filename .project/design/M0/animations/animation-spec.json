@@ -1,0 +1,99 @@
+{
+  "owner": "Designer",
+  "project": "project-management-dashboard",
+  "version": "v1.0",
+  "status": "approved",
+  "milestone": "M0",
+  "pages": [],
+  "components": [],
+  "animations": [
+    {
+      "name": "1. 动效原则",
+      "description": "\n### 1.1 目的\n- **引导注意**：帮助用户理解界面变化\n- **提供反馈**：让用户知道操作已生效\n- **创建连续性**：使页面转换流畅自然\n- **增强愉悦感**：精致的微交互提升体验\n\n### 1.2 时机\n- **立即响应**：< 100ms，用户感觉无延迟\n- **快速过渡**：100-300ms，大多数 UI 动效\n- **慢速动画**：300-500ms，复杂状态变化\n- **暂停/延迟**：> 500ms，等待加载等\n\n### 1.3 缓动曲线\n\n| 曲线名称 | CSS 值 | 使用场景 |\n|:---------|:-------|:---------|\n| 标",
+      "duration": "",
+      "easing": "",
+      "trigger": ""
+    },
+    {
+      "name": "2. 页面加载动画",
+      "description": "\n### 2.1 卡片入场动画\n\n```css\n@keyframes fadeInUp {\n  from {\n    opacity: 0;\n    transform: translateY(20px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.card {\n  opacity: 0;\n  animation: fadeInUp 0.5s ease-out forwards;\n}\n\n/* 错开延迟 */\n.card:nth-child(1) { animation-delay: 0ms; }\n.card",
+      "duration": "",
+      "easing": "",
+      "trigger": ""
+    },
+    {
+      "name": "3. 悬停动画",
+      "description": "\n### 3.1 卡片悬停\n\n```css\n.card {\n  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n}\n\n.card:hover {\n  transform: translateY(-4px);\n  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),\n              0 4px 6px -2px rgba(0, 0, 0, 0.05);\n}\n```\n\n### 3.2 按钮悬停\n\n```css\n.btn {\n  transition: all 0.2s ease;\n}\n\n.",
+      "duration": "",
+      "easing": "",
+      "trigger": ""
+    },
+    {
+      "name": "4. 侧边栏收缩动画",
+      "description": "\n```css\n.sidebar {\n  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n}\n\n.sidebar.collapsed {\n  width: 60px;\n}\n\n/* 菜单文字淡出 */\n.sidebar.collapsed .menu-text,\n.sidebar.collapsed .logo-text,\n.sidebar.collapsed .collapse-text {\n  opacity: 0;\n  visibility: hidden;\n  transition: opacity 0.2s ease, visi",
+      "duration": "",
+      "easing": "",
+      "trigger": ""
+    },
+    {
+      "name": "5. Tab 切换动画",
+      "description": "\n```css\n.tab-content {\n  animation: fadeIn 0.2s ease-out;\n}\n\n@keyframes fadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n\n/* 或滑入效果 */\n.tab-content.slide {\n  animation: slideIn 0.2s ease-out;\n}\n\n@keyframes slideIn {\n  from {\n    opacity: 0;\n    transform: translateX(10px);\n  }\n  to ",
+      "duration": "",
+      "easing": "",
+      "trigger": ""
+    },
+    {
+      "name": "6. 主题切换动画",
+      "description": "\n```css\nbody,\n.card,\n.header,\n.sidebar {\n  transition: background-color 0.3s ease,\n              color 0.3s ease,\n              border-color 0.3s ease,\n              box-shadow 0.3s ease;\n}\n\n/* 主题切换时禁用过渡，避免闪烁 */\n.theme-transitioning * {\n  transition: none !important;\n}\n```\n\n---\n\n",
+      "duration": "",
+      "easing": "",
+      "trigger": ""
+    },
+    {
+      "name": "7. 数据更新动画",
+      "description": "\n### 7.1 数字变化闪烁\n\n```css\n@keyframes dataPulse {\n  0%, 100% {\n    opacity: 1;\n  }\n  50% {\n    opacity: 0.5;\n  }\n}\n\n.data-updating {\n  animation: dataPulse 0.5s ease-in-out;\n}\n```\n\n### 7.2 进度条动画\n\n```css\n.progress-bar-fill {\n  transition: width 0.8s ease-out;\n}\n```\n\n### 7.3 图表绘制动画\n\n```css\n.chart-bar {\n ",
+      "duration": "",
+      "easing": "",
+      "trigger": ""
+    },
+    {
+      "name": "8. 折叠/展开动画",
+      "description": "\n```css\n.collapse-content {\n  overflow: hidden;\n  max-height: 0;\n  opacity: 0;\n  transition: max-height 0.3s ease-out,\n              opacity 0.2s ease;\n}\n\n.collapse-content.expanded {\n  max-height: 1000px; /* 足够大的值 */\n  opacity: 1;\n}\n```\n\n---\n\n",
+      "duration": "",
+      "easing": "",
+      "trigger": ""
+    },
+    {
+      "name": "9. Toast 通知动画",
+      "description": "\n```css\n/* 进入 */\n@keyframes slideInRight {\n  from {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n  to {\n    transform: translateX(0);\n    opacity: 1;\n  }\n}\n\n/* 退出 */\n@keyframes slideOutRight {\n  from {\n    transform: translateX(0);\n    opacity: 1;\n  }\n  to {\n    transform: translateX(100%);\n",
+      "duration": "",
+      "easing": "",
+      "trigger": ""
+    },
+    {
+      "name": "10. Modal 弹窗动画",
+      "description": "\n```css\n.modal-overlay {\n  animation: fadeIn 0.2s ease-out;\n}\n\n.modal-content {\n  animation: scaleIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);\n}\n\n@keyframes scaleIn {\n  from {\n    opacity: 0;\n    transform: scale(0.95);\n  }\n  to {\n    opacity: 1;\n    transform: scale(1);\n  }\n}\n```\n\n---\n\n",
+      "duration": "",
+      "easing": "",
+      "trigger": ""
+    },
+    {
+      "name": "11. 加载状态",
+      "description": "\n### 11.1 按钮加载\n\n```css\n.btn.loading {\n  position: relative;\n  color: transparent;\n  pointer-events: none;\n}\n\n.btn.loading::after {\n  content: '';\n  position: absolute;\n  width: 16px;\n  height: 16px;\n  top: 50%;\n  left: 50%;\n  margin: -8px 0 0 -8px;\n  border: 2px solid white;\n  border-top-color: tran",
+      "duration": "",
+      "easing": "",
+      "trigger": ""
+    },
+    {
+      "name": "12. 动画性能优化",
+      "description": "\n### 12.1 优先使用 transform 和 opacity\n\n```css\n/* ✅ 好：GPU 加速 */\n.card:hover {\n  transform: translateY(-4px);\n  opacity: 0.9;\n}\n\n/* ❌ 差：触发重排 */\n.card:hover {\n  margin-top: -4px;\n  background-color: newColor;\n}\n```\n\n### 12.2 使用 will-change\n\n```css\n.animating-element {\n  will-change: transform, opacity;\n}\n",
+      "duration": "",
+      "easing": "",
+      "trigger": ""
+    }
+  ],
+  "style_guide": {},
+  "layout": {},
+  "created_at": null,
+  "updated_at": null
+}

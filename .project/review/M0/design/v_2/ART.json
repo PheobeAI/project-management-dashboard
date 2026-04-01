@@ -1,0 +1,60 @@
+{
+  "id": "REVIEW-DESIGN-v2-ENGINEER",
+  "owner": "Engineer",
+  "project": "project-management-dashboard",
+  "reviewer": "Engineer",
+  "date": "2026-03-20",
+  "version": "v2",
+  "phase": "design",
+  "verdict": "approve",
+  "summary": "✅ **APPROVE**\n\n---",
+  "items": [
+    {
+      "id": "item-1",
+      "description": "视觉设计要求 (对应状态)",
+      "verdict": "na",
+      "severity": "info",
+      "comment": "技术实现",
+      "file_ref": ""
+    },
+    {
+      "id": "item-2",
+      "description": "视觉设计要求 (对应状态)",
+      "verdict": "na",
+      "severity": "info",
+      "comment": "技术实现",
+      "file_ref": ""
+    },
+    {
+      "id": "item-3",
+      "description": "视觉设计要求 (对应状态)",
+      "verdict": "na",
+      "severity": "info",
+      "comment": "技术实现",
+      "file_ref": ""
+    },
+    {
+      "id": "item-4",
+      "description": "数据结构 (备注)",
+      "verdict": "na",
+      "severity": "info",
+      "comment": "完整性",
+      "file_ref": ""
+    },
+    {
+      "id": "item-5",
+      "description": "API 端点 (功能 | 状态)",
+      "verdict": "na",
+      "severity": "info",
+      "comment": "方法",
+      "file_ref": ""
+    }
+  ],
+  "risk_items": [],
+  "recommendations": [],
+  "participants": [
+    "Engineer"
+  ],
+  "next_action": "",
+  "updated_at": null
+}

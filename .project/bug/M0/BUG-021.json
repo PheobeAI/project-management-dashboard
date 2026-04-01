@@ -1,0 +1,25 @@
+{
+  "id": "BUG-021",
+  "owner": "QA",
+  "title": "整个管理系统网页布局全部乱了，UI挤在一起。",
+  "severity": "major",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": null,
+  "steps_to_reproduce": [],
+  "expected": "",
+  "actual": "",
+  "root_cause": null,
+  "fix": {
+    "description": "1. 将 `theme.css` `:root` 中的 `--sidebar-*` 值替换为浅色值（参考 main.css 中 .sidebar 选择器内的注释 \"Light Mode\" 值）\n2. 确认 `/assets/css/variables.css` 是否为必需的 CSS 变量文件，如需要则创建，或从 layout.hbs 中移除该引用",
+    "files_modified": [],
+    "commit": "3b8797e",
+    "fixed_at": null
+  },
+  "related_bugs": [],
+  "test_script": null,
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}

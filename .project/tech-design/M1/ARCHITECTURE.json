@@ -1,0 +1,117 @@
+{
+  "id": "TECH-M1-ARCHITECTURE",
+  "owner": "Engineer",
+  "project": "project-management-dashboard",
+  "version": "v1.0",
+  "status": "approved",
+  "milestone": "M1",
+  "phase": "Phase 3",
+  "requirement_id": null,
+  "overview": "",
+  "tech_stack": {
+    "frontend": "原生 JavaScript (ES6+) + Handlebars",
+    "backend": "Node.js + Express",
+    "database": "内存 + JSON 文件持久化",
+    "infrastructure": "",
+    "libraries": []
+  },
+  "file_structure": {
+    "description": "项目目录结构",
+    "tree": [
+      "project-management-dashboard/",
+      "├── assets/                    # 静态资源（不经构建）",
+      "│   ├── css/",
+      "│   │   ├── variables.css      # CSS 变量定义（颜色、间距、字体）",
+      "│   │   └── animations.css    # 动画样式",
+      "│   ├── js/",
+      "│   │   ├── chart.min.js      # Chart.js 本地副本",
+      "│   │   ├── charts-phase-config.js",
+      "│   │   └── charts-bug-config.js",
+      "│   ├── logo/",
+      "│   └── icons/",
+      "├── src/",
+      "│   ├── public/               # 服务器静态文件 (/static/*)",
+      "│   │   ├── js/",
+      "│   │   │   ├── constants.js   # ⭐ 共享常量（单一数据源）",
+      "│   │   │   ├── app.js        # Dashboard 主逻辑",
+      "│   │   │   ├── detail.js     # 项目详情页逻辑",
+      "│   │   │   ├── settings.js   # 设置页逻辑",
+      "│   │   │   └── sidebar.js    # 侧边栏逻辑",
+      "│   │   └── css/",
+      "│   │       ├── main.css      # 主样式 + 亮色主题变量",
+      "│   │       ├── theme.css     # 暗色主题覆盖",
+      "│   │       ├── components.css",
+      "│   │       └── sidebar.css",
+      "│   ├── server/",
+      "│   │   ├── index.js          # Express 入口",
+      "│   │   └── routes/",
+      "│   │       ├── api.js         # REST API 路由",
+      "│   │       └── static.js     # 页面渲染路由",
+      "│   └── views/                 # Handlebars 模板",
+      "│       ├── layout.hbs         # 主布局模板",
+      "│       ├── home.hbs          # Dashboard 页面",
+      "│       ├── detail.hbs        # 项目详情",
+      "│       └── ...",
+      "└── data/                      # JSON 数据文件"
+    ]
+  },
+  "architecture": {
+    "diagram": "",
+    "layers": [
+      "Browser",
+      "Express.js",
+      "Data Sources"
+    ],
+    "data_flow": ""
+  },
+  "modules": [],
+  "api_design": {
+    "base_url": "/api",
+    "versioning": "",
+    "auth": "",
+    "rate_limit": "",
+    "error_format": "{ success: true, data: {...} }",
+    "endpoints": []
+  },
+  "database": {
+    "type": "FileSystem (JSON)",
+    "schema": "",
+    "tables": [],
+    "migrations": ""
+  },
+  "config": {
+    "env_vars": [],
+    "files": [
+      "constants.js"
+    ]
+  },
+  "security": {
+    "authentication": "",
+    "authorization": "",
+    "data_protection": "",
+    "cors": "",
+    "https": ""
+  },
+  "error_handling": {
+    "strategy": "try-catch in async functions",
+    "error_codes": [],
+    "logging": "",
+    "alerting": ""
+  },
+  "external_dependencies": [],
+  "test_strategy": {
+    "unit_test": "",
+    "integration_test": "",
+    "e2e_test": "",
+    "test_data": "",
+    "coverage_target": ""
+  },
+  "acceptance_criteria": [],
+  "risks": [],
+  "tasks": [],
+  "review_comments": [],
+  "participants": [],
+  "next_action": "",
+  "created_at": null,
+  "updated_at": null
+}

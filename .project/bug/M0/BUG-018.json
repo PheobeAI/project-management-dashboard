@@ -1,0 +1,20 @@
+{
+  "id": "BUG-018",
+  "owner": "QA",
+  "title": "Settings 里点击「添加路径」按钮后，没有出现选择目录的对话框。",
+  "severity": "major",
+  "status": "open",
+  "milestone": "M0",
+  "assignee": null,
+  "environment": null,
+  "steps_to_reproduce": [],
+  "expected": "",
+  "actual": "",
+  "root_cause": null,
+  "fix": null,
+  "related_bugs": [],
+  "test_script": null,
+  "verified_at": null,
+  "created_at": null,
+  "updated_at": null
+}
