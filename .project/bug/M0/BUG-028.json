@@ -31,5 +31,6 @@
   "test_script": "修复后刷新页面，所有受影响页面应：\n1. 不再显示 loading spinner\n2. 正常显示数据内容\n3. 浏览器控制台无 SyntaxError",
   "verified_at": null,
   "created_at": null,
-  "updated_at": null
+  "updated_at": null,
+  "rawFile": "bug/M0/Legacy/BUG-028.md"
 }

@@ -23,5 +23,6 @@
   "test_script": null,
   "verified_at": null,
   "created_at": null,
-  "updated_at": null
+  "updated_at": null,
+  "rawFile": "bug/M0/Legacy/BUG-029.md"
 }

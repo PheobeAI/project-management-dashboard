@@ -35,5 +35,6 @@
   "test_script": "```javascript\n// 在浏览器控制台执行\nfetch('/api/projects').then(r=>r.json()).then(d=>console.log('API ok:', d.success, d.data.length))\ntypeof API_BASE  // 应返回 'string'\n```",
   "verified_at": null,
   "created_at": null,
-  "updated_at": null
+  "updated_at": null,
+  "rawFile": "bug/M0/Legacy/BUG-026.md"
 }
