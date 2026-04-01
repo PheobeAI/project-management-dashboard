@@ -1,10 +1,9 @@
-/**
+﻿/**
  * Detail Page JavaScript
- * 
+ *
  * 项目详情页逻辑
+ * Phase/status constants shared via constants.js (loaded before this script)
  */
-
-const API_BASE = '/api';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const projectId = getProjectIdFromUrl();
@@ -25,7 +24,7 @@ async function loadProjectDetail(projectId) {
   try {
     renderProjectSkeleton();
     
-    const response = await fetch(`${API_BASE}/projects/${encodeURIComponent(projectId)}`);
+    const response = await fetch(`${window.API_BASE}/projects/${encodeURIComponent(projectId)}`);
     const result = await response.json();
     
     if (result.success) {
@@ -58,7 +57,7 @@ async function loadF10F11F12(projectId) {
   
   // F10: Agent Tasks
   try {
-    const agentTasksResponse = await fetch(`${API_BASE}/projects/${encodeURIComponent(projectId)}/agent-tasks`);
+    const agentTasksResponse = await fetch(`${window.API_BASE}/projects/${encodeURIComponent(projectId)}/agent-tasks`);
     const agentTasksResult = await agentTasksResponse.json();
     
     if (agentTasksResult.success && agentTasksResult.data.agents.length > 0) {
@@ -74,7 +73,7 @@ async function loadF10F11F12(projectId) {
   
   // F12: Test Details - Bug Stats
   try {
-    const bugsResponse = await fetch(`${API_BASE}/projects/${encodeURIComponent(projectId)}/bugs`);
+    const bugsResponse = await fetch(`${window.API_BASE}/projects/${encodeURIComponent(projectId)}/bugs`);
     const bugsResult = await bugsResponse.json();
     
     if (bugsResult.success) {
@@ -85,7 +84,7 @@ async function loadF10F11F12(projectId) {
       }
     }
     
-    const reviewsResponse = await fetch(`${API_BASE}/projects/${encodeURIComponent(projectId)}/reviews`);
+    const reviewsResponse = await fetch(`${window.API_BASE}/projects/${encodeURIComponent(projectId)}/reviews`);
     const reviewsResult = await reviewsResponse.json();
     
     if (reviewsResult.success) {
@@ -108,8 +107,8 @@ function renderProjectDetail(project) {
       <h1 class="project-title">${project.name}</h1>
     </div>
     <div class="project-meta-row">
-      <span class="phase-badge">Phase ${project.phase}</span>
-      <span class="status-badge ${project.status}">${getStatusText(project.status)}</span>
+      <span class="phase-badge">${getPhaseDisplayName(project.phase)}</span>
+      <span class="status-badge ${project.status}">${getStatusDisplayText(project.status)}</span>
     </div>
     <div class="progress-section">
       <div class="progress-bar large">
@@ -163,7 +162,7 @@ function renderAgentStatus(project) {
   container.innerHTML = agents.map(agent => {
     const stats = agentStats[agent];
     const isWaiting = project.waitingFor?.agent === agent;
-    const status = stats.total === 0 ? '未参与' : stats.done === stats.total ? '已完成' : '进行中';
+    const status = stats.total === 0 ? '未初始化' : stats.done === stats.total ? '已通过' : '进行中';
     
     return `
       <div class="agent-card ${isWaiting ? 'waiting' : ''}">
@@ -239,24 +238,14 @@ function renderTestResults(testResults) {
   `;
 }
 
-// Phase Timeline
-const PHASES = [
-  { id: 0, name: '初始化', shortName: 'Init', color: '#94A3B8' },
-  { id: 1, name: '需求分析', shortName: 'Req', color: '#3B82F6' },
-  { id: 2, name: '设计', shortName: 'Design', color: '#8B5CF6' },
-  { id: 3, name: '开发', shortName: 'Dev', color: '#10B981' },
-  { id: 4, name: '测试', shortName: 'Test', color: '#F59E0B' },
-  { id: 5, name: '部署', shortName: 'Deploy', color: '#EC4899' },
-  { id: 6, name: '维护', shortName: 'Maint', color: '#06B6D4' },
-  { id: 7, name: '完成', shortName: 'Done', color: '#64748B' },
-  { id: 8, name: '已发布', shortName: 'Released', color: '#1E40AF' }
-];
-
+// Phase Timeline (PHASES, PHASE_NAME_TO_ID, getPhaseShortName, getPhaseColor provided by constants.js)
 function renderPhaseTimeline(project) {
   const container = document.getElementById('phaseTimeline');
   if (!container) return;
   
-  const currentPhase = project.phase || 0;
+  const rawPhase = project.phase;
+const currentPhase = typeof rawPhase === 'number' ? rawPhase
+  : (PHASE_NAME_TO_ID[rawPhase] ?? (isNaN(rawPhase) ? 0 : Number(rawPhase)));
   
   const phasesHtml = PHASES.map(phase => {
     const isCompleted = phase.id < currentPhase;
@@ -271,7 +260,11 @@ function renderPhaseTimeline(project) {
     `;
   }).join('');
   
-  const currentPhaseInfo = PHASES[currentPhase] || PHASES[0];
+  const currentPhaseInfo = {
+    color: getPhaseColor(currentPhase),
+    name: getPhaseDisplayName(currentPhase),
+    shortName: getPhaseShortName(currentPhase)
+  };
   
   container.innerHTML = `
     <div class="phase-timeline-bar">
@@ -310,13 +303,13 @@ function renderAgentTasks(agents) {
           <span class="agent-stat">等待 ${agent.waiting.length}</span>
           <span class="agent-stat">进行 ${agent.inProgress.length}</span>
           <span class="agent-stat">完成 ${agent.done.length}</span>
-          <span class="agent-toggle-icon">▼</span>
+          <span class="agent-toggle-icon">▶</span>
         </div>
       </div>
       <div class="agent-tasks-content">
         ${renderAgentTaskSection('等待处理', agent.waiting)}
-        ${renderAgentTaskSection('进行中', agent.inProgress)}
-        ${renderAgentTaskSection('已完成', agent.done)}
+        
+        
       </div>
     </div>
   `).join('');
@@ -365,9 +358,9 @@ function renderBugStats(data) {
   
   container.innerHTML = `
     <div class="bug-stat-card"><div class="bug-stat-value">${stats.total}</div><div class="bug-stat-label">总Bug</div></div>
-    <div class="bug-stat-card"><div class="bug-stat-value pass">${stats.fixed}</div><div class="bug-stat-label">已修复</div></div>
-    <div class="bug-stat-card"><div class="bug-stat-value fail">${stats.open}</div><div class="bug-stat-label">未修复</div></div>
-    <div class="bug-stat-card"><div class="bug-stat-value">${stats.progress}%</div><div class="bug-stat-label">修复率</div></div>
+      <div class="bug-stat-card"><div class="bug-stat-value pass"></div><div class="bug-stat-label">已修复</div></div>
+      <div class="bug-stat-card"><div class="bug-stat-value fail"></div><div class="bug-stat-label">未修复</div></div>
+      <div class="bug-stat-card"><div class="bug-stat-value">%</div><div class="bug-stat-label">修复率</div></div>
   `;
 }
 
@@ -397,14 +390,9 @@ function renderReviews(reviews) {
   }).join('');
 }
 
-// Utility functions
-function getStatusText(status) {
-  const statusMap = { normal: '正常', warning: '进行中', blocked: '阻塞', uninitialized: '未初始化' };
-  return statusMap[status] || status;
-}
-
+// Utility functions (getStatusDisplayText, getPhaseDisplayName provided by constants.js)
 function getTaskStatusIcon(status) {
-  const iconMap = { done: '✅', in_progress: '🔄', waiting: '⏳', cancelled: '❌', paused: '⏸️' };
+  const iconMap = { done: '✓', in_progress: '🔄', waiting: '⏳', cancelled: '✗', paused: '⏸️' };
   return iconMap[status] || '📋';
 }
 
@@ -424,16 +412,6 @@ function formatDate(dateStr) {
   return date.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' });
 }
 
-function showError(message) {
-  const errorDiv = document.getElementById('pageError');
-  if (errorDiv) {
-    errorDiv.textContent = message;
-    errorDiv.style.display = 'block';
-    setTimeout(() => { errorDiv.style.display = 'none'; }, 5000);
-  } else {
-    console.error(message);
-  }
-}
 
 function initEventListeners() {
   const agentFilter = document.getElementById('agentFilter');

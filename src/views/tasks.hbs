@@ -1,7 +1,7 @@
 {{! Tasks Page }}
 
 <div class="page-header">
-  <h1 class="page-title">�?任务流转</h1>
+  <h1 class="page-title">✅ 任务流转</h1>
   <div class="page-actions">
     <button class="btn btn-secondary" onclick="refreshTasks()">
       <span class="btn-icon">🔄</span> 刷新
@@ -21,38 +21,38 @@
   </div>
   <div class="stat-mini in-progress">
     <span class="stat-num" id="statInProgress">-</span>
-    <span class="stat-lbl">进行�?/span>
+    <span class="stat-lbl">进行中</span>
   </div>
   <div class="stat-mini done">
     <span class="stat-num" id="statDone">-</span>
-    <span class="stat-lbl">已完�?/span>
+    <span class="stat-lbl">已完成</span>
   </div>
 </div>
 
 <!-- 筛选栏 -->
 <div class="filter-bar">
   <div class="filter-group">
-    <label>状�?</label>
+    <label>状态:</label>
     <select id="statusFilter" onchange="filterTasks()">
       <option value="all">全部</option>
       <option value="waiting">等待</option>
-      <option value="in_progress">进行�?/option>
-      <option value="done">已完�?/option>
-      <option value="cancelled">已取�?/option>
+      <option value="in_progress">进行中</option>
+      <option value="done">已完成</option>
+      <option value="cancelled">已取消</option>
     </select>
   </div>
   <div class="filter-group">
     <label>类型:</label>
     <select id="typeFilter" onchange="filterTasks()">
       <option value="all">全部</option>
-      <option value="dev">开�?/option>
+      <option value="dev">开发</option>
       <option value="art">美术</option>
       <option value="test">测试</option>
       <option value="other">其他</option>
     </select>
   </div>
   <div class="filter-group">
-    <label>负责�?</label>
+    <label>负责人:</label>
     <select id="assigneeFilter" onchange="filterTasks()">
       <option value="all">全部</option>
       <option value="PM">PM</option>
@@ -64,7 +64,7 @@
   </div>
 </div>
 
-<!-- 加载状�?-->
+<!-- 加载状态 -->
 <div class="loading-state" id="loadingState">
   <div class="spinner"></div>
   <p>加载任务数据...</p>
@@ -75,7 +75,7 @@
   <!-- 按状态分组的任务 -->
 </div>
 
-<!-- 空状�?-->
+<!-- 空状态 -->
 <div class="empty-state" id="emptyState" style="display: none;">
   <div class="empty-state-icon">📋</div>
   <div class="empty-state-title">暂无任务数据</div>
@@ -84,11 +84,14 @@
 
 <script>
 
-// 全局状�?let tasksData = [];
+// 全局状态
+let tasksData = [];
 let currentFilter = { status: 'all', type: 'all', assignee: 'all' };
 
-// 初始�?document.addEventListener('DOMContentLoaded', () => {
-  // 应用保存的主�?  const savedTheme = localStorage.getItem('theme');
+// 初始化
+document.addEventListener('DOMContentLoaded', () => {
+  // 应用保存的主题
+  const savedTheme = localStorage.getItem('theme');
   if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
   
   loadTasks();
@@ -145,7 +148,8 @@ function renderTasks(tasks) {
   container.style.display = 'block';
   emptyState.style.display = 'none';
   
-  // 按状态分�?  const grouped = {
+  // 按状态分组
+  const grouped = {
     waiting: tasks.filter(t => t.status === 'waiting'),
     in_progress: tasks.filter(t => t.status === 'in_progress'),
     done: tasks.filter(t => t.status === 'done'),
@@ -153,10 +157,10 @@ function renderTasks(tasks) {
   };
   
   const statusLabels = {
-    waiting: { icon: '/assets/icons/status-waiting.svg', label: '等待�?, color: '#F59E0B' },
-    in_progress: { icon: '/assets/icons/status-in-progress.svg', label: '进行�?, color: '#3B82F6' },
-    done: { icon: '/assets/icons/status-done.svg', label: '已完�?, color: '#10B981' },
-    cancelled: { icon: '/assets/icons/status-cancelled.svg', label: '已取�?, color: '#6B7280' }
+    waiting: { icon: '/assets/icons/status-waiting.svg', label: '等待中', color: '#F59E0B' },
+    in_progress: { icon: '/assets/icons/status-in-progress.svg', label: '进行中', color: '#3B82F6' },
+    done: { icon: '/assets/icons/status-done.svg', label: '已完成', color: '#10B981' },
+    cancelled: { icon: '/assets/icons/status-cancelled.svg', label: '已取消', color: '#6B7280' }
   };
   
   let html = '';
@@ -202,7 +206,7 @@ function renderTaskItem(task) {
         <div class="task-title">${task.title || task.id}</div>
         <div class="task-meta">
           <span class="task-project">${task.projectName || '未知项目'}</span>
-          <span class="task-assignee"><img src="/assets/icons/agent-pm.svg" alt="assignee" style="width:16px;height:16px;vertical-align:middle;"> ${task.assignee || '未分�?}</span>
+          <span class="task-assignee"><img src="/assets/icons/agent-pm.svg" alt="assignee" style="width:16px;height:16px;vertical-align:middle;"> ${task.assignee || '未分配'}</span>
           <span class="task-due ${isOverdue ? 'overdue' : ''}">📅 ${dueDate}</span>
         </div>
       </div>
@@ -213,7 +217,8 @@ function renderTaskItem(task) {
   `;
 }
 
-// 筛选任�?function filterTasks() {
+// 筛选任务
+function filterTasks() {
   currentFilter.status = document.getElementById('statusFilter').value;
   currentFilter.type = document.getElementById('typeFilter').value;
   currentFilter.assignee = document.getElementById('assigneeFilter').value;
@@ -239,7 +244,7 @@ function renderTaskItem(task) {
 function viewTask(taskId) {
   const task = tasksData.find(t => t.id === taskId);
   if (task) {
-    alert(`任务: ${task.title || taskId}\n状�? ${task.status}\n类型: ${task.type}\n负责�? ${task.assignee || '未分�?}\n项目: ${task.projectName || '未知'}`);
+    alert(`任务: ${task.title || taskId}\n状态: ${task.status}\n类型: ${task.type}\n负责人: ${task.assignee || '未分配'}\n项目: ${task.projectName || '未知'}`);
   }
 }
 
@@ -435,7 +440,7 @@ function refreshTasks() {
   font-size: var(--font-size-xs);
 }
 
-/* 空状�?*/
+/* 空状态 */
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -461,7 +466,7 @@ function refreshTasks() {
   color: var(--color-text-muted);
 }
 
-/* 加载状�?*/
+/* 加载状态 */
 .loading-state {
   display: flex;
   flex-direction: column;

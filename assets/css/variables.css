@@ -62,6 +62,9 @@
   --radius-full: 9999px;
   
   /* 间距 */
+
+  --space-sm: var(--space-2);
+  --space-md: var(--space-4);
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;

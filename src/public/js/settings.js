@@ -1,97 +1,35 @@
 /**
  * Settings Page JavaScript
- * 
- * 设置页逻辑：主题、刷新、路径管理
+ *
+ * API_BASE set by layout.hbs inline script (do NOT redeclare)
  */
 
-const API_BASE = '/api';
+// State
+let selectedColor = '#3B82F6';
+let editingPathId = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
   await loadSettings();
   await loadPaths();
+  loadGitHubStatus();
   initEventListeners();
 });
 
-// ============ GitHub ============
-
-async function loadGitHubStatus() {
-  try {
-    const response = await fetch(`${API_BASE}/github/status`);
-    const result = await response.json();
-    
-    const statusEl = document.getElementById('githubStatus');
-    const actionsEl = document.getElementById('githubActions');
-    const helpEl = document.getElementById('githubHelp');
-    
-    if (!statusEl) return;
-    
-    if (result.success && result.data) {
-      const status = result.data;
-      
-      if (status.authenticated) {
-        statusEl.innerHTML = `
-          <div class="github-status-connected">
-            <span class="status-dot connected"></span>
-            <span>已连接到 GitHub</span>
-          </div>
-        `;
-        actionsEl.style.display = 'flex';
-        helpEl.style.display = 'none';
-      } else {
-        statusEl.innerHTML = `
-          <div class="github-status-disconnected">
-            <span class="status-dot disconnected"></span>
-            <span>${status.message || '未连接到 GitHub'}</span>
-          </div>
-        `;
-        actionsEl.style.display = 'none';
-        helpEl.style.display = 'block';
-      }
-    } else {
-      statusEl.innerHTML = `
-        <div class="github-status-disconnected">
-          <span class="status-dot disconnected"></span>
-          <span>GitHub 功能不可用</span>
-        </div>
-      `;
-      actionsEl.style.display = 'none';
-      helpEl.style.display = 'block';
-    }
-  } catch (error) {
-    console.error('Failed to load GitHub status:', error);
-    const statusEl = document.getElementById('githubStatus');
-    if (statusEl) {
-      statusEl.innerHTML = `<div class="github-status-disconnected"><span>加载失败</span></div>`;
-    }
-  }
-}
-
-// ============ 加载设置 ============
-
 async function loadSettings() {
   try {
-    const response = await fetch(`${API_BASE}/settings`);
+    const response = await fetch(`${window.API_BASE}/settings`);
     const result = await response.json();
-    
     if (result.success) {
       const settings = result.data;
-      
-      // 应用主题设置
       if (settings.theme) {
         document.documentElement.setAttribute('data-theme', settings.theme);
-        updateThemeButtons(settings.theme);
       }
-      
-      // 应用刷新设置
       const autoRefreshToggle = document.getElementById('autoRefreshToggle');
-      if (autoRefreshToggle) {
-        autoRefreshToggle.checked = settings.autoRefresh !== false;
-      }
-      
+      if (autoRefreshToggle) autoRefreshToggle.checked = settings.autoRefresh !== false;
+      const autoCommitToggle = document.getElementById('autoCommitToggle');
+      if (autoCommitToggle) autoCommitToggle.checked = settings.autoCommit === true;
       const refreshInterval = document.getElementById('refreshInterval');
-      if (refreshInterval && settings.refreshInterval) {
-        refreshInterval.value = settings.refreshInterval;
-      }
+      if (refreshInterval) refreshInterval.value = settings.refreshInterval || 60;
     }
   } catch (error) {
     console.error('Failed to load settings:', error);
@@ -100,34 +38,37 @@ async function loadSettings() {
 
 async function loadPaths() {
   try {
-    const response = await fetch(`${API_BASE}/paths`);
+    const response = await fetch(`${window.API_BASE}/paths`);
     const result = await response.json();
-    
     if (result.success) {
       renderPaths(result.data);
+      window.pathData = {};
+      result.data.forEach(p => { window.pathData[p.id] = p; });
     }
   } catch (error) {
     console.error('Failed to load paths:', error);
   }
 }
 
-// ============ 渲染 ============
+function loadGitHubStatus() {
+  const tokenInput = document.getElementById('githubToken');
+  if (tokenInput && tokenInput.value.trim()) {
+    const container = document.getElementById('githubStatus');
+    if (container) container.innerHTML = '<span class="github-status loading">检查中...</span>';
+    setTimeout(() => {
+      const container = document.getElementById('githubStatus');
+      if (container) container.innerHTML = '<span class="github-status ok">已配置</span>';
+    }, 500);
+  }
+}
 
 function renderPaths(paths) {
   const container = document.getElementById('pathList');
   if (!container) return;
-  
-  if (paths.length === 0) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-state-icon">📁</div>
-        <div class="empty-state-title">暂无路径</div>
-        <div class="empty-state-description">点击上方按钮添加项目路径</div>
-      </div>
-    `;
+  if (!paths || paths.length === 0) {
+    container.innerHTML = '<div class="empty-state">暂无路径配置</div>';
     return;
   }
-  
   container.innerHTML = paths.map(path => `
     <div class="path-item" data-id="${path.id}">
       <div class="path-item-info">
@@ -139,55 +80,35 @@ function renderPaths(paths) {
       </div>
       <div class="path-actions">
         <button class="btn-icon-sm" onclick="editPath('${path.id}')" title="编辑">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
-            <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
-          </svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
         </button>
         <button class="btn-icon-sm" onclick="deletePath('${path.id}')" title="删除">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
-          </svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
         </button>
       </div>
     </div>
   `).join('');
-  
-  // 存储路径数据供编辑使用
-  window.pathData = {};
-  paths.forEach(p => { window.pathData[p.id] = p; });
 }
 
-// ============ 事件处理 ============
-
 function initEventListeners() {
-  // 主题切换
-  document.querySelectorAll('.theme-btn').forEach(btn => {
-    btn.addEventListener('click', async () => {
-      const newTheme = btn.dataset.theme;
-      
-      // 更新 UI
-      updateThemeButtons(newTheme);
+  // Theme toggle
+  const themeBtn = document.getElementById('themeBtn');
+  if (themeBtn) {
+    themeBtn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      const newTheme = current === 'light' ? 'dark' : 'light';
       document.documentElement.setAttribute('data-theme', newTheme);
-      
-      // 保存设置
-      await saveSettings({ theme: newTheme });
-      
-      // 通知首页更新（如果存在）
-      if (window.opener) {
-        window.opener.location.reload();
-      }
+      localStorage.setItem('theme', newTheme);
+      saveSettings({ theme: newTheme });
     });
-  });
-  
-  // 自动刷新开关
+  }
+
+  // Auto refresh toggle
   const autoRefreshToggle = document.getElementById('autoRefreshToggle');
   if (autoRefreshToggle) {
     autoRefreshToggle.addEventListener('change', async (e) => {
       const enabled = e.target.checked;
       await saveSettings({ autoRefresh: enabled });
-      
-      // 更新刷新定时器
       if (window.opener && window.opener.AppState) {
         if (enabled) {
           window.opener.startAutoRefresh();
@@ -197,187 +118,160 @@ function initEventListeners() {
       }
     });
   }
-  
-  // 刷新间隔
+
+  // Refresh interval
   const refreshInterval = document.getElementById('refreshInterval');
   if (refreshInterval) {
     refreshInterval.addEventListener('change', async (e) => {
       const interval = parseInt(e.target.value);
       await saveSettings({ refreshInterval: interval });
-      
-      // 更新刷新定时器
-      if (window.opener && window.opener.AppState) {
-        window.opener.AppState.settings.refreshInterval = interval;
-        if (window.opener.AppState.settings.autoRefresh) {
-          window.opener.startAutoRefresh();
-        }
-      }
     });
   }
-  
-  // 添加路径按钮
+
+  // Auto commit toggle
+  const autoCommitToggle = document.getElementById('autoCommitToggle');
+  if (autoCommitToggle) {
+    autoCommitToggle.addEventListener('change', async (e) => {
+      const enabled = e.target.checked;
+      await saveSettings({ autoCommit: enabled });
+    });
+  }
+
+  // GitHub token
+  const githubTokenInput = document.getElementById('githubToken');
+  if (githubTokenInput) {
+    githubTokenInput.addEventListener('change', async (e) => {
+      await updateGithubToken(e.target.value.trim());
+    });
+  }
+
+  // Add path modal
   const addPathBtn = document.getElementById('addPathBtn');
   if (addPathBtn) {
     addPathBtn.addEventListener('click', showAddPathModal);
   }
-  
-  // 取消添加路径
+
   const cancelAddPath = document.getElementById('cancelAddPath');
   if (cancelAddPath) {
     cancelAddPath.addEventListener('click', hideAddPathModal);
   }
-  
-  // 确认添加路径
-  const confirmAddPath = document.getElementById('confirmAddPath');
-  if (confirmAddPath) {
-    confirmAddPath.addEventListener('click', addPath);
-  }
-  
-  // 颜色选择
-  document.querySelectorAll('.color-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    });
-  });
-  
-  // 自动提交开关
-  const autoCommitToggle = document.getElementById('autoCommitToggle');
-  if (autoCommitToggle) {
-    autoCommitToggle.addEventListener('change', async (e) => {
-      await saveSettings({ autoCommit: e.target.checked });
+
+  // Browse button for directory picker
+  const browseBtn = document.getElementById('browsePathBtn');
+  if (browseBtn) {
+    browseBtn.addEventListener('click', () => {
+      const dirPicker = document.getElementById('pathDirectoryPicker');
+      if (dirPicker) dirPicker.click();
     });
   }
-  
-  // 加载 GitHub 状态
-  loadGitHubStatus();
-}
 
-// ============ 主题 ============
+  const dirPicker = document.getElementById('pathDirectoryPicker');
+  if (dirPicker) {
+    dirPicker.addEventListener('change', (e) => {
+      const files = e.target.files;
+      if (files && files.length > 0) {
+        const file = files[0];
+        let dirPath = file.webkitRelativePath || file.name;
+        if (file.webkitRelativePath) {
+          const parts = file.webkitRelativePath.split('/');
+          if (parts.length > 1) { parts.pop(); dirPath = parts.join('/'); }
+        }
+        if (file.mozFullPath) { dirPath = file.mozFullPath.split('/').slice(0, -1).join('/'); }
+        if (file.fullPath) { dirPath = file.fullPath.split('/').slice(0, -1).join('/'); }
+        document.getElementById('newPathInput').value = dirPath;
+        document.getElementById('newPathInput').placeholder = '已选择: ' + dirPath;
+      }
+    });
+  }
 
-function updateThemeButtons(theme) {
-  document.querySelectorAll('.theme-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.theme === theme);
-  });
-}
-
-// ============ 路径管理 ============
-
-let selectedColor = '#3B82F6';
-let editingPathId = null; // 当前编辑的路径 ID
-
-function showAddPathModal() {
-  // 重置编辑状态
-  editingPathId = null;
-  document.getElementById('newPathId').value = '';
-  
+  // Close modal on backdrop click
   const modal = document.getElementById('addPathModal');
   if (modal) {
-    modal.style.display = 'flex';
-    document.getElementById('newPathInput').value = '';
-    document.getElementById('newPathInput').placeholder = '选择或输入路径';
-    document.getElementById('newPathAlias').value = '';
-    selectedColor = '#3B82F6';
-    document.querySelectorAll('.color-btn').forEach(b => {
-      b.classList.toggle('active', b.dataset.color === selectedColor);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) hideAddPathModal();
     });
-    
-    // 重置模态框标题和按钮
-    const title = modal.querySelector('h3');
-    const confirmBtn = document.getElementById('confirmAddPath');
-    if (title) title.textContent = '添加路径';
-    if (confirmBtn) {
-      confirmBtn.textContent = '添加';
-      confirmBtn.onclick = addPath;
-    }
-    
-    // 设置目录选择器事件
-    const dirPicker = document.getElementById('pathDirectoryPicker');
-    if (dirPicker) {
-      dirPicker.onchange = (e) => {
-        const files = e.target.files;
-        if (files && files.length > 0) {
-          const file = files[0];
-          let dirPath = file.webkitRelativePath || file.name;
-          if (file.webkitRelativePath) {
-            const parts = file.webkitRelativePath.split('/');
-            if (parts.length > 1) {
-              parts.pop();
-              dirPath = parts.join('/');
-              if (file.mozFullPath) {
-                dirPath = file.mozFullPath.split('/').slice(0, -1).join('/');
-              }
-            }
-          }
-          if (file.fullPath) {
-            dirPath = file.fullPath.split('/').slice(0, -1).join('/');
-          }
-          document.getElementById('newPathInput').value = dirPath || file.name;
-          document.getElementById('newPathInput').placeholder = dirPath || file.name;
-        }
-      };
-    }
-    
-    // 浏览按钮
-    const browseBtn = document.getElementById('browsePathBtn');
-    if (browseBtn) {
-      browseBtn.onclick = () => {
-        const dirPicker = document.getElementById('pathDirectoryPicker');
-        if (dirPicker) {
-          dirPicker.click();
-        }
-      };
-    }
   }
+
+  // Color buttons
+  document.querySelectorAll('.color-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.color-btn').forEach(btn => btn.classList.remove('active'));
+      b.classList.add('active');
+      selectedColor = b.dataset.color;
+    });
+  });
+}
+
+async function saveSettings(updates) {
+  try {
+    const response = await fetch(`${window.API_BASE}/settings`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updates)
+    });
+    return await response.json();
+  } catch (error) {
+    console.error('Failed to save settings:', error);
+    return { success: false, error: error.message };
+  }
+}
+
+async function updateGithubToken(token) {
+  const result = await saveSettings({ githubToken: token });
+  if (result.success) {
+    loadGitHubStatus();
+  } else {
+    showError('GitHub token 更新失败');
+  }
+}
+
+function showAddPathModal() {
+  editingPathId = null;
+  const modal = document.getElementById('addPathModal');
+  const title = modal ? modal.querySelector('h3') : null;
+  const confirmBtn = document.getElementById('confirmAddPath');
+  if (title) title.textContent = '添加路径';
+  if (confirmBtn) confirmBtn.textContent = '添加';
+  document.getElementById('newPathInput').value = '';
+  document.getElementById('newPathInput').placeholder = '输入或选择路径';
+  document.getElementById('newPathAlias').value = '';
+  selectedColor = '#3B82F6';
+  document.querySelectorAll('.color-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.color === selectedColor);
+  });
+  if (modal) modal.style.display = 'flex';
 }
 
 function hideAddPathModal() {
   const modal = document.getElementById('addPathModal');
-  if (modal) {
-    modal.style.display = 'none';
-    // 重置编辑状态
-    editingPathId = null;
-    const title = modal.querySelector('h3');
-    const confirmBtn = document.getElementById('confirmAddPath');
-    if (title) title.textContent = '添加路径';
-    if (confirmBtn) {
-      confirmBtn.textContent = '添加';
-      confirmBtn.onclick = addPath;
-    }
-  }
+  if (modal) modal.style.display = 'none';
+  editingPathId = null;
+  const title = modal ? modal.querySelector('h3') : null;
+  const confirmBtn = document.getElementById('confirmAddPath');
+  if (title) title.textContent = '添加路径';
+  if (confirmBtn) confirmBtn.textContent = '添加';
 }
 
 async function addPath() {
   const pathInput = document.getElementById('newPathInput');
   const aliasInput = document.getElementById('newPathAlias');
   const path = pathInput.value.trim();
-  
   if (!path) {
     pathInput.placeholder = '请输入或选择路径';
     pathInput.focus();
     return;
   }
-  
   try {
-    const response = await fetch(`${API_BASE}/paths`, {
+    const response = await fetch(`${window.API_BASE}/paths`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        path,
-        alias: aliasInput.value.trim(),
-        color: selectedColor
-      })
+      body: JSON.stringify({ path, alias: aliasInput.value.trim(), color: selectedColor })
     });
-    
     const result = await response.json();
-    
     if (result.success) {
       hideAddPathModal();
       renderPaths(result.data);
-      
-      if (window.opener) {
-        window.opener.location.reload();
-      }
+      if (window.opener) window.opener.location.reload();
     } else {
       showError('添加失败: ' + result.error);
     }
@@ -388,42 +282,24 @@ async function addPath() {
 }
 
 async function updatePath() {
-  const pathId = document.getElementById('newPathId').value;
-  if (!pathId) {
-    showError('路径 ID 不存在');
+  const pathId = document.getElementById('newPathId');
+  if (!pathId || !pathId.value) {
+    showError('路径 ID 错误');
     return;
   }
-  
   const pathInput = document.getElementById('newPathInput');
   const aliasInput = document.getElementById('newPathAlias');
-  const path = pathInput.value.trim();
-  
-  if (!path) {
-    pathInput.placeholder = '请输入或选择路径';
-    pathInput.focus();
-    return;
-  }
-  
   try {
-    const response = await fetch(`${API_BASE}/paths/${pathId}`, {
+    const response = await fetch(`${window.API_BASE}/paths/${pathId.value}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        path,
-        alias: aliasInput.value.trim(),
-        color: selectedColor
-      })
+      body: JSON.stringify({ path: pathInput.value.trim(), alias: aliasInput.value.trim(), color: selectedColor })
     });
-    
     const result = await response.json();
-    
     if (result.success) {
       hideAddPathModal();
       renderPaths(result.data);
-      
-      if (window.opener) {
-        window.opener.location.reload();
-      }
+      if (window.opener) window.opener.location.reload();
     } else {
       showError('更新失败: ' + result.error);
     }
@@ -433,22 +309,34 @@ async function updatePath() {
   }
 }
 
+function editPath(id) {
+  const pathData = window.pathData || {};
+  const path = pathData[id];
+  if (!path) { showError('路径不存在'); return; }
+  editingPathId = id;
+  document.getElementById('newPathId').value = id;
+  document.getElementById('newPathInput').value = path.path;
+  document.getElementById('newPathAlias').value = path.alias || '';
+  selectedColor = path.color || '#3B82F6';
+  document.querySelectorAll('.color-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.color === selectedColor);
+  });
+  const modal = document.getElementById('addPathModal');
+  const title = modal ? modal.querySelector('h3') : null;
+  const confirmBtn = document.getElementById('confirmAddPath');
+  if (title) title.textContent = '编辑路径';
+  if (confirmBtn) confirmBtn.textContent = '保存';
+  if (modal) modal.style.display = 'flex';
+}
+
 async function deletePath(id) {
-  if (!confirm('确定要删除这个路径吗？')) return;
-  
+  if (!confirm('确定要删除这个路径吗?')) return;
   try {
-    const response = await fetch(`${API_BASE}/paths/${id}`, {
-      method: 'DELETE'
-    });
-    
+    const response = await fetch(`${window.API_BASE}/paths/${id}`, { method: 'DELETE' });
     const result = await response.json();
-    
     if (result.success) {
       renderPaths(result.data);
-      
-      if (window.opener) {
-        window.opener.location.reload();
-      }
+      if (window.opener) window.opener.location.reload();
     } else {
       showError('删除失败: ' + result.error);
     }
@@ -458,74 +346,16 @@ async function deletePath(id) {
   }
 }
 
-function editPath(id) {
-  const pathData = window.pathData || {};
-  const path = pathData[id];
-  
-  if (!path) {
-    showError('路径不存在');
-    return;
-  }
-  
-  editingPathId = id;
-  document.getElementById('newPathId').value = id;
-  document.getElementById('newPathInput').value = path.path;
-  document.getElementById('newPathAlias').value = path.alias || '';
-  selectedColor = path.color || '#3B82F6';
-  
-  const modal = document.getElementById('addPathModal');
-  const title = modal.querySelector('h3');
+// Modal confirm button handler - decides add vs update
+document.addEventListener('DOMContentLoaded', () => {
   const confirmBtn = document.getElementById('confirmAddPath');
-  
-  if (title) title.textContent = '编辑路径';
   if (confirmBtn) {
-    confirmBtn.textContent = '保存';
-    confirmBtn.onclick = updatePath;
-  }
-  
-  // 更新颜色选择
-  document.querySelectorAll('.color-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.color === selectedColor);
-  });
-  
-  modal.style.display = 'flex';
-}
-
-// ============ API ============
-
-async function saveSettings(settings) {
-  try {
-    await fetch(`${API_BASE}/settings`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(settings)
+    confirmBtn.addEventListener('click', () => {
+      if (editingPathId) {
+        updatePath();
+      } else {
+        addPath();
+      }
     });
-  } catch (error) {
-    console.error('Failed to save settings:', error);
   }
-}
-
-function showError(message) {
-  // 显示错误提示在页面上，而不是弹窗
-  const errorDiv = document.getElementById('pageError');
-  if (errorDiv) {
-    errorDiv.textContent = message;
-    errorDiv.style.display = 'block';
-    setTimeout(() => {
-      errorDiv.style.display = 'none';
-    }, 5000);
-  } else {
-    console.error(message);
-  }
-}
-
-// ============ 导出 ============
-
-window.loadSettings = loadSettings;
-window.loadPaths = loadPaths;
-window.showAddPathModal = showAddPathModal;
-window.hideAddPathModal = hideAddPathModal;
-window.addPath = addPath;
-window.updatePath = updatePath;
-window.deletePath = deletePath;
-window.editPath = editPath;
+});

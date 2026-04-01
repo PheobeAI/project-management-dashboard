@@ -32,18 +32,6 @@
   --sidebar-border: #E2E8F0;
 }
 
-/* Sidebar - Dark Mode */
-[data-theme="dark"] {
-  --sidebar-bg: #0F172A;
-  --sidebar-header-bg: #020617;
-  --sidebar-text: #F8FAFC;
-  --sidebar-text-muted: #94A3B8;
-  --sidebar-nav-bg: transparent;
-  --sidebar-nav-hover: #334155;
-  --sidebar-nav-active: #475569;
-  --sidebar-border: #334155;
-}
-  
   /* Spacing */
   --space-xs: 4px;
   --space-sm: 8px;

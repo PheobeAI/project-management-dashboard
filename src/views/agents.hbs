@@ -9,7 +9,7 @@
   </div>
 </div>
 
-<!-- 加载状�?-->
+<!-- 加载状态 -->
 <div class="loading-state" id="loadingState">
   <div class="spinner"></div>
   <p>加载 Agent 数据...</p>
@@ -28,7 +28,7 @@
   <!-- Agent 卡片将在这里渲染 -->
 </div>
 
-<!-- 空状�?-->
+<!-- 空状态 -->
 <div class="empty-state" id="emptyState" style="display: none;">
   <div class="empty-state-icon">👥</div>
   <div class="empty-state-title">暂无 Agent 数据</div>
@@ -37,10 +37,12 @@
 
 <script>
 
-// 全局状�?let agentsData = [];
+// 全局状态
+let agentsData = [];
 let workloadChart = null;
 
-// 初始�?document.addEventListener('DOMContentLoaded', () => {
+// 初始化
+document.addEventListener('DOMContentLoaded', () => {
   loadAgents();
 });
 
@@ -84,7 +86,7 @@ function renderAgentCards(agents) {
       <div class="agent-header">
         <div class="agent-icon"><img src="/assets/icons/agent-${agent.name.toLowerCase()}.svg" alt="${agent.name}"></div>
         <div class="agent-name">${agent.name}</div>
-        <div class="agent-toggle" id="toggle-${agent.name}">�?/div>
+        <div class="agent-toggle" id="toggle-${agent.name}">▼</div>
       </div>
       <div class="agent-stats">
         <div class="stat-item waiting">
@@ -93,7 +95,7 @@ function renderAgentCards(agents) {
         </div>
         <div class="stat-item in-progress">
           <span class="stat-value">${agent.tasks.inProgress}</span>
-          <span class="stat-label">进行�?/span>
+          <span class="stat-label">进行中</span>
         </div>
         <div class="stat-item done">
           <span class="stat-value">${agent.tasks.done}</span>
@@ -105,7 +107,7 @@ function renderAgentCards(agents) {
           <div class="progress-fill done" style="width: ${agent.tasks.total > 0 ? (agent.tasks.done / agent.tasks.total * 100) : 0}%"></div>
           <div class="progress-fill in-progress" style="width: ${agent.tasks.total > 0 ? (agent.tasks.inProgress / agent.tasks.total * 100) : 0}%"></div>
         </div>
-        <div class="progress-label">${agent.tasks.total} 个任�?/div>
+        <div class="progress-label">${agent.tasks.total} 个任务</div>
       </div>
     </div>
   `).join('');
@@ -144,12 +146,12 @@ function renderWorkloadChart(agents) {
           backgroundColor: '#F59E0B'
         },
         {
-          label: '进行�?,
+          label: '进行中',
           data: agents.map(a => a.tasks.inProgress),
           backgroundColor: '#3B82F6'
         },
         {
-          label: '已完�?,
+          label: '已完成',
           data: agents.map(a => a.tasks.done),
           backgroundColor: '#10B981'
         }
@@ -174,10 +176,7 @@ function renderWorkloadChart(agents) {
           stacked: true,
           beginAtZero: true,
           ticks: { color: textColor, stepSize: 1 },
-          grid: { color: gridColor },
-          suggestedMax: Math.ceil(
-            Math.max(...agents.map(a => (a.tasks.waiting || 0) + (a.tasks.inProgress || 0) + (a.tasks.done || 0))) * 1.2
-          )
+          grid: { color: gridColor }
         }
       }
     }
@@ -188,7 +187,8 @@ function toggleAgentDetails(agentName) {
   const toggle = document.getElementById(`toggle-${agentName}`);
   const cards = document.querySelectorAll('.agent-card');
   
-  // 简化版：只是动画效�?  cards.forEach(card => {
+  // 简化版：只是动画效果
+  cards.forEach(card => {
     if (card.querySelector('.agent-name').textContent === agentName) {
       card.classList.toggle('expanded');
     }
@@ -207,7 +207,8 @@ function refreshAgents() {
   loadAgents();
 }
 
-// 主题切换时更新图�?document.addEventListener('themeChanged', () => {
+// 主题切换时更新图表
+document.addEventListener('themeChanged', () => {
   if (agentsData.length > 0) {
     renderWorkloadChart(agentsData);
   }
@@ -249,7 +250,7 @@ function refreshAgents() {
 .agents-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
+  gap: var(--space-lg);
 }
 
 .agent-card {
@@ -362,7 +363,7 @@ function refreshAgents() {
   margin-top: var(--space-xs);
 }
 
-/* 空状�?*/
+/* 空状态 */
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -388,7 +389,7 @@ function refreshAgents() {
   color: var(--color-text-muted);
 }
 
-/* 加载状�?*/
+/* 加载状态 */
 .loading-state {
   display: flex;
   flex-direction: column;

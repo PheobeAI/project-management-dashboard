@@ -61,10 +61,13 @@
 
 /* Sidebar Navigation */
 .sidebar-nav {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   padding: var(--space-sm) 0;
   overflow-y: auto;
   overflow-x: hidden;
+  justify-content: space-between;
 }
 
 .nav-item {
